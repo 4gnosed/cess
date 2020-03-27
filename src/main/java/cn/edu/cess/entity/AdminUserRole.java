@@ -33,6 +33,4 @@ public class AdminUserRole implements Serializable {
 
     @TableField("rid")
     private Integer rid;
-
-
 }

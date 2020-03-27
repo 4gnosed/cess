@@ -3,6 +3,7 @@ package cn.edu.cess.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,9 +17,9 @@ public class User {
     private String username;
     private String password;
     private String salt;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastLogin;
-    private boolean enabled;
+    private Boolean enabled;
     private String name;
     private String phone;
     private String email;

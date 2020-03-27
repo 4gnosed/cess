@@ -1,5 +1,6 @@
 package cn.edu.cess.service;
 
+import cn.edu.cess.entity.AdminRole;
 import cn.edu.cess.entity.AdminUserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,4 +19,6 @@ public interface IAdminUserRoleService extends IService<AdminUserRole> {
     List<AdminUserRole> getUserRoleByUid(int id);
 
     List<AdminUserRole> getUserRoleByUsername(String username);
+
+    boolean changeUserRole(List<AdminRole> roles, int userId);
 }

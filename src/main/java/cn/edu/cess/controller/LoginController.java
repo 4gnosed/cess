@@ -2,9 +2,12 @@ package cn.edu.cess.controller;
 
 import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.constant.Constant;
+import cn.edu.cess.dto.LoginUserDto;
+import cn.edu.cess.entity.AdminUserRole;
 import cn.edu.cess.entity.User;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import cn.edu.cess.service.IAdminUserRoleService;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
@@ -23,7 +26,9 @@ import javax.servlet.http.HttpSession;
 public class LoginController extends AbstractClass {
 
     @Autowired
-    private IUserService iUserService;
+    IUserService iUserService;
+    @Autowired
+    IAdminUserRoleService iAdminUserRoleService;
 
     /**
      * shiro登录验证，调用subject.login(usernamePasswordToken)后，
@@ -38,25 +43,18 @@ public class LoginController extends AbstractClass {
     public Result login(@RequestBody User requestUser, HttpSession session) {
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
-//        User user = iUserService.list(username, password);
-//        if (user != null) {
-//            //保持登录状态
-//            session.setAttribute("user", user);
-//            return ResultFactory.buildSuccessResult(user);
-//        } else {
-//            String message = "账号或密码错误";
-//            return ResultFactory.buildFailResult(message);
-//        }
         if (StringUtil.isEmpty(username, password)) {
             String message = "账号或密码为空";
             return ResultFactory.buildFailResult(message);
         }
-
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(true);
         try {
             subject.login(token);
+            if(!iUserService.isEnable(username)){
+                return ResultFactory.buildFailResult("用户已被禁用");
+            }
             iUserService.updateLastLogin(username);
             return ResultFactory.buildSuccessResult(token);
         } catch (AuthenticationException e) {
@@ -68,16 +66,17 @@ public class LoginController extends AbstractClass {
     /**
      * 注册加密
      *
-     * @param user
+     * @param loginUserDto
      * @return
      */
     @PostMapping(value = "/register")
-    public Result register(@RequestBody User user) {
-        String username = user.getUsername();
-        String password = user.getPassword();
-        String name = user.getName();
-        String phone = user.getPhone();
-        String email = user.getEmail();
+    public Result register(@RequestBody LoginUserDto loginUserDto) {
+        String username = loginUserDto.getUsername();
+        String password = loginUserDto.getPassword();
+        String name = loginUserDto.getName();
+        String phone = loginUserDto.getPhone();
+        String email = loginUserDto.getEmail();
+        int  role=loginUserDto.getRole();
         if (StringUtil.isEmpty(username, password)) {
             String message = "用户名或密码为空，注册失败";
             return ResultFactory.buildFailResult(message);
@@ -90,14 +89,20 @@ public class LoginController extends AbstractClass {
         String salt = new SecureRandomNumberGenerator().nextBytes().toString();
         String encodedPassword = new SimpleHash(Constant.MD_5, password, salt, Constant.HASH_ITERATIONS).toString();
 
+        User user = new User();
+        user.setUsername(username);
         user.setPassword(encodedPassword);
         user.setSalt(salt);
         user.setEnabled(true);
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
-        iUserService.add(user);
-        return ResultFactory.buildSuccessResult(user);
+        int userId=iUserService.add(user);
+        AdminUserRole adminUserRole = new AdminUserRole();
+        adminUserRole.setUid(userId);
+        adminUserRole.setRid(role);
+        iAdminUserRoleService.save(adminUserRole);
+        return ResultFactory.buildSuccessResult(loginUserDto);
     }
 
     /**

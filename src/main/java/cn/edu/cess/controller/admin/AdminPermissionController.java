@@ -26,11 +26,4 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminPermissionController extends AbstractClass {
-    @Autowired
-    IUserService iUserService;
-
-    @GetMapping("/user")
-    public Result listAllUsers(){
-        return ResultFactory.buildSuccessResult(iUserService.list());
-    }
 }
