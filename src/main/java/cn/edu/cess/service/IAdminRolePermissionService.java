@@ -1,5 +1,6 @@
 package cn.edu.cess.service;
 
+import cn.edu.cess.entity.AdminRole;
 import cn.edu.cess.entity.AdminRolePermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,4 +17,6 @@ import java.util.List;
 public interface IAdminRolePermissionService extends IService<AdminRolePermission> {
 
     List<AdminRolePermission> listRolePermissionByRid(Integer id);
+
+    boolean saveRolePerms(AdminRole role);
 }

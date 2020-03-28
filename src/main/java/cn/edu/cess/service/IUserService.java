@@ -26,7 +26,7 @@ public interface IUserService extends IService<User> {
 
     boolean removeUser(int userId);
 
-    boolean removeUsers(List<Integer> userIds);
+    boolean removeUsers(List<User> userList);
 
     boolean updateUserStatus(User user);
 

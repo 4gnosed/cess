@@ -3,6 +3,7 @@ package cn.edu.cess.service;
 import cn.edu.cess.entity.AdminPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,4 +18,6 @@ public interface IAdminPermissionService extends IService<AdminPermission> {
     Set<String>  listPermissionURLsByUser(String username);
 
     boolean needFilter(String requestAPI);
+
+    List<AdminPermission> listPermsByRid(Integer id);
 }

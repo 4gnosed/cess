@@ -131,9 +131,9 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
-    public boolean removeUsers(List<Integer> userIds) {
-        for (Integer userId : userIds) {
-            if (!removeUser(userId))
+    public boolean removeUsers(List<User> userList) {
+        for (User user : userList) {
+            if (!removeUser(user.getId()))
                 return false;
         }
         return true;

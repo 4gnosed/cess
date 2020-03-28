@@ -16,4 +16,12 @@ import java.util.List;
 public interface IAdminRoleService extends IService<AdminRole> {
 
     List<AdminRole> listRoleByUsername(String username);
+
+    boolean changeRoleStatus(AdminRole role);
+
+    boolean saveRole(AdminRole role);
+
+    boolean editRole(AdminRole role);
+
+    List<AdminRole> listRoles();
 }

@@ -7,9 +7,14 @@ import cn.edu.cess.entity.User;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IUserService;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,9 +47,9 @@ public class AdminUserController extends AbstractClass {
     }
 
     @DeleteMapping("/deletes")
-    public Result deleteByIds(@RequestParam("ids") List<Integer> userIds) {
-        logger.info(userIds.toString());
-        return ResultFactory.buildSuccessResult(iUserService.removeUsers(userIds));
+    public Result deleteByUsers(@RequestBody String users) {
+        List<User> userList = JSONObject.parseArray(users, User.class);
+        return ResultFactory.buildSuccessResult(iUserService.removeUsers(userList));
     }
 
     @PutMapping("/password")

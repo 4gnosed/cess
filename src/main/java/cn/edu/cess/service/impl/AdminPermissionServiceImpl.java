@@ -37,6 +37,7 @@ public class AdminPermissionServiceImpl extends ServiceImpl<AdminPermissionMappe
 
     /**
      * 根据用户名获取权限
+     *
      * @param username
      * @return
      */
@@ -67,12 +68,25 @@ public class AdminPermissionServiceImpl extends ServiceImpl<AdminPermissionMappe
     @Override
     public boolean needFilter(String requestAPI) {
         List<AdminPermission> ps = list();
-        for (AdminPermission p: ps) {
+        for (AdminPermission p : ps) {
             // 这里我们进行前缀匹配，拥有父权限就拥有所有子权限
             if (requestAPI.startsWith(p.getUrl())) {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public List<AdminPermission> listPermsByRid(Integer rid) {
+        List<AdminRolePermission> adminRolePermissions = iAdminRolePermissionService.listRolePermissionByRid(rid);
+        List<AdminPermission> permissionList = new ArrayList<>();
+        QueryWrapper<AdminPermission> queryWrapper;
+        for (AdminRolePermission adminRolePermission : adminRolePermissions) {
+            queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq(Constant.ID, adminRolePermission.getPid());
+            permissionList.addAll(list(queryWrapper));
+        }
+        return permissionList;
     }
 }
