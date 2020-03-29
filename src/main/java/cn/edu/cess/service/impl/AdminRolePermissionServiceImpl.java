@@ -56,7 +56,7 @@ public class AdminRolePermissionServiceImpl extends ServiceImpl<AdminRolePermiss
             adminRolePermission = new AdminRolePermission();
             adminRolePermission.setRid(roleId);
             adminRolePermission.setPid(permission.getId());
-            save(adminRolePermission);
+            saveOrUpdate(adminRolePermission);
             adminRolePermission = null;
         }
         return true;

@@ -9,7 +9,9 @@ import cn.edu.cess.service.IAdminMenuService;
 import cn.edu.cess.service.IAdminRoleMenuService;
 import cn.edu.cess.util.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +58,15 @@ public class AdminRoleMenuServiceImpl extends ServiceImpl<AdminRoleMenuMapper, A
 
     @Override
     public boolean saveRoleMenus(AdminRole role) {
+        Integer roleId = role.getId();
         List<AdminMenu> menus = role.getMenus();
         if (menus.isEmpty()) {
             return false;
         }
+        QueryWrapper<AdminRoleMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.RID, roleId);
+        remove(queryWrapper);
         List<Integer> ids = TreeUtil.recurMenusForIds(menus);
-        Integer roleId = role.getId();
         AdminRoleMenu adminRoleMenu;
         for (Integer menuId : ids) {
             adminRoleMenu = new AdminRoleMenu();

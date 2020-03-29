@@ -53,13 +53,31 @@ public class TreeUtil {
      * @return
      */
     public static List<Integer> recurMenusForIds(List<AdminMenu> menus) {
+        clearMenusIds();
+        return recurs(menus);
+    }
+
+    /**
+     * 递归遍历，返回多级菜单中所有父子菜单的id
+     *
+     * @param menus
+     * @return
+     */
+    public static List<Integer> recurs(List<AdminMenu> menus) {
         for (AdminMenu menu : menus) {
             menusIds.add(menu.getId());
             if (menu.getChildren() == null) {
                 continue;
             }
-            recurMenusForIds(menu.getChildren());
+            recurs(menu.getChildren());
         }
         return menusIds;
+    }
+
+    /**
+     * 清空静态菜单ID
+     */
+    private static void clearMenusIds() {
+        menusIds.clear();
     }
 }

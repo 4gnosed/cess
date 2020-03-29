@@ -15,6 +15,7 @@ public class Constant {
     public static final String GNOSED_CIPHER_KEY = "GNOSED_CIPHERKEY";
     public static final String UID = "uid";
     public static final String RID = "rid";
+    public static final String MID = "mid";
     public static final String DEFAULT_PASSWORD = "123";
     public static final String ENABLED = "enabled";
 }
