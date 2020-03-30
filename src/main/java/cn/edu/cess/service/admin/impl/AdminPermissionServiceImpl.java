@@ -1,14 +1,14 @@
-package cn.edu.cess.service.impl;
+package cn.edu.cess.service.admin.impl;
+
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.AdminPermission;
-import cn.edu.cess.entity.AdminRole;
-import cn.edu.cess.entity.AdminRolePermission;
-import cn.edu.cess.mapper.AdminPermissionMapper;
-import cn.edu.cess.mapper.AdminRoleMapper;
-import cn.edu.cess.service.IAdminPermissionService;
-import cn.edu.cess.service.IAdminRolePermissionService;
-import cn.edu.cess.service.IAdminRoleService;
+import cn.edu.cess.entity.admin.AdminPermission;
+import cn.edu.cess.entity.admin.AdminRole;
+import cn.edu.cess.entity.admin.AdminRolePermission;
+import cn.edu.cess.mapper.admin.AdminPermissionMapper;
+import cn.edu.cess.service.admin.IAdminPermissionService;
+import cn.edu.cess.service.admin.IAdminRolePermissionService;
+import cn.edu.cess.service.admin.IAdminRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

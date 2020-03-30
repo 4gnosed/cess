@@ -1,6 +1,6 @@
-package cn.edu.cess.mapper;
+package cn.edu.cess.mapper.admin;
 
-import cn.edu.cess.entity.AdminMenu;
+import cn.edu.cess.entity.admin.AdminMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

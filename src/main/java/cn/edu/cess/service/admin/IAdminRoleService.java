@@ -1,6 +1,7 @@
-package cn.edu.cess.service;
+package cn.edu.cess.service.admin;
 
-import cn.edu.cess.entity.AdminRole;
+
+import cn.edu.cess.entity.admin.AdminRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

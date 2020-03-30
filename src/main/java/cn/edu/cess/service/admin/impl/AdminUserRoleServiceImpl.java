@@ -1,12 +1,13 @@
-package cn.edu.cess.service.impl;
+package cn.edu.cess.service.admin.impl;
+
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.AdminRole;
-import cn.edu.cess.entity.AdminUserRole;
 import cn.edu.cess.entity.User;
-import cn.edu.cess.mapper.AdminUserRoleMapper;
-import cn.edu.cess.service.IAdminUserRoleService;
+import cn.edu.cess.entity.admin.AdminRole;
+import cn.edu.cess.entity.admin.AdminUserRole;
+import cn.edu.cess.mapper.admin.AdminUserRoleMapper;
 import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.admin.IAdminUserRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

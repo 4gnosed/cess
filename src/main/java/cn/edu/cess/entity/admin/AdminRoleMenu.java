@@ -1,14 +1,15 @@
-package cn.edu.cess.entity;
+package cn.edu.cess.entity.admin;
 
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -21,22 +22,19 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("admin_permission")
-public class AdminPermission implements Serializable {
+@TableName("admin_role_menu")
+public class AdminRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField("name")
-    private String name;
+    @TableField("rid")
+    private Integer rid;
 
-    @TableField("desc_")
-    private String desc;
-
-    @TableField("url")
-    private String url;
+    @TableField("mid")
+    private Integer mid;
 
 
 }

@@ -1,7 +1,6 @@
 package cn.edu.cess.realm;
 
 import cn.edu.cess.entity.User;
-import cn.edu.cess.service.IAdminPermissionService;
 import cn.edu.cess.service.IUserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -12,11 +11,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Set;
 
 /**
  * @Author Gnosed Lu

@@ -1,7 +1,7 @@
 package cn.edu.cess.dto;
 
-import cn.edu.cess.entity.AdminRole;
 import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.admin.AdminRole;
 import lombok.Data;
 
 import java.util.List;

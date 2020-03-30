@@ -1,13 +1,12 @@
 package cn.edu.cess.filter;
 
-import cn.edu.cess.service.IAdminPermissionService;
+import cn.edu.cess.service.admin.IAdminPermissionService;
 import cn.edu.cess.util.SpringContextUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 

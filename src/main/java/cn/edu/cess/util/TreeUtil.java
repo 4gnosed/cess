@@ -1,6 +1,7 @@
 package cn.edu.cess.util;
 
-import cn.edu.cess.entity.AdminMenu;
+
+import cn.edu.cess.entity.admin.AdminMenu;
 
 import java.util.ArrayList;
 import java.util.Iterator;

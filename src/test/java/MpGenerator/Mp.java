@@ -124,7 +124,7 @@ public class Mp {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         // 公共父类
-        strategy.setSuperControllerClass("AbstractClass");
+        strategy.setSuperControllerClass("cn.edu.cess.base.AbstractClass");
         // 写于父类中的公共字段
 //        strategy.setSuperEntityColumns("id");
         strategy.setEntityTableFieldAnnotationEnable(true);

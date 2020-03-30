@@ -1,6 +1,7 @@
-package cn.edu.cess.mapper;
+package cn.edu.cess.mapper.admin;
 
-import cn.edu.cess.entity.AdminUserRole;
+
+import cn.edu.cess.entity.admin.AdminUserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

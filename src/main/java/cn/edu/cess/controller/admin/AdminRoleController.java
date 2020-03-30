@@ -2,19 +2,17 @@ package cn.edu.cess.controller.admin;
 
 
 import cn.edu.cess.base.AbstractClass;
-import cn.edu.cess.entity.AdminMenu;
-import cn.edu.cess.entity.AdminRole;
+import cn.edu.cess.entity.admin.AdminMenu;
+import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.IAdminMenuService;
-import cn.edu.cess.service.IAdminPermissionService;
-import cn.edu.cess.service.IAdminRoleService;
+import cn.edu.cess.service.admin.IAdminMenuService;
+import cn.edu.cess.service.admin.IAdminPermissionService;
+import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.util.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

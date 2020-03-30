@@ -1,15 +1,16 @@
-package cn.edu.cess.service.impl;
+package cn.edu.cess.service.admin.impl;
+
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.AdminMenu;
-import cn.edu.cess.entity.AdminRoleMenu;
-import cn.edu.cess.entity.AdminUserRole;
-import cn.edu.cess.mapper.AdminMenuMapper;
 import cn.edu.cess.entity.User;
-import cn.edu.cess.service.IAdminMenuService;
-import cn.edu.cess.service.IAdminRoleMenuService;
-import cn.edu.cess.service.IAdminUserRoleService;
+import cn.edu.cess.entity.admin.AdminMenu;
+import cn.edu.cess.entity.admin.AdminRoleMenu;
+import cn.edu.cess.entity.admin.AdminUserRole;
+import cn.edu.cess.mapper.admin.AdminMenuMapper;
 import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.admin.IAdminMenuService;
+import cn.edu.cess.service.admin.IAdminRoleMenuService;
+import cn.edu.cess.service.admin.IAdminUserRoleService;
 import cn.edu.cess.util.TreeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
