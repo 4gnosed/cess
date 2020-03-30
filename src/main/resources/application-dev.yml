@@ -30,4 +30,4 @@ logback:
 
 logging:
   level:
-    cn.edu.cess: trace
+    cn.edu.cess: debug
