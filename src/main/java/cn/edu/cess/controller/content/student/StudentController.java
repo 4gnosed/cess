@@ -41,4 +41,9 @@ public class StudentController extends AbstractClass {
     public Result editStudent(@RequestBody Student student){
         return ResultFactory.buildSuccessResult(iStudentService.updateStudent(student));
     }
+
+    @PostMapping("")
+    public Result addStudent(@RequestBody Student student){
+        return ResultFactory.buildSuccessResult(iStudentService.save(student));
+    }
 }
