@@ -6,12 +6,12 @@ import cn.edu.cess.mapper.content.student.StudentMapper;
 import cn.edu.cess.result.ResultPage;
 import cn.edu.cess.service.content.student.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -108,5 +108,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         resultPage.setData(studentList);
         resultPage.setTotal(total);
         return resultPage;
+    }
+
+    @Override
+    public boolean updateStudent(Student student) {
+        UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq(Constant.ID, student.getId());
+        return update(student, updateWrapper);
     }
 }

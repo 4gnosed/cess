@@ -7,17 +7,13 @@ import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.content.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Gnosed Lu
@@ -32,7 +28,17 @@ public class StudentController extends AbstractClass {
 
     @GetMapping("")
     public Result getStudentByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size,
-                               Student student, String[] beginDateScope){
-        return ResultFactory.buildSuccessResult(iStudentService.getStudentByPage(page,size,student,beginDateScope));
+                                   Student student, String[] beginDateScope) {
+        return ResultFactory.buildSuccessResult(iStudentService.getStudentByPage(page, size, student, beginDateScope));
+    }
+
+    @DeleteMapping("")
+    public Result deleteStudentById(@RequestParam("studentId") Integer studentId) {
+        return ResultFactory.buildSuccessResult(iStudentService.removeById(studentId));
+    }
+
+    @PutMapping("")
+    public Result editStudent(@RequestBody Student student){
+        return ResultFactory.buildSuccessResult(iStudentService.updateStudent(student));
     }
 }
