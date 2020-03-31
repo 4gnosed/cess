@@ -19,4 +19,9 @@ public class Constant {
     public static final String DEFAULT_PASSWORD = "123";
     public static final String ENABLED = "enabled";
     public static final String STUDENT_ID = "student_id";
+    public static final String DEPARTMENT_ID="department_id";
+    public static final String SPECIALTY_ID = "specialty_id";
+    public static final String POSITION_ID = "position_id";
+    public static final String POLITIC_ID = "politic_id";
+    public static final String NATION_ID = "nation_id";
 }
