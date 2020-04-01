@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @Author Gnosed Lu
  * @Date 2020/3/31
@@ -63,7 +61,7 @@ public class StudentServiceImplTest extends AbstractClass {
             int rand = random.nextInt(16) + 1;
             student.setDepartmentId(rand);
             iStudentService.update(student, updateWrapper);
-            logger.info("随机id:"+rand);
+            logger.info("随机id:" + rand);
         }
     }
 
@@ -108,6 +106,38 @@ public class StudentServiceImplTest extends AbstractClass {
             Random random = new Random();
             int rand = random.nextInt(10);
             logger.info("" + rand);
+        }
+    }
+
+    /**
+     * 重置表主键id
+     */
+    @Test
+    public void resetId() {
+        List<Student> studentList = iStudentService.list();
+        for (Student student : studentList) {
+//            Student1 student1 = new Student1();
+//            student1.setName(student.getName());
+//            student1.setStudentId(student.getStudentId());
+//            student1.setGender(student.getGender());
+//            student1.setBirthday(student.getBirthday());
+//            student1.setIdCard(student.getIdCard());
+//            student1.setNationId(student.getNationId());
+//            student1.setNativePlace(student.getNativePlace());
+//            student1.setPoliticId(student.getPoliticId());
+//            student1.setEmail(student.getEmail());
+//            student1.setPhone(student.getPhone());
+//            student1.setAddress(student.getAddress());
+//            student1.setTopDegree(student.getTopDegree());
+//            student1.setSchool(student.getSchool());
+//            student1.setDepartmentId(student.getDepartmentId());
+//            student1.setSpecialtyId(student.getSpecialtyId());
+//            student1.setPositionId(student.getPositionId());
+//            student1.setLanguageLevel(student.getLanguageLevel());
+//            student1.setComputerLevel(student.getComputerLevel());
+//            student1.setBeginDate(student.getBeginDate());
+//            student1.setEndDate(student.getEndDate());
+//            iStudent1Service.save(student1);
         }
     }
 }
