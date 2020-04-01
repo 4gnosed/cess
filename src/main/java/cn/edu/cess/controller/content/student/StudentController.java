@@ -7,12 +7,14 @@ import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.student.Student;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.content.student.IStudentService;
+import cn.edu.cess.service.content.student.*;
 import cn.edu.cess.util.POIUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * <p>
@@ -27,13 +29,24 @@ import javax.servlet.http.HttpServletResponse;
 public class StudentController extends AbstractClass {
     @Autowired
     LoadingStatus loadingStatus;
-
     @Autowired
     IStudentService iStudentService;
+    @Autowired
+    INationService iNationService;
+    @Autowired
+    IPoliticsService iPoliticsService;
+    @Autowired
+    IDepartmentService iDepartmentService;
+    @Autowired
+    ISpecialtyService iSpecialtyService;
+    @Autowired
+    IPositionService iPositionService;
 
     @PostMapping("/import")
-    public Result importData() {
-        return ResultFactory.buildSuccessResult("");
+    public synchronized Result importData(MultipartFile file) throws InterruptedException {
+        List<Student> studentList = POIUtils.excel2Student(file, iNationService.list(), iPoliticsService.list(),
+                iDepartmentService.list(), iPositionService.list(), iSpecialtyService.list());
+        return ResultFactory.buildSuccessResult(iStudentService.saveBatch(studentList));
     }
 
     @GetMapping("/export")

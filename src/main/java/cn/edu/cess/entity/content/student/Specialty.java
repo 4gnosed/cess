@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Objects;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,7 +20,6 @@ import lombok.experimental.Accessors;
  * @since 2020-03-30
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("specialty")
 public class Specialty implements Serializable {
@@ -49,5 +50,20 @@ public class Specialty implements Serializable {
     @TableField("department_id")
     private Integer departmentId;
 
+    public Specialty(String name) {
+        this.name = name;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Specialty specialty = (Specialty) o;
+        return Objects.equals(name, specialty.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

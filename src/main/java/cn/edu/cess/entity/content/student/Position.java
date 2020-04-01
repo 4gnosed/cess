@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -19,7 +20,6 @@ import java.io.Serializable;
  * @since 2020-03-31
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("position")
 public class Position implements Serializable {
@@ -44,5 +44,20 @@ public class Position implements Serializable {
     @TableField("descp")
     private String descp;
 
+    public Position(String name) {
+        this.name = name;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return Objects.equals(name, position.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

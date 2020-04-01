@@ -6,11 +6,13 @@ import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,145 +136,119 @@ public class POIUtils {
 
     }
 
-    /**
-     * Excel 解析成 毕业生数据集合
-     *
-     * @param file
-     * @param allNations
-     * @param allPolitics
-     * @param allDepartments
-     * @param allPositions
-     * @param allJobLevels
-     * @return
-     */
-//    public static List<Student> excel2Student(MultipartFile file, List<Nation> allNations, List<Politics> allPolitics, List<Department> allDepartments, List<Position> allPositions, List<JobLevel> allJobLevels) {
-//        List<Student> list = new ArrayList<>();
-//        Student student = null;
-//        try {
-//            //1. 创建一个 workbook 对象
-//            HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
-//            //2. 获取 workbook 中表单的数量
-//            int numberOfSheets = workbook.getNumberOfSheets();
-//            for (int i = 0; i < numberOfSheets; i++) {
-//                //3. 获取表单
-//                HSSFSheet sheet = workbook.getSheetAt(i);
-//                //4. 获取表单中的行数
-//                int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
-//                for (int j = 0; j < physicalNumberOfRows; j++) {
-//                    //5. 跳过标题行
-//                    if (j == 0) {
-//                        continue;//跳过标题行
-//                    }
-//                    //6. 获取行
-//                    HSSFRow row = sheet.getRow(j);
-//                    if (row == null) {
-//                        continue;//防止数据中间有空行
-//                    }
-//                    //7. 获取列数
-//                    int physicalNumberOfCells = row.getPhysicalNumberOfCells();
-//                    student = new Student();
-//                    for (int k = 0; k < physicalNumberOfCells; k++) {
-//                        HSSFCell cell = row.getCell(k);
-//                        switch (cell.getCellType()) {
-//                            case STRING:
-//                                String cellValue = cell.getStringCellValue();
-//                                switch (k) {
-//                                    case 1:
-//                                        student.setName(cellValue);
-//                                        break;
-//                                    case 2:
-//                                        student.setWorkID(cellValue);
-//                                        break;
-//                                    case 3:
-//                                        student.setGender(cellValue);
-//                                        break;
-//                                    case 5:
-//                                        student.setIdCard(cellValue);
-//                                        break;
-//                                    case 6:
-//                                        student.setWedlock(cellValue);
-//                                        break;
-//                                    case 7:
-//                                        int nationIndex = allNations.indexOf(new Nation(cellValue));
-//                                        student.setNationId(allNations.get(nationIndex).getId());
-//                                        break;
-//                                    case 8:
-//                                        student.setNativePlace(cellValue);
-//                                        break;
-//                                    case 9:
-//                                        int politicstatusIndex = allPolitics.indexOf(new Politics(cellValue));
-//                                        student.setPoliticId(allPolitics.get(politicstatusIndex).getId());
-//                                        break;
-//                                    case 10:
-//                                        student.setPhone(cellValue);
-//                                        break;
-//                                    case 11:
-//                                        student.setAddress(cellValue);
-//                                        break;
-//                                    case 12:
-//                                        int departmentIndex = allDepartments.indexOf(new Department(cellValue));
-//                                        student.setDepartmentId(allDepartments.get(departmentIndex).getId());
-//                                        break;
-//                                    case 13:
-//                                        int jobLevelIndex = allJobLevels.indexOf(new JobLevel(cellValue));
-//                                        student.setJobLevelId(allJobLevels.get(jobLevelIndex).getId());
-//                                        break;
-//                                    case 14:
-//                                        int positionIndex = allPositions.indexOf(new Position(cellValue));
-//                                        student.setPosId(allPositions.get(positionIndex).getId());
-//                                        break;
-//                                    case 15:
-//                                        student.setEngageForm(cellValue);
-//                                        break;
-//                                    case 16:
-//                                        student.setTiptopDegree(cellValue);
-//                                        break;
-//                                    case 17:
-//                                        student.setSpecialty(cellValue);
-//                                        break;
-//                                    case 18:
-//                                        student.setSchool(cellValue);
-//                                        break;
-//                                    case 20:
-//                                        student.setWorkState(cellValue);
-//                                        break;
-//                                    case 21:
-//                                        student.setEmail(cellValue);
-//                                        break;
-//                                }
-//                                break;
-//                            default: {
-//                                switch (k) {
-//                                    case 4:
-//                                        student.setBirthday(cell.getDateCellValue());
-//                                        break;
-//                                    case 19:
-//                                        student.setBeginDate(cell.getDateCellValue());
-//                                        break;
-//                                    case 23:
-//                                        student.setBeginContract(cell.getDateCellValue());
-//                                        break;
-//                                    case 24:
-//                                        student.setEndContract(cell.getDateCellValue());
-//                                        break;
-//                                    case 22:
-//                                        student.setContractTerm(cell.getNumericCellValue());
-//                                        break;
-//                                    case 25:
-//                                        student.setConversionTime(cell.getDateCellValue());
-//                                        break;
-//                                }
-//                            }
-//                            break;
-//                        }
-//                    }
-//                    list.add(student);
-//                }
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
+    public static List<Student> excel2Student(MultipartFile file, List<Nation> allNations, List<Politics> allPolitics, List<Department> allDepartments, List<Position> allPositions, List<Specialty> allSpecialties) {
+        List<Student> list = new ArrayList<>();
+        Student student = null;
+        try {
+            //1. 创建一个 workbook 对象
+            HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
+            //2. 获取 workbook 中表单的数量
+            int numberOfSheets = workbook.getNumberOfSheets();
+            for (int i = 0; i < numberOfSheets; i++) {
+                //3. 获取表单
+                HSSFSheet sheet = workbook.getSheetAt(i);
+                //4. 获取表单中的行数
+                int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
+                for (int j = 0; j < physicalNumberOfRows; j++) {
+                    //5. 跳过标题行
+                    if (j == 0) {
+                        continue;//跳过标题行
+                    }
+                    //6. 获取行
+                    HSSFRow row = sheet.getRow(j);
+                    if (row == null) {
+                        continue;//防止数据中间有空行
+                    }
+                    //7. 获取列数
+                    int physicalNumberOfCells = row.getPhysicalNumberOfCells();
+                    student = new Student();
+                    for (int k = 0; k < physicalNumberOfCells; k++) {
+                        HSSFCell cell = row.getCell(k);
+                        switch (cell.getCellType()) {
+                            case STRING:
+                                String cellValue = cell.getStringCellValue();
+                                switch (k) {
+                                    case 1:
+                                        student.setName(cellValue);
+                                        break;
+                                    case 3:
+                                        student.setGender(cellValue);
+                                        break;
+                                    case 5:
+                                        student.setIdCard(cellValue);
+                                        break;
+                                    case 6:
+                                        int nationIndex = allNations.indexOf(new Nation(cellValue));
+                                        student.setNationId(allNations.get(nationIndex).getId());
+                                        break;
+                                    case 7:
+                                        student.setNativePlace(cellValue);
+                                        break;
+                                    case 8:
+                                        int politicsIndex = allPolitics.indexOf(new Politics(cellValue));
+                                        student.setPoliticId(allPolitics.get(politicsIndex).getId());
+                                        break;
+                                    case 9:
+                                        student.setEmail(cellValue);
+                                        break;
+                                    case 10:
+                                        student.setPhone(cellValue);
+                                        break;
+                                    case 11:
+                                        student.setAddress(cellValue);
+                                        break;
+                                    case 12:
+                                        student.setTopDegree(cellValue);
+                                        break;
+                                    case 13:
+                                        student.setSchool(cellValue);
+                                        break;
+                                    case 14:
+                                        int departmentIndex = allDepartments.indexOf(new Department(cellValue));
+                                        student.setDepartmentId(allDepartments.get(departmentIndex).getId());
+                                        break;
+                                    case 15:
+                                        int specialtyIndex = allSpecialties.indexOf(new Specialty(cellValue));
+                                        student.setSpecialtyId(allSpecialties.get(specialtyIndex).getId());
+                                        break;
+                                    case 16:
+                                        int positionIndex = allPositions.indexOf(new Position(cellValue));
+                                        student.setPositionId(allPositions.get(positionIndex).getId());
+                                        break;
+                                    case 17:
+                                        student.setLanguageLevel(cellValue);
+                                        break;
+                                    case 18:
+                                        student.setComputerLevel(cellValue);
+                                        break;
+                                }
+                                break;
+                            default: {
+                                switch (k) {
+                                    case 2:
+                                        student.setStudentId((int) cell.getNumericCellValue());
+                                        break;
+                                    case 4:
+                                        student.setBirthday(cell.getDateCellValue());
+                                        break;
+                                    case 19:
+                                        student.setBeginDate(cell.getDateCellValue());
+                                        break;
+                                    case 20:
+                                        student.setEndDate(cell.getDateCellValue());
+                                        break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    list.add(student);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
