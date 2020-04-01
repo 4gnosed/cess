@@ -4,6 +4,8 @@ import cn.edu.cess.entity.content.student.Student;
 import cn.edu.cess.result.ResultPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -17,4 +19,6 @@ public interface IStudentService extends IService<Student> {
     ResultPage getStudentByPage(Integer page, Integer size, Student student, String[] beginDateScope);
 
     boolean updateStudent(Student student);
+
+    List<Student> getStudents();
 }

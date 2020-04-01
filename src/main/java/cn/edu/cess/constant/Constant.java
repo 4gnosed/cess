@@ -25,4 +25,6 @@ public class Constant {
     public static final String POLITIC_ID = "politic_id";
     public static final String NATION_ID = "nation_id";
     public static final String BEGIN_DATE = "begin_date";
+    public static final Integer LOADING = -1;
+    public static final Integer LOADED = 1;
 }

@@ -85,13 +85,25 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         Page<Student> studentPage = page(new Page<>(page, size), queryWrapper);
         long total = studentPage.getTotal();
         List<Student> studentList = studentPage.getRecords();
+        fillData(studentList);
 
+        ResultPage resultPage = new ResultPage();
+        resultPage.setData(studentList);
+        resultPage.setTotal(total);
+        return resultPage;
+    }
+
+    /**
+     * 填充民族、政治面貌等属性
+     *
+     * @param studentList
+     */
+    private void fillData(List<Student> studentList) {
         QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Politics> politicsQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Specialty> specialtyQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Position> positionQueryWrapper = new QueryWrapper<>();
-        //填充民族、政治面貌等属性
         for (Student stu : studentList) {
             nationQueryWrapper.clear();
             politicsQueryWrapper.clear();
@@ -104,10 +116,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             stu.setSpecialty(iSpecialtyService.getOne(specialtyQueryWrapper.eq(Constant.ID, stu.getSpecialtyId())));
             stu.setPosition(iPositionService.getOne(positionQueryWrapper.eq(Constant.ID, stu.getPositionId())));
         }
-        ResultPage resultPage = new ResultPage();
-        resultPage.setData(studentList);
-        resultPage.setTotal(total);
-        return resultPage;
     }
 
     @Override
@@ -115,5 +123,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq(Constant.ID, student.getId());
         return update(student, updateWrapper);
+    }
+
+    @Override
+    public List<Student> getStudents() {
+        List<Student> studentList = list();
+        fillData(studentList);
+        return studentList;
     }
 }
