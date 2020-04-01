@@ -46,13 +46,16 @@ public class StudentController extends AbstractClass {
     @GetMapping("/loading")
     public Result exportData() {
         while (loadingStatus.getStatus() != Constant.LOADED) ;
+        loadingStatus.setStatus(Constant.DEFAULT);
         return ResultFactory.buildSuccessResult("");
     }
 
     private void loading(HttpServletResponse response) {
-        logger.info("----------------------------开始导出----------------------------");
-        loadingStatus.setResponse(response);
-        loadingStatus.setStatus(Constant.LOADING);
+        if (loadingStatus.getStatus() == Constant.DEFAULT) {
+            logger.info("----------------------------开始导出----------------------------");
+            loadingStatus.setResponse(response);
+            loadingStatus.setStatus(Constant.LOADING);
+        }
     }
 
     private void loaded(HttpServletResponse response) {
