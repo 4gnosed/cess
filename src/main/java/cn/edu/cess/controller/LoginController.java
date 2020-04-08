@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -56,7 +57,12 @@ public class LoginController extends AbstractClass {
                 return ResultFactory.buildFailResult("用户已被禁用");
             }
             iUserService.updateLastLogin(username);
-            return ResultFactory.buildSuccessResult(token);
+            List<AdminUserRole> userRoles = iAdminUserRoleService.getUserRoleByUsername(username);
+            User user = new User();
+            user.setUsername(username);
+            user.setRoleId(userRoles.get(0).getRid());
+            logger.info(user.toString());
+            return ResultFactory.buildSuccessResult(user);
         } catch (AuthenticationException e) {
             String message = "账号或密码错误";
             return ResultFactory.buildFailResult(message);

@@ -1,5 +1,6 @@
 package cn.edu.cess.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,4 +22,6 @@ public class User {
     private String name;
     private String phone;
     private String email;
+    @TableField(exist = false)
+    private int roleId;
 }
