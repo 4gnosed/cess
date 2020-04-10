@@ -21,4 +21,8 @@ public interface IStudentService extends IService<Student> {
     boolean updateStudent(Student student);
 
     List<Student> getStudents();
+
+    Student listById(Integer sid);
+
+    Integer getLastId();
 }

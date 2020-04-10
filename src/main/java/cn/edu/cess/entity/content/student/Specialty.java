@@ -54,6 +54,9 @@ public class Specialty implements Serializable {
         this.name = name;
     }
 
+    public Specialty( ) {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

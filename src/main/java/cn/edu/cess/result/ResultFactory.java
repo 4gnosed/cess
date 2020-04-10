@@ -20,6 +20,10 @@ public class ResultFactory extends AbstractClass {
         return buildResult(ResultCode.FAIL, message, null);
     }
 
+    public static Result buildEmptyResult(String message) {
+        return buildResult(ResultCode.NO_CONTENT, message, null);
+    }
+
     public static Result buildResult(int resultCode, String message, Object data) {
         return new Result(resultCode, message, data);
     }

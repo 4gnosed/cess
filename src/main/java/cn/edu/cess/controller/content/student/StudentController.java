@@ -5,8 +5,10 @@ import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.common.LoadingStatus;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.student.Student;
+import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.content.student.*;
 import cn.edu.cess.util.POIUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,8 @@ public class StudentController extends AbstractClass {
     ISpecialtyService iSpecialtyService;
     @Autowired
     IPositionService iPositionService;
+    @Autowired
+    IUserStudentService iUserStudentService;
 
     @PostMapping("/import")
     public synchronized Result importData(MultipartFile file) throws InterruptedException {
@@ -95,8 +99,30 @@ public class StudentController extends AbstractClass {
     }
 
     @PostMapping("")
-    public Result addStudent(@RequestBody Student student) {
-        return ResultFactory.buildSuccessResult(iStudentService.save(student));
+    public Result addStudent(@RequestBody Student student, @RequestParam("userId") Integer userId) {
+        student.setId(iStudentService.getLastId()+1);
+        UserStudent userStudent = new UserStudent();
+        userStudent.setUid(userId);
+        userStudent.setSid(student.getId());
+        userStudent.setEnabled(false);
+        iUserStudentService.save(userStudent);
+        iStudentService.save(student);
+        return ResultFactory.buildSuccessResult(student);
+    }
+
+    @GetMapping("/getOne")
+    public Result getOneStudent(@RequestParam("userId") Integer userId) {
+        //根据用户角色绑定对应的角色对象
+        UserStudent userStudent = iUserStudentService.listByUid(userId);
+        if (userStudent == null) {
+            //未填写信息
+            return ResultFactory.buildEmptyResult("");
+        } else if (userStudent.getEnabled() == false) {
+            //未审核通过
+            return ResultFactory.buildFailResult("");
+        }
+        Student student = iStudentService.listById(userStudent.getSid());
+        return ResultFactory.buildSuccessResult(student);
     }
 
 }

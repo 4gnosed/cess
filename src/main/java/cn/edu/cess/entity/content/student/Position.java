@@ -48,6 +48,9 @@ public class Position implements Serializable {
         this.name = name;
     }
 
+    public Position( ) {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

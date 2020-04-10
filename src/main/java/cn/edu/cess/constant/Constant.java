@@ -10,7 +10,7 @@ public class Constant {
     public static final String LAST_LOGIN = "last_login";
     public static final int HASH_ITERATIONS = 3;
     public static final String MD_5 = "md5";
-    public static final int MAX_AGE = 3600;
+    public static final int MAX_AGE = 3600 * 3;
     public static final String REMEMBER_ME = "rememberMe";
     public static final String GNOSED_CIPHER_KEY = "GNOSED_CIPHERKEY";
     public static final String UID = "uid";
@@ -28,4 +28,10 @@ public class Constant {
     public static final Integer LOADING = -1;
     public static final Integer LOADED = 1;
     public static final Integer DEFAULT = 0;
+    public static final Integer ADMIN_ROLE_ID = 1;
+    public static final Integer STUDENT_ROLE_ID = 2;
+    public static final Integer ENTERPRISE_ROLE_ID = 3;
+    public static final Integer DEPARTMENT_ROLE_ID = 4;
+    public static final Integer LEADER_ROLE_ID = 5;
+    public static final Integer ADMIN_CONTENT_ROLE_ID = 6;
 }

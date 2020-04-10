@@ -4,11 +4,17 @@ import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.dto.LoginUserDto;
 import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
+import cn.edu.cess.entity.content.student.Student;
+import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
+import cn.edu.cess.service.content.student.IStudentService;
+import cn.edu.cess.service.content.student.IUserStudentService;
 import cn.edu.cess.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -30,6 +36,8 @@ public class LoginController extends AbstractClass {
     IUserService iUserService;
     @Autowired
     IAdminUserRoleService iAdminUserRoleService;
+    @Autowired
+    IAdminRoleService iAdminRoleService;
 
     /**
      * shiro登录验证，调用subject.login(usernamePasswordToken)后，
@@ -53,15 +61,17 @@ public class LoginController extends AbstractClass {
         token.setRememberMe(true);
         try {
             subject.login(token);
-            if(!iUserService.isEnable(username)){
+            if (!iUserService.isEnable(username)) {
                 return ResultFactory.buildFailResult("用户已被禁用");
             }
             iUserService.updateLastLogin(username);
-            List<AdminUserRole> userRoles = iAdminUserRoleService.getUserRoleByUsername(username);
-            User user = new User();
-            user.setUsername(username);
-            user.setRoleId(userRoles.get(0).getRid());
-            logger.info(user.toString());
+            AdminRole role = iAdminRoleService.listRoleByUsername(username).get(0);
+            Integer roleId = role.getId();
+            User user = iUserService.getByName(username);
+            user.setPassword("");
+            user.setSalt("");
+            user.setRole(role.getNameZh());
+            user.setRoleId(roleId);
             return ResultFactory.buildSuccessResult(user);
         } catch (AuthenticationException e) {
             String message = "账号或密码错误";
@@ -82,7 +92,7 @@ public class LoginController extends AbstractClass {
         String name = loginUserDto.getName();
         String phone = loginUserDto.getPhone();
         String email = loginUserDto.getEmail();
-        int  role=loginUserDto.getRole();
+        int role = loginUserDto.getRole();
         if (StringUtil.isEmpty(username, password)) {
             String message = "用户名或密码为空，注册失败";
             return ResultFactory.buildFailResult(message);
@@ -103,7 +113,7 @@ public class LoginController extends AbstractClass {
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
-        int userId=iUserService.add(user);
+        int userId = iUserService.add(user);
         AdminUserRole adminUserRole = new AdminUserRole();
         adminUserRole.setUid(userId);
         adminUserRole.setRid(role);

@@ -34,6 +34,9 @@ public class Nation implements Serializable {
     @TableField("name")
     private String name;
 
+    public Nation( ){
+    }
+
     public Nation(String name){
         this.name=name;
     }

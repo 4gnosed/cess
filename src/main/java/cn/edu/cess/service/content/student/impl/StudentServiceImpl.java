@@ -94,28 +94,32 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     /**
-     * 填充民族、政治面貌等属性
+     * 填充多个学生民族、政治面貌等属性
      *
      * @param studentList
      */
     private void fillData(List<Student> studentList) {
+        for (Student stu : studentList) {
+            fillData(stu);
+        }
+    }
+
+    /**
+     * 填充一个学生民族、政治面貌等属性
+     *
+     * @param stu
+     */
+    private void fillData(Student stu) {
         QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Politics> politicsQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Specialty> specialtyQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Position> positionQueryWrapper = new QueryWrapper<>();
-        for (Student stu : studentList) {
-            nationQueryWrapper.clear();
-            politicsQueryWrapper.clear();
-            departmentQueryWrapper.clear();
-            specialtyQueryWrapper.clear();
-            positionQueryWrapper.clear();
-            stu.setNation(iNationService.getOne(nationQueryWrapper.eq(Constant.ID, stu.getNationId())));
-            stu.setPolitics(iPoliticsService.getOne(politicsQueryWrapper.eq(Constant.ID, stu.getPoliticId())));
-            stu.setDepartment(iDepartmentService.getOne(departmentQueryWrapper.eq(Constant.ID, stu.getDepartmentId())));
-            stu.setSpecialty(iSpecialtyService.getOne(specialtyQueryWrapper.eq(Constant.ID, stu.getSpecialtyId())));
-            stu.setPosition(iPositionService.getOne(positionQueryWrapper.eq(Constant.ID, stu.getPositionId())));
-        }
+        stu.setNation(iNationService.getOne(nationQueryWrapper.eq(Constant.ID, stu.getNationId())));
+        stu.setPolitics(iPoliticsService.getOne(politicsQueryWrapper.eq(Constant.ID, stu.getPoliticId())));
+        stu.setDepartment(iDepartmentService.getOne(departmentQueryWrapper.eq(Constant.ID, stu.getDepartmentId())));
+        stu.setSpecialty(iSpecialtyService.getOne(specialtyQueryWrapper.eq(Constant.ID, stu.getSpecialtyId())));
+        stu.setPosition(iPositionService.getOne(positionQueryWrapper.eq(Constant.ID, stu.getPositionId())));
     }
 
     @Override
@@ -130,5 +134,26 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         List<Student> studentList = list();
         fillData(studentList);
         return studentList;
+    }
+
+    @Override
+    public Student listById(Integer sid) {
+        QueryWrapper<Student> q = new QueryWrapper<>();
+        q.eq(Constant.ID, sid);
+        Student student = getOne(q);
+        fillData(student);
+        return student;
+    }
+
+    /**
+     * 获取表中最后一条记录id，Max(id)
+     *
+     * @return
+     */
+    @Override
+    public Integer getLastId() {
+        QueryWrapper<Student> q = new QueryWrapper<>();
+        q.orderByDesc(Constant.ID).last("limit 0 , 1");
+        return list(q).get(0).getId();
     }
 }
