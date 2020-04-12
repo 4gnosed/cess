@@ -25,4 +25,8 @@ public interface IStudentService extends IService<Student> {
     Student listById(Integer sid);
 
     Integer getLastId();
+
+    void fillData(List<Student> studentList);
+
+    void fillData(Student stu);
 }

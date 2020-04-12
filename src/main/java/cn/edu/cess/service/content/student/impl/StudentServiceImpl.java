@@ -98,7 +98,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      *
      * @param studentList
      */
-    private void fillData(List<Student> studentList) {
+    public void fillData(List<Student> studentList) {
         for (Student stu : studentList) {
             fillData(stu);
         }
@@ -109,7 +109,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      *
      * @param stu
      */
-    private void fillData(Student stu) {
+    public void fillData(Student stu) {
         QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Politics> politicsQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Department> departmentQueryWrapper = new QueryWrapper<>();
