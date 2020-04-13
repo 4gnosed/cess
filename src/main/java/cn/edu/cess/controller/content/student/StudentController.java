@@ -99,14 +99,15 @@ public class StudentController extends AbstractClass {
     }
 
     @PostMapping("")
-    public Result addStudent(@RequestBody Student student, @RequestParam("userId") Integer userId) {
-        student.setId(iStudentService.getLastId()+1);
+    public Result addStudent(@RequestBody Student student) {
+//        student.setId(iStudentService.getLastId() + 1);
+        iStudentService.save(student);
+        student=iStudentService.getByStudentId(student.getStudentId());
         UserStudent userStudent = new UserStudent();
-        userStudent.setUid(userId);
+        userStudent.setUid(student.getUserId());
         userStudent.setSid(student.getId());
         userStudent.setEnabled(false);
         iUserStudentService.save(userStudent);
-        iStudentService.save(student);
         return ResultFactory.buildSuccessResult(student);
     }
 

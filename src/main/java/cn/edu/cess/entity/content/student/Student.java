@@ -29,6 +29,12 @@ public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * userId
+     */
+    @TableField(exist = false)
+    private Integer userId;
+
+    /**
      * ID
      */
     @TableId(value = "id", type = IdType.AUTO)

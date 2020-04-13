@@ -52,10 +52,11 @@ public class EnterpriseController extends AbstractClass {
     }
 
     @PostMapping("")
-    public Result addEnterprise(@RequestBody Enterprise enterprise, @RequestParam("userId") Integer userId) {
-        enterprise.setId(iEnterpriseService.getLastId() + 1);
+    public Result addEnterprise(@RequestBody Enterprise enterprise) {
+//        enterprise.setId(iEnterpriseService.getLastId() + 1);
+        enterprise=iEnterpriseService.getByName(enterprise.getName());
         UserEnterprise userEnterprise = new UserEnterprise();
-        userEnterprise.setUid(userId);
+        userEnterprise.setUid(enterprise.getUserId());
         userEnterprise.setEid(enterprise.getId());
         userEnterprise.setEnabled(false);
         iUserEnterpriseService.save(userEnterprise);

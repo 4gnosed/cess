@@ -123,6 +123,13 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
+    public Student getByStudentId(Integer studentId) {
+        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.STUDENT_ID, studentId);
+        return getOne(queryWrapper);
+    }
+
+    @Override
     public boolean updateStudent(Student student) {
         UpdateWrapper<Student> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq(Constant.ID, student.getId());
