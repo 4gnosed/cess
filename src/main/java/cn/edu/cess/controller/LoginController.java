@@ -4,6 +4,7 @@ import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.dto.LoginUserDto;
 import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.Vo.UserVo;
 import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.entity.content.student.Student;
@@ -142,5 +143,27 @@ public class LoginController extends AbstractClass {
     @GetMapping("/authentication")
     public String authentication() {
         return "身份认证成功";
+    }
+
+    /**
+     * 修改密码
+     */
+    @PutMapping("/password")
+    public Result updatePassword(@RequestBody UserVo userVo) {
+        String username = userVo.getUsername();
+        String oldPassword = userVo.getOldPassword();
+        String newPassword = userVo.getNewPassword();
+        Subject subject = SecurityUtils.getSubject();
+
+        UsernamePasswordToken token = new UsernamePasswordToken(username, oldPassword);
+        try {
+            subject.login(token);
+            String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+            String encodedPassword = new SimpleHash(Constant.MD_5, newPassword, salt, Constant.HASH_ITERATIONS).toString();
+            iUserService.updatePassword(salt,username, encodedPassword);
+            return ResultFactory.buildSuccessResult("密码修改成功");
+        } catch (AuthenticationException e) {
+            return ResultFactory.buildFailResult("密码错误，修改失败");
+        }
     }
 }

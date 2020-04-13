@@ -31,4 +31,6 @@ public interface IUserService extends IService<User> {
     boolean updateUserStatus(User user);
 
     boolean isEnable(String username);
+
+    void updatePassword(String salt, String username, String newPassword);
 }

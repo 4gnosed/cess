@@ -7,6 +7,7 @@ public class Constant {
     public static final String NAME = "name";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String SALT = "salt";
     public static final String LAST_LOGIN = "last_login";
     public static final int HASH_ITERATIONS = 3;
     public static final String MD_5 = "md5";

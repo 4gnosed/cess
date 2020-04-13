@@ -151,4 +151,11 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     public boolean isEnable(String username) {
         return getByName(username).getEnabled();
     }
+
+    @Override
+    public void updatePassword(String salt, String username, String newPassword) {
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq(Constant.USERNAME, username).set(Constant.PASSWORD, newPassword).set(Constant.SALT, salt);
+        update(updateWrapper);
+    }
 }
