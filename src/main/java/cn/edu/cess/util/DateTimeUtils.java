@@ -52,12 +52,24 @@ public class DateTimeUtils {
 
     /**
      * 取得系统日期，格式为yyyy-MM-dd
+     *
+     * @return String
      */
     public static String getSystemDate() {
         String strDate = "";
         SimpleDateFormat df = new SimpleDateFormat(defaultDateFormatStr);
         strDate = df.format(new Date());
         return strDate;
+    }
+
+    /**
+     * 取得系统日期，格式为yyyy-MM-dd
+     *
+     * @return
+     */
+    public static Date getCurrentDate() {
+        String systemDate = DateTimeUtils.getSystemDate();
+        return stringToDate(systemDate, defaultDateFormatStr);
     }
 
     /**
