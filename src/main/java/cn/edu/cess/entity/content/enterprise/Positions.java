@@ -32,6 +32,18 @@ public class Positions implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 创建该职位的用户id
+     */
+    @TableField(exist = false)
+    private Integer userId;
+
+    /**
+     * 所属企业的id
+     */
+    @TableField(exist = false)
+    private Integer enterpriseId;
+
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
@@ -54,34 +66,16 @@ public class Positions implements Serializable {
     private Integer salaryId;
 
     /**
-     * 年薪
-     */
-    @TableField(exist = false)
-    private Salary salary;
-
-    /**
      * 学历id
      */
     @TableField("degree_id")
     private Integer degreeId;
 
     /**
-     * 学历
-     */
-    @TableField(exist = false)
-    private Degree degree;
-
-    /**
      * 经验要求id
      */
     @TableField("experience_id")
     private Integer experienceId;
-
-    /**
-     * 经验要求
-     */
-    @TableField(exist = false)
-    private Experience experience;
 
     /**
      * 职位描述
@@ -94,12 +88,6 @@ public class Positions implements Serializable {
      */
     @TableField("nature_id")
     private Integer natureId;
-
-    /**
-     * 工作性质
-     */
-    @TableField(exist = false)
-    private Nature nature;
 
     /**
      * 招聘人数

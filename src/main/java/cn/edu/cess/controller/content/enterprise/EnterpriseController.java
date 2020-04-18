@@ -29,10 +29,15 @@ public class EnterpriseController extends AbstractClass {
     @Autowired
     IEnterpriseService iEnterpriseService;
 
+    @GetMapping("")
+    public Result getAll() {
+        return ResultFactory.buildSuccessResult(iEnterpriseService.list());
+    }
+
     @GetMapping("/getOne")
     public Result getOneEnterprise(@RequestParam("userId") Integer userId) {
         //根据用户角色绑定对应的角色对象
-        UserEnterprise userEnterprise = iUserEnterpriseService.listByUid(userId);
+        UserEnterprise userEnterprise = iUserEnterpriseService.getByUid(userId);
         if (userEnterprise == null) {
             //未填写信息
             return ResultFactory.buildEmptyResult("");
@@ -54,7 +59,7 @@ public class EnterpriseController extends AbstractClass {
     @PostMapping("")
     public Result addEnterprise(@RequestBody Enterprise enterprise) {
 //        enterprise.setId(iEnterpriseService.getLastId() + 1);
-        enterprise=iEnterpriseService.getByName(enterprise.getName());
+        enterprise = iEnterpriseService.getByName(enterprise.getName());
         UserEnterprise userEnterprise = new UserEnterprise();
         userEnterprise.setUid(enterprise.getUserId());
         userEnterprise.setEid(enterprise.getId());

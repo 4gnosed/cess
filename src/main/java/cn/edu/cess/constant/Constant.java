@@ -35,4 +35,6 @@ public class Constant {
     public static final Integer DEPARTMENT_ROLE_ID = 4;
     public static final Integer LEADER_ROLE_ID = 5;
     public static final Integer ADMIN_CONTENT_ROLE_ID = 6;
+    public static final String PID = "pid";
+    public static final String EID = "eid";
 }
