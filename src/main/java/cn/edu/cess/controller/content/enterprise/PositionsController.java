@@ -1,6 +1,7 @@
 package cn.edu.cess.controller.content.enterprise;
 
 
+import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
@@ -37,7 +38,13 @@ public class PositionsController extends AbstractClass {
     @GetMapping("")
     public Result getAll(@RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "10") Integer size,
-                         Positions positions) {
-        return ResultFactory.buildSuccessResult(iPositionsService.getByPage(page,size,positions));
+                         @RequestParam(required = false) String keywords,
+                         @RequestParam(required = false) Integer experienceId,
+                         @RequestParam(required = false) Integer degreeId,
+                         @RequestParam(required = false) Integer salaryId,
+                         @RequestParam(required = false) Integer financeId,
+                         @RequestParam(required = false) Integer scaleId) {
+        return ResultFactory.buildSuccessResult(iPositionsService.getByPage(page, size, keywords, experienceId,
+                degreeId, salaryId, financeId, scaleId));
     }
 }

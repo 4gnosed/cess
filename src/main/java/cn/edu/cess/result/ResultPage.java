@@ -2,6 +2,7 @@ package cn.edu.cess.result;
 
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,5 +13,5 @@ import java.util.List;
 @Data
 public class ResultPage {
     private Long total;
-    private List<?> data;
+    private Collection<?> data;
 }

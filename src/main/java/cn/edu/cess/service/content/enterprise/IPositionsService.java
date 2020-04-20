@@ -16,5 +16,6 @@ public interface IPositionsService extends IService<Positions> {
 
     void savePosition(Positions position);
 
-    ResultPage getByPage(Integer page, Integer size, Positions positions);
+    ResultPage getByPage(Integer page, Integer size, String keywords, Integer experienceId,
+                         Integer degreeId, Integer salaryId, Integer financeId, Integer scaleId);
 }

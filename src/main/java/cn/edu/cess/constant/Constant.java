@@ -37,4 +37,10 @@ public class Constant {
     public static final Integer ADMIN_CONTENT_ROLE_ID = 6;
     public static final String PID = "pid";
     public static final String EID = "eid";
+    public static final String KEYWORD = "keyword";
+    public static final String EXPERIENCE_ID = "experience_id";
+    public static final String DEGREE_ID = "degree_id";
+    public static final String SALARY_ID = "salary_id";
+    public static final String FINANCE_ID = "finance_id";
+    public static final String SCALE_ID = "scale_id";
 }
