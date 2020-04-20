@@ -1,0 +1,25 @@
+package cn.edu.cess.controller.content.student;
+
+
+import cn.edu.cess.entity.content.student.Resume;
+import cn.edu.cess.result.Result;
+import cn.edu.cess.result.ResultFactory;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.RestController;
+import cn.edu.cess.base.AbstractClass;
+
+/**
+ * <p>
+ * 前端控制器
+ * </p>
+ *
+ * @author Gnosed Lu
+ * @since 2020-04-20
+ */
+@RestController
+@RequestMapping("/api/resume")
+public class ResumeController extends AbstractClass {
+}
