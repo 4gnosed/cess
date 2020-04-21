@@ -1,7 +1,8 @@
 package cn.edu.cess.constant;
 
 public class Constant {
-    public static final String IMG_FOLDER = "F:/MyCode/IdeaProjects/_file/img/";
+    public static final String FILE_FOLDER = "F:/MyCode/IdeaProjects/_file/";
+    public static final String PART_PATH = "/api/file/";
     public static final String[] REQUIRED_AUTH_PAGE = {"index"};
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -43,4 +44,6 @@ public class Constant {
     public static final String SALARY_ID = "salary_id";
     public static final String FINANCE_ID = "finance_id";
     public static final String SCALE_ID = "scale_id";
+    public static final String FILE_PATH = "file_path";
+    public static final int UUID_LENGTH = 32 + 4;
 }

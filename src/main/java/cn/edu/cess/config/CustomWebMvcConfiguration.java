@@ -30,14 +30,14 @@ public class CustomWebMvcConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * 图片路径与本地关联
+     * 文件路径与本地关联
      *
      * @param registry
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/api/file/**")
-                .addResourceLocations("file:" + Constant.IMG_FOLDER);
+        registry.addResourceHandler(Constant.PART_PATH+"**")
+                .addResourceLocations("file:" + Constant.FILE_FOLDER);
     }
 
 //    /**
