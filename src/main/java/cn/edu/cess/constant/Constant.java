@@ -46,4 +46,8 @@ public class Constant {
     public static final String SCALE_ID = "scale_id";
     public static final String FILE_PATH = "file_path";
     public static final int UUID_LENGTH = 32 + 4;
+    public static final String SELF_EVALUATION = "self_evaluation";
+    public static final String DESCRIPTION = "description";
+    public static final String ENTERPRISE_NAME = "enterprise_name";
+    public static final String ORGANIZATION = "organization";
 }

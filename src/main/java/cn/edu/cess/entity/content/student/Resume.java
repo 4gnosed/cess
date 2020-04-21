@@ -1,17 +1,21 @@
 package cn.edu.cess.entity.content.student;
 
+import cn.edu.cess.entity.Vo.FileUrlVo;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Gnosed Lu
@@ -27,12 +31,6 @@ public class Resume implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
-    /**
-     * 实习经验id
-     */
-    @TableField("work_experience_id")
-    private Integer workExperienceId;
 
     /**
      * 自我评价
@@ -58,5 +56,39 @@ public class Resume implements Serializable {
     @TableField("file_path")
     private String filePath;
 
+    /**
+     * 证书
+     */
+    @TableField(exist = false)
+    List<ExperienceCertificate> experienceCertificateList;
 
+    /**
+     * 项目经验
+     */
+    @TableField(exist = false)
+    ExperienceProject experienceProject;
+
+    /**
+     * 技能
+     */
+    @TableField(exist = false)
+    List<ExperienceSkill> experienceSkillList;
+
+    /**
+     * 培训经历
+     */
+    @TableField(exist = false)
+    ExperienceTrain experienceTrain;
+
+    /**
+     * 工作经验
+     */
+    @TableField(exist = false)
+    ExperienceWork experienceWork;
+
+    /**
+     * 附件
+     */
+    @TableField(exist = false)
+    FileUrlVo fileUrlVo;
 }

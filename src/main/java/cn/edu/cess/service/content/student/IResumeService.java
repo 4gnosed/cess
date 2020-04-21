@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Gnosed Lu
@@ -19,4 +19,8 @@ public interface IResumeService extends IService<Resume> {
     void saveFilePath(String filePath, Integer userId);
 
     FileUrlVo getFileUrlVo(Integer userId, HttpServletRequest request);
+
+    Resume getCompleteResumeByUid(Integer userId, HttpServletRequest request);
+
+    void addResume(Integer userId, Resume resume);
 }

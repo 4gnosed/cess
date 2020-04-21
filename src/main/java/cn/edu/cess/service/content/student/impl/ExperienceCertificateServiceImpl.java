@@ -6,6 +6,9 @@ import cn.edu.cess.service.content.student.IExperienceCertificateService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -17,4 +20,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExperienceCertificateServiceImpl extends ServiceImpl<ExperienceCertificateMapper, ExperienceCertificate> implements IExperienceCertificateService {
 
+    @Override
+    public List<ExperienceCertificate> getByResumeId(Integer rid) {
+        ArrayList<ExperienceCertificate> experienceCertificates = new ArrayList<>();
+        return  experienceCertificates.size()==0 ? null : experienceCertificates;
+    }
 }

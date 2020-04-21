@@ -2,6 +2,7 @@ package cn.edu.cess.controller.content.student;
 
 
 import cn.edu.cess.entity.Vo.FileUrlVo;
+import cn.edu.cess.entity.content.student.Resume;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.content.student.IResumeService;
@@ -53,6 +54,22 @@ public class ResumeController extends AbstractClass {
     @GetMapping("/file")
     public Result getResumeFile(@RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
         return ResultFactory.buildSuccessResult(iResumeService.getFileUrlVo(userId, request));
+    }
+
+    @GetMapping("")
+    public Result getResume(@RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
+        return ResultFactory.buildSuccessResult(iResumeService.getCompleteResumeByUid(userId, request));
+    }
+
+    @PostMapping("")
+    public Result addResume(@RequestParam(value = "userId") Integer userId, @RequestBody Resume resume) {
+        iResumeService.addResume(userId, resume);
+        return ResultFactory.buildSuccessResult("");
+    }
+
+    @PutMapping("")
+    public Result updateResume(@RequestParam(value = "userId") Integer userId, @RequestBody Resume resume) {
+        return ResultFactory.buildSuccessResult("");
     }
 
 }

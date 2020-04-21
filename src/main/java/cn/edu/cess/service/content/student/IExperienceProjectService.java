@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IExperienceProjectService extends IService<ExperienceProject> {
 
+    ExperienceProject getByResumeId(Integer rid);
+
+    void add(Integer rid, ExperienceProject experienceProject);
 }

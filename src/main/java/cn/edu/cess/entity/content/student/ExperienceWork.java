@@ -2,17 +2,20 @@ package cn.edu.cess.entity.content.student;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Gnosed Lu
@@ -33,13 +36,15 @@ public class ExperienceWork implements Serializable {
      * 开始日期
      */
     @TableField("begin_date")
-    private LocalDate beginDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date beginDate;
 
     /**
-     * 实习日期
+     * 结束日期
      */
     @TableField("end_date")
-    private LocalDate endDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
 
     /**
      * 企业名称
