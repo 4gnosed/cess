@@ -1,7 +1,7 @@
 package cn.edu.cess.service;
 
 
-import cn.edu.cess.dto.AdminUserDto;
+import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 

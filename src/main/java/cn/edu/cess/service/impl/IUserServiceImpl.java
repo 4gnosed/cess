@@ -2,7 +2,7 @@ package cn.edu.cess.service.impl;
 
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.dto.AdminUserDto;
+import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.mapper.UserMapper;

@@ -10,17 +10,23 @@ import lombok.Data;
  */
 @Data
 public class FileUrlVo {
-    private String IpPort;
-    private String FilePath;
-    private String Path;
+    private String ipPort;
+    private String filePath;
+    private String path;
     private String fileName;
 
     public String getPath() {
-        String path = getIpPort() + getFilePath();
-        return path == null ? null : path;
+        if (getIpPort() == null || getFilePath() == null) {
+            return null;
+        } else {
+            return getIpPort() + getFilePath();
+        }
     }
 
     public String getFileName() {
-        return FilePath.substring(Constant.PART_PATH.length() + Constant.UUID_LENGTH);
+        return filePath == null ? null : filePath.substring(Constant.PART_PATH.length() + Constant.UUID_LENGTH);
+    }
+
+    public FileUrlVo() {
     }
 }

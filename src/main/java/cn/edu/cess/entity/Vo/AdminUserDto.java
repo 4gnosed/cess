@@ -1,4 +1,4 @@
-package cn.edu.cess.dto;
+package cn.edu.cess.entity.Vo;
 
 import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.admin.AdminRole;

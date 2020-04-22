@@ -2,20 +2,16 @@ package cn.edu.cess.controller;
 
 import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.dto.LoginUserDto;
+import cn.edu.cess.entity.Vo.LoginUserDto;
 import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.Vo.UserVo;
 import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
-import cn.edu.cess.entity.content.student.Student;
-import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
-import cn.edu.cess.service.content.student.IStudentService;
-import cn.edu.cess.service.content.student.IUserStudentService;
 import cn.edu.cess.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -27,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
