@@ -5,6 +5,7 @@ import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.content.student.Resume;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import cn.edu.cess.service.content.student.IResumePositionsService;
 import cn.edu.cess.service.content.student.IResumeService;
 import cn.edu.cess.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class ResumeController extends AbstractClass {
 
     @Autowired
     IResumeService iResumeService;
+
+    @Autowired
+    IResumePositionsService iResumePositionsService;
 
     /**
      * 简历附件
@@ -62,8 +66,10 @@ public class ResumeController extends AbstractClass {
     }
 
     @PostMapping("")
-    public Result addResume(@RequestParam(value = "userId") Integer userId, @RequestBody Resume resume) {
-        iResumeService.addResume(userId, resume);
+    public Result addResume(@RequestParam(value = "userId") Integer userId,
+                            @RequestParam(value = "positionId") Integer positionId, @RequestBody Resume resume) {
+        Integer rid = iResumeService.addResume(userId, resume);
+        iResumePositionsService.save(positionId, rid);
         return ResultFactory.buildSuccessResult("");
     }
 

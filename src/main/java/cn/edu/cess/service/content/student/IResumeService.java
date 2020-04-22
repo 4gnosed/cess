@@ -22,7 +22,7 @@ public interface IResumeService extends IService<Resume> {
 
     Resume getCompleteResumeByUid(Integer userId, HttpServletRequest request);
 
-    void addResume(Integer userId, Resume resume);
+    Integer addResume(Integer userId, Resume resume);
 
     boolean updateResume(Integer userId, Resume resume);
 }

@@ -2,8 +2,7 @@ package cn.edu.cess.service.content.student.impl;
 
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.FileUrlVo;
-import cn.edu.cess.entity.content.student.Resume;
-import cn.edu.cess.entity.content.student.UserResume;
+import cn.edu.cess.entity.content.student.*;
 import cn.edu.cess.mapper.content.student.ResumeMapper;
 import cn.edu.cess.service.content.student.*;
 import cn.edu.cess.util.FileUploadUtil;
@@ -14,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -48,16 +49,22 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
             resume.setFilePath(filePath);
             save(resume);
             resume = getByFilePath(filePath);
-            userResume = new UserResume();
-            userResume.setUid(userId);
-            userResume.setRid(resume.getId());
-            userResume.setEnabled(true);
-            iUserResumeService.save(userResume);
+            Integer rid = resume.getId();
+            saveUserResume(userId, rid);
         } else {
             //之前已经保存过简历（包括只保存附件、只保存非附件信息、都保存两者三种情况），不管附件存在与否，直接更新
             Integer rid = userResume.getRid();
             updateFilePath(filePath, rid);
         }
+    }
+
+    public void saveUserResume(Integer userId, Integer rid) {
+        UserResume userResume;
+        userResume = new UserResume();
+        userResume.setUid(userId);
+        userResume.setRid(rid);
+        userResume.setEnabled(true);
+        iUserResumeService.save(userResume);
     }
 
     public void updateFilePath(String filePath, Integer rid) {
@@ -73,7 +80,8 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
     }
 
     public Resume getPreResumeByUid(Integer userId) {
-        return getById(getUserResume(userId).getRid());
+        UserResume userResume = getUserResume(userId);
+        return userResume == null ? null : getById(userResume.getRid());
     }
 
     public Resume getByFilePath(String filePath) {
@@ -95,18 +103,36 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
     @Override
     public Resume getCompleteResumeByUid(Integer userId, HttpServletRequest request) {
         Resume resume = getPreResumeByUid(userId);
-        resume.setFileUrlVo(getFileUrlVo(userId, request));
-        Integer rid = resume.getId();
-        resume.setExperienceProject(iExperienceProjectService.getByResumeId(rid));
-        resume.setExperienceWork(iExperienceWorkService.getByResumeId(rid));
-        resume.setExperienceTrain(iExperienceTrainService.getByResumeId(rid));
-        resume.setExperienceCertificateList(iExperienceCertificateService.getByResumeId(rid));
-        resume.setExperienceSkillList(iExperienceSkillService.getByResumeId(rid));
+        FileUrlVo fileUrlVo = new FileUrlVo();
+        ExperienceProject experienceProject = new ExperienceProject();
+        ExperienceWork experienceWork = new ExperienceWork();
+        ExperienceTrain experienceTrain = new ExperienceTrain();
+        List<ExperienceCertificate> experienceCertificateList = new ArrayList<>();
+        List<ExperienceSkill> experienceSkillList = new ArrayList<>();
+
+        if (resume == null) {
+            resume = new Resume();
+        } else {
+            fileUrlVo = getFileUrlVo(userId, request);
+            Integer rid = resume.getId();
+            experienceProject = iExperienceProjectService.getByResumeId(rid);
+            experienceWork = iExperienceWorkService.getByResumeId(rid);
+            experienceTrain = iExperienceTrainService.getByResumeId(rid);
+            experienceCertificateList = iExperienceCertificateService.getByResumeId(rid);
+            experienceSkillList = iExperienceSkillService.getByResumeId(rid);
+        }
+
+        resume.setFileUrlVo(fileUrlVo);
+        resume.setExperienceProject(experienceProject);
+        resume.setExperienceWork(experienceWork);
+        resume.setExperienceTrain(experienceTrain);
+        resume.setExperienceCertificateList(experienceCertificateList);
+        resume.setExperienceSkillList(experienceSkillList);
         return resume;
     }
 
     @Override
-    public void addResume(Integer userId, Resume resume) {
+    public Integer addResume(Integer userId, Resume resume) {
         Resume resumeSaved = getPreResumeByUid(userId);
         Integer rid = null;
         if (resumeSaved != null) {
@@ -118,10 +144,7 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
             //之前还未保存过简历
             save(resume);
             rid = getBySelfEvaluation(resume.getSelfEvaluation()).getId();
-            UserResume userResume = new UserResume();
-            userResume.setUid(userId);
-            userResume.setRid(rid);
-            iUserResumeService.save(userResume);
+            saveUserResume(userId, rid);
         }
         //保存简历其它内容
         iExperienceProjectService.add(rid, resume.getExperienceProject());
@@ -129,6 +152,7 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         iExperienceTrainService.add(rid, resume.getExperienceTrain());
 //        iExperienceCertificateService.add(rid, resume.getExperienceCertificateList());
 //        iExperienceSkillService.add(rid, resume.getExperienceSkillList());
+        return rid;
     }
 
     @Override
