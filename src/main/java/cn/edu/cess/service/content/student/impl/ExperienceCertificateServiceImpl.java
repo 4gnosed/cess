@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Gnosed Lu
@@ -23,6 +23,6 @@ public class ExperienceCertificateServiceImpl extends ServiceImpl<ExperienceCert
     @Override
     public List<ExperienceCertificate> getByResumeId(Integer rid) {
         ArrayList<ExperienceCertificate> experienceCertificates = new ArrayList<>();
-        return  experienceCertificates.size()==0 ? null : experienceCertificates;
+        return experienceCertificates;
     }
 }

@@ -7,6 +7,7 @@ import cn.edu.cess.mapper.content.student.ExperienceWorkMapper;
 import cn.edu.cess.service.content.student.IExperienceWorkService;
 import cn.edu.cess.service.content.student.IResumeWorkService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class ExperienceWorkServiceImpl extends ServiceImpl<ExperienceWorkMapper,
         QueryWrapper<ResumeWork> q = new QueryWrapper<>();
         q.eq(Constant.RID, rid);
         ResumeWork resumeWork = iResumeWorkService.getOne(q);
-        return resumeWork == null ? null : getById(resumeWork.getWid());
+        return resumeWork == null ? new ExperienceWork() : getById(resumeWork.getWid());
     }
 
     @Override
@@ -41,6 +42,23 @@ public class ExperienceWorkServiceImpl extends ServiceImpl<ExperienceWorkMapper,
         resumeWork.setRid(rid);
         resumeWork.setWid(wid);
         iResumeWorkService.save(resumeWork);
+    }
+
+    @Override
+    public boolean update(Integer rid, ExperienceWork experienceWork) {
+        //验证匹配
+        Integer wid = experienceWork.getId();
+        Integer wid1 = getByResumeId(rid).getId();
+        if (wid1 == null) {
+            add(rid, experienceWork);
+        } else if (wid1 == wid) {
+            UpdateWrapper<ExperienceWork> u = new UpdateWrapper<>();
+            u.eq(Constant.ID, wid);
+            update(experienceWork, u);
+        } else {
+            return false;
+        }
+        return true;
     }
 
 

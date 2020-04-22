@@ -7,6 +7,7 @@ import cn.edu.cess.mapper.content.student.ExperienceProjectMapper;
 import cn.edu.cess.service.content.student.IExperienceProjectService;
 import cn.edu.cess.service.content.student.IResumeProjectService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class ExperienceProjectServiceImpl extends ServiceImpl<ExperienceProjectM
         QueryWrapper<ResumeProject> rpQueryWrapper = new QueryWrapper<>();
         rpQueryWrapper.eq(Constant.RID, rid);
         ResumeProject resumeProject = iResumeProjectService.getOne(rpQueryWrapper);
-        return resumeProject == null ? null : getById(resumeProject.getPid());
+        return resumeProject == null ? new ExperienceProject() : getById(resumeProject.getPid());
     }
 
     @Override
@@ -41,6 +42,23 @@ public class ExperienceProjectServiceImpl extends ServiceImpl<ExperienceProjectM
         resumeProject.setRid(rid);
         resumeProject.setPid(pid);
         iResumeProjectService.save(resumeProject);
+    }
+
+    @Override
+    public boolean update(Integer rid, ExperienceProject experienceProject) {
+        //验证匹配
+        Integer pid = experienceProject.getId();
+        Integer pid1 = getByResumeId(rid).getId();
+        if (pid1 == null) {
+            add(rid, experienceProject);
+        } else if (pid1 == pid) {
+            UpdateWrapper<ExperienceProject> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq(Constant.ID, pid);
+            update(experienceProject, updateWrapper);
+        } else {
+            return false;
+        }
+        return true;
     }
 
     public ExperienceProject getByName(String name) {

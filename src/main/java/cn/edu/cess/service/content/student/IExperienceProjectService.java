@@ -16,4 +16,6 @@ public interface IExperienceProjectService extends IService<ExperienceProject> {
     ExperienceProject getByResumeId(Integer rid);
 
     void add(Integer rid, ExperienceProject experienceProject);
+
+    boolean update(Integer rid, ExperienceProject experienceProject);
 }

@@ -7,6 +7,7 @@ import cn.edu.cess.mapper.content.student.ExperienceTrainMapper;
 import cn.edu.cess.service.content.student.IExperienceTrainService;
 import cn.edu.cess.service.content.student.IResumeTrainService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class ExperienceTrainServiceImpl extends ServiceImpl<ExperienceTrainMappe
         QueryWrapper<ResumeTrain> q = new QueryWrapper<>();
         q.eq(Constant.RID, rid);
         ResumeTrain resumeTrain = iResumeTrainService.getOne(q);
-        return resumeTrain == null ? null : getById(resumeTrain.getTid());
+        return resumeTrain == null ? new ExperienceTrain() : getById(resumeTrain.getTid());
     }
 
     @Override
@@ -41,6 +42,22 @@ public class ExperienceTrainServiceImpl extends ServiceImpl<ExperienceTrainMappe
         resumeTrain.setRid(rid);
         resumeTrain.setTid(tid);
         iResumeTrainService.save(resumeTrain);
+    }
+
+    @Override
+    public boolean update(Integer rid, ExperienceTrain experienceTrain) {
+        Integer tid = experienceTrain.getId();
+        Integer tid1 = getByResumeId(rid).getId();
+        if (tid1 == null) {
+            add(rid, experienceTrain);
+        } else if (tid1 == tid) {
+            UpdateWrapper<ExperienceTrain> u = new UpdateWrapper<>();
+            u.eq(Constant.ID, tid);
+            saveOrUpdate(experienceTrain, u);
+        } else {
+            return false;
+        }
+        return true;
     }
 
     private ExperienceTrain getByOrganization(String organization) {

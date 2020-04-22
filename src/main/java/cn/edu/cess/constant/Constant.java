@@ -50,4 +50,5 @@ public class Constant {
     public static final String DESCRIPTION = "description";
     public static final String ENTERPRISE_NAME = "enterprise_name";
     public static final String ORGANIZATION = "organization";
+    public static final String REMARK = "remark";
 }

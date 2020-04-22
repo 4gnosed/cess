@@ -107,13 +107,13 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
 
     @Override
     public void addResume(Integer userId, Resume resume) {
-        Resume resumeHaved = getPreResumeByUid(userId);
+        Resume resumeSaved = getPreResumeByUid(userId);
         Integer rid = null;
-        if (resumeHaved != null) {
+        if (resumeSaved != null) {
             //之前已经保存过简历（包括只保存附件、只保存非附件信息、都保存两者三种情况）
-            rid = resumeHaved.getId();
+            rid = resumeSaved.getId();
             //直接更新更新
-            updateFilePath(resumeHaved.getFilePath(), rid);
+            updateFilePath(resumeSaved.getFilePath(), rid);
         } else {
             //之前还未保存过简历
             save(resume);
@@ -129,6 +129,32 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         iExperienceTrainService.add(rid, resume.getExperienceTrain());
 //        iExperienceCertificateService.add(rid, resume.getExperienceCertificateList());
 //        iExperienceSkillService.add(rid, resume.getExperienceSkillList());
+    }
+
+    @Override
+    public boolean updateResume(Integer userId, Resume resume) {
+        //验证用户简历是否匹配
+        Resume resumeSaved = getPreResumeByUid(userId);
+        if (resumeSaved.getId() != resume.getId()) {
+            return false;
+        }
+        Integer rid = resume.getId();
+        UpdateWrapper<Resume> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq(Constant.ID, rid)
+                .set(Constant.SELF_EVALUATION, resume.getSelfEvaluation())
+                .set(Constant.REMARK, resume.getRemark());
+        update(updateWrapper);
+        //更新其它内容
+        boolean b1 = iExperienceProjectService.update(rid, resume.getExperienceProject());
+        boolean b2 = iExperienceWorkService.update(rid, resume.getExperienceWork());
+        boolean b3 = iExperienceTrainService.update(rid, resume.getExperienceTrain());
+//        iExperienceCertificateService.saveOrUpdate(rid, resume.getExperienceCertificateList());
+//        iExperienceSkillService.saveOrUpdate(rid, resume.getExperienceSkillList());
+        if (b1 && b2 && b3) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private Resume getBySelfEvaluation(String selfEvaluation) {

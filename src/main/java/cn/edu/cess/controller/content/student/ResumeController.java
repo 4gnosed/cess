@@ -34,7 +34,7 @@ public class ResumeController extends AbstractClass {
      * 简历附件
      */
     @PostMapping("/file")
-    public synchronized Result saveResumeFile(@RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
+    public Result saveResumeFile(@RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
         if (userId == null) {
             return ResultFactory.buildFailResult("无用户操作");
         }
@@ -69,7 +69,11 @@ public class ResumeController extends AbstractClass {
 
     @PutMapping("")
     public Result updateResume(@RequestParam(value = "userId") Integer userId, @RequestBody Resume resume) {
-        return ResultFactory.buildSuccessResult("");
+        if (iResumeService.updateResume(userId, resume)) {
+            return ResultFactory.buildSuccessResult("");
+        } else {
+            return ResultFactory.buildFailResult("更新失败");
+        }
     }
 
 }

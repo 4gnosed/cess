@@ -16,4 +16,6 @@ public interface IExperienceTrainService extends IService<ExperienceTrain> {
     ExperienceTrain getByResumeId(Integer rid);
 
     void add(Integer rid, ExperienceTrain experienceTrain);
+
+    boolean update(Integer rid, ExperienceTrain experienceTrain);
 }

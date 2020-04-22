@@ -23,6 +23,6 @@ public class ExperienceSkillServiceImpl extends ServiceImpl<ExperienceSkillMappe
     @Override
     public List<ExperienceSkill> getByResumeId(Integer rid) {
         ArrayList<ExperienceSkill> experienceSkills = new ArrayList<>();
-        return experienceSkills.size() == 0 ? null : experienceSkills;
+        return experienceSkills;
     }
 }
