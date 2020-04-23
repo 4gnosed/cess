@@ -65,9 +65,30 @@ public class ResumeController extends AbstractClass {
         return ResultFactory.buildSuccessResult(iResumeService.getCompleteResumeByUid(userId, request));
     }
 
+    /**
+     * 个人中心模块的添加简历接口
+     *
+     * @param userId
+     * @param resume
+     * @return
+     */
+    @PostMapping("/personCenter")
+    public Result addResumeInPersonCenter(@RequestParam(value = "userId") Integer userId, @RequestBody Resume resume) {
+        iResumeService.addResume(userId, resume);
+        return ResultFactory.buildSuccessResult("");
+    }
+
+    /**
+     * 求职模块的添加简历接口
+     *
+     * @param userId
+     * @param positionId
+     * @param resume
+     * @return
+     */
     @PostMapping("")
-    public Result addResume(@RequestParam(value = "userId") Integer userId,
-                            @RequestParam(value = "positionId") Integer positionId, @RequestBody Resume resume) {
+    public Result addResumeInPositions(@RequestParam(value = "userId") Integer userId,
+                                       @RequestParam(value = "positionId") Integer positionId, @RequestBody Resume resume) {
         Integer rid = iResumeService.addResume(userId, resume);
         iResumePositionsService.save(positionId, rid);
         return ResultFactory.buildSuccessResult("");

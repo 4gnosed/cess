@@ -38,7 +38,7 @@ public class ExperienceSkill implements Serializable {
      * 掌握程度id
      */
     @TableField("level_id")
-    private String levelId;
+    private Integer levelId;
 
 
 }
