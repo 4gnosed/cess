@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -36,7 +37,7 @@ public class ExperienceCertificate implements Serializable {
      */
     @TableField("get_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate getDate;
+    private Date getDate;
 
     /**
      * 证书名称

@@ -29,7 +29,7 @@ public class ExperienceWorkServiceImpl extends ServiceImpl<ExperienceWorkMapper,
     @Override
     public ExperienceWork getByResumeId(Integer rid) {
         QueryWrapper<ResumeWork> q = new QueryWrapper<>();
-        q.eq(Constant.RID, rid);
+        q.eq(Constant.RID, rid).last("LIMIT 1");
         ResumeWork resumeWork = iResumeWorkService.getOne(q);
         return resumeWork == null ? new ExperienceWork() : getById(resumeWork.getWid());
     }

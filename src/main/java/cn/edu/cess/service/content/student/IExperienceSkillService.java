@@ -16,4 +16,8 @@ import java.util.List;
 public interface IExperienceSkillService extends IService<ExperienceSkill> {
 
     List<ExperienceSkill> getByResumeId(Integer rid);
+
+    void add(Integer rid, List<ExperienceSkill> experienceSkillList);
+
+    boolean update(Integer rid, List<ExperienceSkill> experienceSkillList);
 }

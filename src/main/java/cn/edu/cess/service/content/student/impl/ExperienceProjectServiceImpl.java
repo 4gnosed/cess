@@ -29,7 +29,7 @@ public class ExperienceProjectServiceImpl extends ServiceImpl<ExperienceProjectM
     @Override
     public ExperienceProject getByResumeId(Integer rid) {
         QueryWrapper<ResumeProject> rpQueryWrapper = new QueryWrapper<>();
-        rpQueryWrapper.eq(Constant.RID, rid);
+        rpQueryWrapper.eq(Constant.RID, rid).last("LIMIT 1");
         ResumeProject resumeProject = iResumeProjectService.getOne(rpQueryWrapper);
         return resumeProject == null ? new ExperienceProject() : getById(resumeProject.getPid());
     }

@@ -29,7 +29,7 @@ public class ExperienceTrainServiceImpl extends ServiceImpl<ExperienceTrainMappe
     @Override
     public ExperienceTrain getByResumeId(Integer rid) {
         QueryWrapper<ResumeTrain> q = new QueryWrapper<>();
-        q.eq(Constant.RID, rid);
+        q.eq(Constant.RID, rid).last("LIMIT 1");
         ResumeTrain resumeTrain = iResumeTrainService.getOne(q);
         return resumeTrain == null ? new ExperienceTrain() : getById(resumeTrain.getTid());
     }
@@ -53,7 +53,7 @@ public class ExperienceTrainServiceImpl extends ServiceImpl<ExperienceTrainMappe
         } else if (tid1 == tid) {
             UpdateWrapper<ExperienceTrain> u = new UpdateWrapper<>();
             u.eq(Constant.ID, tid);
-            saveOrUpdate(experienceTrain, u);
+            update(experienceTrain, u);
         } else {
             return false;
         }

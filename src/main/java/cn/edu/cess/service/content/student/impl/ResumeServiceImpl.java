@@ -150,8 +150,8 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         iExperienceProjectService.add(rid, resume.getExperienceProject());
         iExperienceWorkService.add(rid, resume.getExperienceWork());
         iExperienceTrainService.add(rid, resume.getExperienceTrain());
-//        iExperienceCertificateService.add(rid, resume.getExperienceCertificateList());
-//        iExperienceSkillService.add(rid, resume.getExperienceSkillList());
+        iExperienceCertificateService.add(rid, resume.getExperienceCertificateList());
+        iExperienceSkillService.add(rid, resume.getExperienceSkillList());
         return rid;
     }
 
@@ -172,9 +172,9 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         boolean b1 = iExperienceProjectService.update(rid, resume.getExperienceProject());
         boolean b2 = iExperienceWorkService.update(rid, resume.getExperienceWork());
         boolean b3 = iExperienceTrainService.update(rid, resume.getExperienceTrain());
-//        iExperienceCertificateService.saveOrUpdate(rid, resume.getExperienceCertificateList());
-//        iExperienceSkillService.saveOrUpdate(rid, resume.getExperienceSkillList());
-        if (b1 && b2 && b3) {
+        boolean b4 = iExperienceCertificateService.update(rid, resume.getExperienceCertificateList());
+        boolean b5 = iExperienceSkillService.update(rid, resume.getExperienceSkillList());
+        if (b1 && b2 && b3 && b4 && b5) {
             return true;
         } else {
             return false;

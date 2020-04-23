@@ -16,4 +16,8 @@ import java.util.List;
 public interface IExperienceCertificateService extends IService<ExperienceCertificate> {
 
     List<ExperienceCertificate> getByResumeId(Integer rid);
+
+    void add(Integer rid, List<ExperienceCertificate> experienceCertificateList);
+
+    boolean update(Integer rid, List<ExperienceCertificate> experienceCertificateList);
 }
