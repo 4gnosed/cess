@@ -136,8 +136,8 @@ public class LoginController extends AbstractClass {
      * @return
      */
     @GetMapping("/authentication")
-    public String authentication() {
-        return "身份认证成功";
+    public Result authentication() {
+        return ResultFactory.buildSuccessResult("");
     }
 
     /**
