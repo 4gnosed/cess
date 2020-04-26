@@ -38,13 +38,6 @@ public class URLPathMatchingFilter extends PathMatchingFilter {
         String requestAPI = getPathWithinApplication(request);
         logger.info("访问接口：" + requestAPI);
 
-        Subject subject = SecurityUtils.getSubject();
-
-        if (!subject.isAuthenticated()) {
-            logger.info("需要登录");
-            return false;
-        }
-
         // 判断访问接口是否需要过滤（数据库中是否有对应信息）
         boolean needFilter = iAdminPermissionService.needFilter(requestAPI);
         if (!needFilter) {
@@ -54,6 +47,7 @@ public class URLPathMatchingFilter extends PathMatchingFilter {
             logger.info("验证访问权限：" + requestAPI);
             // 判断当前用户是否有相应权限
             boolean hasPermission = false;
+            Subject subject = SecurityUtils.getSubject();
             String username = subject.getPrincipal().toString();
             Set<String> permissionAPIs = iAdminPermissionService.listPermissionURLsByUser(username);
             for (String api : permissionAPIs) {

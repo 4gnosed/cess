@@ -14,8 +14,7 @@ import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
 import cn.edu.cess.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
@@ -41,20 +40,15 @@ public class LoginController extends AbstractClass {
      * 再根据我们在配置类里定义的 CredentialsMatcher（HashedCredentialsMatcher）
      *
      * @param requestUser
-     * @param session
      * @return
      */
     @PostMapping(value = "/login")
-    public Result login(@RequestBody User requestUser, HttpSession session) {
+    public Result login(@RequestBody() User requestUser) {
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
-        if (StringUtil.isEmpty(username, password)) {
-            String message = "账号或密码为空";
-            return ResultFactory.buildFailResult(message);
-        }
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        token.setRememberMe(true);
+        token.setRememberMe(requestUser.isRememberMe());
         try {
             subject.login(token);
             if (!iUserService.isEnable(username)) {
@@ -69,9 +63,23 @@ public class LoginController extends AbstractClass {
             user.setRole(role.getNameZh());
             user.setRoleId(roleId);
             return ResultFactory.buildSuccessResult(user);
-        } catch (AuthenticationException e) {
-            String message = "账号或密码错误";
-            return ResultFactory.buildFailResult(message);
+        } catch (UnknownAccountException uae) {
+            //username wasn't in the system, show them an error message?
+            return ResultFactory.buildFailResult("账号或密码错误");
+        } catch (IncorrectCredentialsException ice) {
+            //password didn't match, try again?
+            return ResultFactory.buildFailResult("凭证错误");
+        } catch (ExpiredCredentialsException ece) {
+            return ResultFactory.buildFailResult("凭证已过期");
+        } catch (LockedAccountException lae) {
+            //account for that username is locked - can't login.  Show them a message?
+            return ResultFactory.buildFailResult("账号被锁定");
+        } catch (DisabledAccountException dae) {
+            return ResultFactory.buildFailResult("账号被禁用");
+        } catch (ConcurrentAccessException cae) {
+            return ResultFactory.buildFailResult("并发访问异常");
+        } catch (ExcessiveAttemptsException eae) {
+            return ResultFactory.buildFailResult("认证次数超过限制");
         }
     }
 
@@ -89,10 +97,6 @@ public class LoginController extends AbstractClass {
         String phone = loginUserDto.getPhone();
         String email = loginUserDto.getEmail();
         int role = loginUserDto.getRole();
-        if (StringUtil.isEmpty(username, password)) {
-            String message = "用户名或密码为空，注册失败";
-            return ResultFactory.buildFailResult(message);
-        }
         if (iUserService.isExist(username)) {
             String message = "用户名已被占用";
             return ResultFactory.buildFailResult(message);
@@ -131,13 +135,19 @@ public class LoginController extends AbstractClass {
     }
 
     /**
-     * 用作页面的拦截
+     * 用作页面的拦截，验证用户登录状态
      *
      * @return
      */
     @GetMapping("/authentication")
     public Result authentication() {
-        return ResultFactory.buildSuccessResult("");
+        Subject subject = SecurityUtils.getSubject();
+
+        if (subject.isAuthenticated()) {
+            return ResultFactory.buildSuccessResult("");
+        } else {
+            return ResultFactory.buildFailResult("请重新登录");
+        }
     }
 
     /**
@@ -155,7 +165,7 @@ public class LoginController extends AbstractClass {
             subject.login(token);
             String salt = new SecureRandomNumberGenerator().nextBytes().toString();
             String encodedPassword = new SimpleHash(Constant.MD_5, newPassword, salt, Constant.HASH_ITERATIONS).toString();
-            iUserService.updatePassword(salt,username, encodedPassword);
+            iUserService.updatePassword(salt, username, encodedPassword);
             return ResultFactory.buildSuccessResult("密码修改成功");
         } catch (AuthenticationException e) {
             return ResultFactory.buildFailResult("密码错误，修改失败");

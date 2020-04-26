@@ -27,4 +27,6 @@ public class User {
     private int roleId;
     @TableField(exist = false)
     private String role;
+    @TableField(exist = false)
+    private boolean rememberMe;
 }

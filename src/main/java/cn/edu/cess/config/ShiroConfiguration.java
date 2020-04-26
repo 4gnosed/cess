@@ -97,7 +97,9 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        shiroFilterFactoryBean.setLoginUrl("/nowhere");
+        shiroFilterFactoryBean.setLoginUrl("/login");
+//        shiroFilterFactoryBean.setSuccessUrl("/index");
+//        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorizedurl");
 
         Map<String, Filter> customizedFilter = new HashMap<>();  // 自定义过滤器设置 1
         customizedFilter.put("customizedFilter", getURLPathMatchingFilter()); // 自定义过滤器设置 2，命名，需在设置过滤路径前

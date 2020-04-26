@@ -12,7 +12,7 @@ public class Constant {
     public static final String LAST_LOGIN = "last_login";
     public static final int HASH_ITERATIONS = 3;
     public static final String MD_5 = "md5";
-    public static final int MAX_AGE = 3600 * 3;
+    public static final int MAX_AGE = 3600 * 72;
     public static final String REMEMBER_ME = "rememberMe";
     public static final String GNOSED_CIPHER_KEY = "GNOSED_CIPHERKEY";
     public static final String UID = "uid";
