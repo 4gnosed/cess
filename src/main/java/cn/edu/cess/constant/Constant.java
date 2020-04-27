@@ -51,4 +51,7 @@ public class Constant {
     public static final String ENTERPRISE_NAME = "enterprise_name";
     public static final String ORGANIZATION = "organization";
     public static final String REMARK = "remark";
+    public static final String RECEIVER_UID = "receiver_uid";
+    public static final String SENDER_UID = "sender_uid";
+    public static final String STATUS = "status";
 }

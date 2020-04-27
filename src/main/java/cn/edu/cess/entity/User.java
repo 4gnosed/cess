@@ -1,6 +1,7 @@
 package cn.edu.cess.entity;
 
 import cn.edu.cess.entity.content.student.Student;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,7 +13,7 @@ import java.util.Date;
 @Data
 @TableName("user")
 public class User {
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     int id;
     private String username;
     private String password;
