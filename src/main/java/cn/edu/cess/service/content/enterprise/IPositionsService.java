@@ -18,4 +18,6 @@ public interface IPositionsService extends IService<Positions> {
 
     ResultPage getByPage(Integer page, Integer size, String keywords, Integer experienceId,
                          Integer degreeId, Integer salaryId, Integer financeId, Integer scaleId);
+
+    Integer getUserByPid(Integer positionId);
 }

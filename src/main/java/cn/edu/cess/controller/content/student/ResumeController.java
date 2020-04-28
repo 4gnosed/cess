@@ -5,6 +5,7 @@ import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.content.student.Resume;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import cn.edu.cess.service.IMessageService;
 import cn.edu.cess.service.content.student.IResumePositionsService;
 import cn.edu.cess.service.content.student.IResumeService;
 import cn.edu.cess.util.FileUploadUtil;
@@ -33,6 +34,9 @@ public class ResumeController extends AbstractClass {
 
     @Autowired
     IResumePositionsService iResumePositionsService;
+
+    @Autowired
+    IMessageService iMessageService;
 
     /**
      * 简历附件
@@ -90,8 +94,22 @@ public class ResumeController extends AbstractClass {
     public Result addResumeInPositions(@RequestParam(value = "userId") Integer userId,
                                        @RequestParam(value = "positionId") Integer positionId, @RequestBody Resume resume) {
         Integer rid = iResumeService.addResume(userId, resume);
-        iResumePositionsService.save(positionId, rid);
         return ResultFactory.buildSuccessResult("");
+    }
+
+    @PostMapping("/send")
+    public Result sendResume(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "positionId") Integer positionId,
+                             @RequestParam(value = "rid") Integer rid) {
+        //保存简历-职位关系
+        iResumePositionsService.save(positionId, rid);
+        //发送投递消息，消息-职位的多对多关系
+        boolean isSended = iMessageService.sendMessage(userId, positionId);
+        //已经投递过
+        if (isSended) {
+            return ResultFactory.buildFailResult("您已经投递过");
+        } else {
+            return ResultFactory.buildSuccessResult("");
+        }
     }
 
     @PutMapping("")

@@ -4,6 +4,7 @@ import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.EnterprisePositions;
 import cn.edu.cess.entity.content.enterprise.Positions;
+import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.mapper.content.enterprise.PositionsMapper;
 import cn.edu.cess.result.ResultPage;
 import cn.edu.cess.service.content.enterprise.IEnterprisePositionsService;
@@ -114,9 +115,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         positionsSet.addAll(posPage.getRecords());
 
         for (Positions pos : positionsSet) {
-            epQueryWrapper.clear();
-            epQueryWrapper.eq(Constant.PID, pos.getId()).last("LIMIT 1");
-            Integer eid = iEnterprisePositionsService.getOne(epQueryWrapper).getEid();
+            Integer eid = getEnterpriseId(epQueryWrapper, pos.getId());
             //职位(企业)所属用户id
             pos.setEnterpriseId(eid);
             //职位所属企业id
@@ -126,6 +125,19 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         resultPage.setData(positionsSet);
         resultPage.setTotal(posPage.getTotal());
         return resultPage;
+    }
+
+    public Integer getEnterpriseId(QueryWrapper<EnterprisePositions> epQueryWrapper, Integer positionId) {
+        epQueryWrapper.clear();
+        epQueryWrapper.eq(Constant.PID, positionId).last("LIMIT 1");
+        return iEnterprisePositionsService.getOne(epQueryWrapper).getEid();
+    }
+
+    @Override
+    public Integer getUserByPid(Integer positionId) {
+        Integer eid = getEnterpriseId(new QueryWrapper<EnterprisePositions>(), positionId);
+        Integer uid = iUserEnterpriseService.getByEid(eid).getUid();
+        return uid;
     }
 
     public Set<Positions> positionsFilter(Set<Positions> positionsSet, String column, Integer value) {

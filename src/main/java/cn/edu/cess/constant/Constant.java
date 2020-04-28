@@ -54,4 +54,7 @@ public class Constant {
     public static final String RECEIVER_UID = "receiver_uid";
     public static final String SENDER_UID = "sender_uid";
     public static final String STATUS = "status";
+    public static final String SEND_RESUME_TITLE = "-投递简历-";
+    public static final String SEND_RESUME_CONTENT = "投递了您的职位，希望能得到贵公司的回复！";
+    public static final String TITLE = "title";
 }
