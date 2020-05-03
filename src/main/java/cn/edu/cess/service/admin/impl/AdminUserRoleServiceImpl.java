@@ -39,7 +39,7 @@ public class AdminUserRoleServiceImpl extends ServiceImpl<AdminUserRoleMapper, A
 
     @Override
     public List<AdminUserRole> getUserRoleByUsername(String username) {
-        User user = iUserService.getByName(username);
+        User user = iUserService.getByUsername(username);
         return getUserRoleByUid(user.getId());
     }
 

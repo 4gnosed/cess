@@ -71,6 +71,15 @@ public class DateTimeUtils {
         String systemDate = DateTimeUtils.getSystemDate();
         return stringToDate(systemDate, defaultDateFormatStr);
     }
+    /**
+     * 取得系统日期，格式为yyyy-MM-dd HH:mm:ss
+     *
+     * @return
+     */
+    public static Date getCurrentTime() {
+        String systemTime = DateTimeUtils.getSystemTime();
+        return stringToDate(systemTime, defaultTimeFormatStr);
+    }
 
     /**
      * 取得系统时间，日期格式为yyyyMMddHHmmss

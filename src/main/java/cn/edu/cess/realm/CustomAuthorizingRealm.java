@@ -44,7 +44,7 @@ public class CustomAuthorizingRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = token.getPrincipal().toString();
-        User user = iUserService.getByName(username);
+        User user = iUserService.getByUsername(username);
         if (user == null) return null;
         String encodedPassword = user.getPassword();
         String salt = user.getSalt();

@@ -56,6 +56,9 @@ public class Constant {
     public static final String STATUS = "status";
     public static final String SEND_RESUME_TITLE = "-投递简历-";
     public static final String SEND_RESUME_CONTENT = "投递了您的职位，希望能得到贵公司的回复！";
+    public static final String SEND_CHECK_TITLE = "-审核结果-";
+    public static final String SEND_PASS_CHECK_CONTENT = "您的申请已通过审核，可以开始使用招聘职位等功能！";
+    public static final String SEND_NO_PASS_CHECK_CONTENT = "您的申请未通过审核，请与相关工作人员联系！";
     public static final String TITLE = "title";
     public static final String TALK_DATE = "talk_date";
 }

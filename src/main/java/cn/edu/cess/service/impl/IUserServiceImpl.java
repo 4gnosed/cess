@@ -5,10 +5,12 @@ import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.admin.AdminUserRole;
+import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.mapper.UserMapper;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
+import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import cn.edu.cess.util.DateTimeUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -32,6 +34,8 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     IAdminUserRoleService iAdminUserRoleService;
     @Autowired
     IAdminRoleService iAdminRoleService;
+    @Autowired
+    IUserEnterpriseService iUserEnterpriseService;
 
     @Override
     public User list(String username, String password) {
@@ -41,7 +45,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
-    public User getByName(String username) {
+    public User getByUsername(String username) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
         queryWrapper.eq(Constant.USERNAME, username);
         return getUser(username, queryWrapper);
@@ -50,7 +54,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     @Override
     public int add(User user) {
         save(user);
-        User userSaved = getByName(user.getUsername());
+        User userSaved = getByUsername(user.getUsername());
         return userSaved.getId();
     }
 
@@ -86,7 +90,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
 
     @Override
     public String resetPassword(String username) {
-        User user = getByName(username);
+        User user = getByUsername(username);
         String salt = new SecureRandomNumberGenerator().nextBytes().toString();
         String encodedPassword = new SimpleHash(Constant.MD_5, Constant.DEFAULT_PASSWORD, salt, Constant.HASH_ITERATIONS).toString();
         user.setSalt(salt);
@@ -149,7 +153,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
 
     @Override
     public boolean isEnable(String username) {
-        return getByName(username).getEnabled();
+        return getByUsername(username).getEnabled();
     }
 
     @Override
@@ -157,5 +161,11 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq(Constant.USERNAME, username).set(Constant.PASSWORD, newPassword).set(Constant.SALT, salt);
         update(updateWrapper);
+    }
+
+    @Override
+    public User getByEid(int eid) {
+        UserEnterprise userEnterprise = iUserEnterpriseService.getByEid(eid);
+        return getById(userEnterprise.getUid());
     }
 }

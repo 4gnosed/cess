@@ -12,7 +12,6 @@ import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
-import cn.edu.cess.util.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -20,8 +19,6 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api")
@@ -57,7 +54,7 @@ public class LoginController extends AbstractClass {
             iUserService.updateLastLogin(username);
             AdminRole role = iAdminRoleService.listRoleByUsername(username).get(0);
             Integer roleId = role.getId();
-            User user = iUserService.getByName(username);
+            User user = iUserService.getByUsername(username);
             user.setPassword("");
             user.setSalt("");
             user.setRole(role.getNameZh());

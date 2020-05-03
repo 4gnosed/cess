@@ -44,7 +44,7 @@ public class AdminMenuServiceImpl extends ServiceImpl<AdminMenuMapper, AdminMenu
         List<AdminMenu> menus = new ArrayList<>();
         QueryWrapper<AdminMenu> queryWrapper;
         String username = SecurityUtils.getSubject().getPrincipal().toString();
-        User user = iUserService.getByName(username);
+        User user = iUserService.getByUsername(username);
         List<AdminUserRole> adminUserRoles = iAdminUserRoleService.getUserRoleByUid(user.getId());
         for (AdminUserRole userRole : adminUserRoles) {
             List<AdminRoleMenu> adminRoleMenus = iAdminRoleMenuService.listRoleMenuByRid(userRole.getRid());
