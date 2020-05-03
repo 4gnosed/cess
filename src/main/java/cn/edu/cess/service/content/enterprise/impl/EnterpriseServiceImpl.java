@@ -36,9 +36,9 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
         Scale scale = iScaleService.getById(enterprise.getScaleId());
         Times times = iTimesService.getById(enterprise.getTalkTimeId());
         Place place = iPlaceService.getPlaceByEid(enterprise.getId());
-        enterprise.setFinance(finance);
-        enterprise.setScale(scale);
-        enterprise.setTalkTime(times);
+        enterprise.setFinance(finance == null ? new Finance() : finance);
+        enterprise.setScale(scale == null ? new Scale() : scale);
+        enterprise.setTalkTime(times == null ? new Times() : times);
         enterprise.setPlace(place == null ? new Place() : place);
     }
 

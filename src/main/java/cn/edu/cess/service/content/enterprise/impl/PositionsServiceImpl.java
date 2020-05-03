@@ -140,6 +140,28 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         return uid;
     }
 
+    @Override
+    public ResultPage getByPage(Integer page, Integer size, Integer eid) {
+        ArrayList<Positions> positions = new ArrayList<>();
+        QueryWrapper<EnterprisePositions> epQueryWrapper = new QueryWrapper<>();
+        epQueryWrapper.eq(Constant.EID, eid);
+        List<EnterprisePositions> enterprisePositionsList = iEnterprisePositionsService.list(epQueryWrapper);
+        //手动获取当前页记录
+        int index = (page - 1) * size;
+        Long length = Long.valueOf(page * size);
+        Long total = Long.valueOf(enterprisePositionsList.size());
+        if (length > total - 1) {
+            length = total - 1;
+        }
+        for (; index < length; index++) {
+            positions.add(getById(enterprisePositionsList.get(index).getPid()));
+        }
+        ResultPage resultPage = new ResultPage();
+        resultPage.setData(positions);
+        resultPage.setTotal(total);
+        return resultPage;
+    }
+
     public Set<Positions> positionsFilter(Set<Positions> positionsSet, String column, Integer value) {
         if (column.equals(Constant.EXPERIENCE_ID)) {
             return positionsSet.stream().filter(positions -> positions.getExperienceId() == value).collect(Collectors.toSet());

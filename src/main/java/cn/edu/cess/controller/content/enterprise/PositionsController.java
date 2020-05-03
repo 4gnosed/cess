@@ -35,16 +35,10 @@ public class PositionsController extends AbstractClass {
         return ResultFactory.buildSuccessResult("");
     }
 
-    @GetMapping("")
-    public Result getAll(@RequestParam(defaultValue = "1") Integer page,
+    @GetMapping("/getByEid")
+    public Result getByEid(@RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(defaultValue = "10") Integer size,
-                         @RequestParam(required = false) String keywords,
-                         @RequestParam(required = false) Integer experienceId,
-                         @RequestParam(required = false) Integer degreeId,
-                         @RequestParam(required = false) Integer salaryId,
-                         @RequestParam(required = false) Integer financeId,
-                         @RequestParam(required = false) Integer scaleId) {
-        return ResultFactory.buildSuccessResult(iPositionsService.getByPage(page, size, keywords, experienceId,
-                degreeId, salaryId, financeId, scaleId));
+                         @RequestParam() Integer eid) {
+        return ResultFactory.buildSuccessResult(iPositionsService.getByPage(page, size, eid));
     }
 }

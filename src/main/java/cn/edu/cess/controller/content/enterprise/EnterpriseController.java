@@ -34,6 +34,13 @@ public class EnterpriseController extends AbstractClass {
         return ResultFactory.buildSuccessResult(iEnterpriseService.list());
     }
 
+    @GetMapping("/getById")
+    public Result getById(@RequestParam Integer eid) {
+        Enterprise enterprise = iEnterpriseService.getById(eid);
+        iEnterpriseService.fillData(enterprise);
+        return ResultFactory.buildSuccessResult(enterprise);
+    }
+
     @GetMapping("/getOne")
     public Result getOneEnterprise(@RequestParam("userId") Integer userId) {
         //根据用户角色绑定对应的角色对象
