@@ -46,7 +46,7 @@ public class Enterprise implements Serializable {
      * 成立日期
      */
     @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -167,7 +167,7 @@ public class Enterprise implements Serializable {
      * 宣讲会日期
      */
     @TableField("talk_date")
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date talkDate;
 
     /**
@@ -175,5 +175,17 @@ public class Enterprise implements Serializable {
      */
     @TableField("talk_time_id")
     private Integer talkTimeId;
+
+    /**
+     * 申请宣讲会时间段
+     */
+    @TableField(exist = false)
+    private Times talkTime;
+
+    /**
+     * 宣讲会地点
+     */
+    @TableField(exist = false)
+    private Place place;
 
 }

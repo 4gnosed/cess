@@ -1,13 +1,9 @@
 package cn.edu.cess.service.content.enterprise.impl;
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.content.enterprise.Enterprise;
-import cn.edu.cess.entity.content.enterprise.Finance;
-import cn.edu.cess.entity.content.enterprise.Scale;
+import cn.edu.cess.entity.content.enterprise.*;
 import cn.edu.cess.mapper.content.enterprise.EnterpriseMapper;
-import cn.edu.cess.service.content.enterprise.IEnterpriseService;
-import cn.edu.cess.service.content.enterprise.IFinanceService;
-import cn.edu.cess.service.content.enterprise.IScaleService;
+import cn.edu.cess.service.content.enterprise.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,13 +25,21 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     IFinanceService iFinanceService;
     @Autowired
     IScaleService iScaleService;
+    @Autowired
+    ITimesService iTimesService;
+    @Autowired
+    IPlaceService iPlaceService;
 
     @Override
     public void fillData(Enterprise enterprise) {
         Finance finance = iFinanceService.getById(enterprise.getFinanceId());
         Scale scale = iScaleService.getById(enterprise.getScaleId());
+        Times times = iTimesService.getById(enterprise.getTalkTimeId());
+        Place place = iPlaceService.getPlaceByEid(enterprise.getId());
         enterprise.setFinance(finance);
         enterprise.setScale(scale);
+        enterprise.setTalkTime(times);
+        enterprise.setPlace(place == null ? new Place() : place);
     }
 
     @Override
@@ -55,7 +59,7 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     @Override
     public Enterprise getByName(String name) {
         QueryWrapper<Enterprise> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Constant.NAME,name);
+        queryWrapper.eq(Constant.NAME, name);
         return getOne(queryWrapper);
     }
 }
