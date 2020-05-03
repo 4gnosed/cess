@@ -62,7 +62,7 @@ public class Student implements Serializable {
      * 出生日期
      */
     @TableField("birthday")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date birthday;
 
     /**
@@ -186,14 +186,14 @@ public class Student implements Serializable {
      * 入学日期
      */
     @TableField("begin_date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date beginDate;
 
     /**
      * 毕业日期
      */
     @TableField("end_date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date endDate;
 
 

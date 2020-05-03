@@ -36,14 +36,14 @@ public class ExperienceWork implements Serializable {
      * 开始日期
      */
     @TableField("begin_date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date beginDate;
 
     /**
      * 结束日期
      */
     @TableField("end_date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date endDate;
 
     /**

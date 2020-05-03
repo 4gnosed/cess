@@ -36,7 +36,7 @@ public class ExperienceCertificate implements Serializable {
      * 获得日期
      */
     @TableField("get_date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date getDate;
 
     /**

@@ -14,7 +14,7 @@ import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Gnosed Lu
@@ -46,7 +46,7 @@ public class Enterprise implements Serializable {
      * 成立日期
      */
     @TableField("create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -162,5 +162,18 @@ public class Enterprise implements Serializable {
      */
     @TableField("file_name")
     private String fileName;
+
+    /**
+     * 宣讲会日期
+     */
+    @TableField("talk_date")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Date talkDate;
+
+    /**
+     * 宣讲会时间段id
+     */
+    @TableField("talk_time_id")
+    private Integer talkTimeId;
 
 }
