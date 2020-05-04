@@ -106,7 +106,7 @@ public class Positions implements Serializable {
      * 更新日期
      */
     @TableField("update_time")
-    @JsonFormat(pattern = "yyyy-MM-dds")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateTime;
 
     /**

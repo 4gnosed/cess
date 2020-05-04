@@ -150,11 +150,13 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         int index = (page - 1) * size;
         Long length = Long.valueOf(page * size);
         Long total = Long.valueOf(enterprisePositionsList.size());
-        if (length > total - 1) {
-            length = total - 1;
+        if (length > total) {
+            length = total;
         }
         for (; index < length; index++) {
-            positions.add(getById(enterprisePositionsList.get(index).getPid()));
+            Positions pos = getById(enterprisePositionsList.get(index).getPid());
+            pos.setUserId(iUserEnterpriseService.getByEid(eid).getUid());
+            positions.add(pos);
         }
         ResultPage resultPage = new ResultPage();
         resultPage.setData(positions);
