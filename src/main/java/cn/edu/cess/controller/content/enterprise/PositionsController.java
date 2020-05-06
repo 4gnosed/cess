@@ -1,11 +1,9 @@
 package cn.edu.cess.controller.content.enterprise;
 
 
-import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.result.ResultPage;
 import cn.edu.cess.service.content.enterprise.IPositionsService;
 import cn.edu.cess.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +58,11 @@ public class PositionsController extends AbstractClass {
                            @RequestParam(defaultValue = "10") Integer size,
                            @RequestParam() Integer eid) {
         return ResultFactory.buildSuccessResult(iPositionsService.getByPage(page, size, eid));
+    }
+
+    @GetMapping("/getAllByUid")
+    public Result getAllByUid(@RequestParam() Integer userId) {
+        return ResultFactory.buildSuccessResult(iPositionsService.getPositionsListByUid(userId));
     }
 
     @GetMapping("/getById")

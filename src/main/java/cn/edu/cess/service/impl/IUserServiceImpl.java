@@ -6,11 +6,13 @@ import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
+import cn.edu.cess.entity.content.student.UserResume;
 import cn.edu.cess.mapper.UserMapper;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
+import cn.edu.cess.service.content.student.IUserResumeService;
 import cn.edu.cess.util.DateTimeUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -36,6 +38,8 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     IAdminRoleService iAdminRoleService;
     @Autowired
     IUserEnterpriseService iUserEnterpriseService;
+    @Autowired
+    IUserResumeService iUserResumeService;
 
     @Override
     public User list(String username, String password) {
@@ -167,5 +171,11 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     public User getByEid(int eid) {
         UserEnterprise userEnterprise = iUserEnterpriseService.getByEid(eid);
         return getById(userEnterprise.getUid());
+    }
+
+    @Override
+    public User getByRid(int rid) {
+        UserResume userResume = iUserResumeService.getByRid(rid);
+        return getById(userResume.getUid());
     }
 }

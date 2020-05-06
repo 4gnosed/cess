@@ -35,4 +35,6 @@ public interface IUserService extends IService<User> {
     void updatePassword(String salt, String username, String newPassword);
 
     User getByEid(int eid);
+
+    User getByRid(int rid);
 }

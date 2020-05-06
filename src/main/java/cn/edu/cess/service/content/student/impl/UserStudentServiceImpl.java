@@ -24,7 +24,7 @@ import java.util.List;
 public class UserStudentServiceImpl extends ServiceImpl<UserStudentMapper, UserStudent> implements IUserStudentService {
 
     @Override
-    public UserStudent listByUid(int id) {
+    public UserStudent getByUid(int id) {
         QueryWrapper<UserStudent> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.UID, id);
         return getOne(queryWrapper);

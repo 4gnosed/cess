@@ -101,11 +101,11 @@ public class ResumeController extends AbstractClass {
     public Result sendResume(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "positionId") Integer positionId,
                              @RequestParam(value = "rid") Integer rid) {
         //保存简历-职位关系
-        iResumePositionsService.save(positionId, rid);
+        boolean saved = iResumePositionsService.saveResumePositions(positionId, rid);
         //发送投递消息，消息-职位的多对多关系
-        boolean isSended = iMessageService.sendMessage(userId, positionId);
+        iMessageService.sendMessage(userId, positionId);
         //已经投递过
-        if (isSended) {
+        if (!saved) {
             return ResultFactory.buildFailResult("您已经投递过");
         } else {
             return ResultFactory.buildSuccessResult("");
@@ -119,6 +119,27 @@ public class ResumeController extends AbstractClass {
         } else {
             return ResultFactory.buildFailResult("更新失败");
         }
+    }
+
+    @GetMapping("/getUserPostionsResumeVos")
+    public Result getUserPostionsResumeVos(@RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
+        return ResultFactory.buildSuccessResult(iResumeService.getUserPostionsResumeVos(userId, request));
+    }
+
+    @PutMapping("/state")
+    public Result changeResumeState(@RequestParam Integer rid, @RequestParam Integer pid, @RequestParam Integer stateId) {
+        if (iResumePositionsService.changeState(rid, pid, stateId)) {
+            return ResultFactory.buildSuccessResult("");
+        }
+        return ResultFactory.buildFailResult("");
+    }
+
+    @DeleteMapping("/state/delete")
+    public Result changeResumePostions(@RequestParam Integer rid, @RequestParam Integer pid) {
+        if (iResumePositionsService.deleteResumePostions(rid, pid)) {
+            return ResultFactory.buildSuccessResult("");
+        }
+        return ResultFactory.buildFailResult("");
     }
 
 }

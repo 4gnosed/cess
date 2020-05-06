@@ -8,7 +8,6 @@ import cn.edu.cess.entity.content.student.Student;
 import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.content.student.*;
 import cn.edu.cess.util.POIUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +113,7 @@ public class StudentController extends AbstractClass {
     @GetMapping("/getOne")
     public Result getOneStudent(@RequestParam("userId") Integer userId) {
         //根据用户角色绑定对应的角色对象
-        UserStudent userStudent = iUserStudentService.listByUid(userId);
+        UserStudent userStudent = iUserStudentService.getByUid(userId);
         if (userStudent == null) {
             //未填写信息
             return ResultFactory.buildEmptyResult("");

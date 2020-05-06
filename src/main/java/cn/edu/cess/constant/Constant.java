@@ -61,4 +61,11 @@ public class Constant {
     public static final String SEND_NO_PASS_CHECK_CONTENT = "您的申请未通过审核，请与相关工作人员联系！";
     public static final String TITLE = "title";
     public static final String TALK_DATE = "talk_date";
+    public static final Integer NEW_RESUME_STATE_ID = 1;
+    public static final Integer INTERVIEW_STATE_ID = 2;
+    public static final Integer OFFER_STATE_ID = 3;
+    public static final Integer Contract_STATE_ID = 4;
+    public static final Integer EMPLOYED_STATE_ID = 5;
+    public static final Integer TALENT_POOL_STATE_ID = 6;
+    public static final String STATE_ID = "state_id";
 }

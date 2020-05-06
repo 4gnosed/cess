@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface IUserStudentService extends IService<UserStudent> {
 
-    UserStudent listByUid(int id);
+    UserStudent getByUid(int id);
 
     List<UserStudent> getUserStudentsByPage(Integer page, Integer size);
 

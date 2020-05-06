@@ -134,7 +134,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
     }
 
     @Override
-    public Integer getUserByPid(Integer positionId) {
+    public Integer getUserIdByPid(Integer positionId) {
         Integer eid = getEnterpriseId(new QueryWrapper<EnterprisePositions>(), positionId);
         Integer uid = iUserEnterpriseService.getByEid(eid).getUid();
         return uid;
@@ -173,5 +173,24 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
             return positionsSet.stream().filter(positions -> positions.getSalaryId() == value).collect(Collectors.toSet());
         }
         return positionsSet;
+    }
+
+    @Override
+    public List<Positions> getPositionsListByEid(Integer eid) {
+        ArrayList<Positions> positionsList = new ArrayList<>();
+        QueryWrapper<EnterprisePositions> q = new QueryWrapper<>();
+        q.eq(Constant.EID, eid);
+        List<EnterprisePositions> enterprisePositions = iEnterprisePositionsService.list(q);
+        for (EnterprisePositions enterprisePosition : enterprisePositions) {
+            Positions positions = getById(enterprisePosition.getPid());
+            positionsList.add(positions);
+        }
+        return positionsList;
+    }
+
+    @Override
+    public List<Positions> getPositionsListByUid(Integer userId) {
+        UserEnterprise userEnterprise = iUserEnterpriseService.getByUid(userId);
+        return getPositionsListByEid(userEnterprise.getEid());
     }
 }

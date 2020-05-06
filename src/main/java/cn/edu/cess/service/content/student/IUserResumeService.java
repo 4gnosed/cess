@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserResumeService extends IService<UserResume> {
 
+    UserResume getByRid(int rid);
 }

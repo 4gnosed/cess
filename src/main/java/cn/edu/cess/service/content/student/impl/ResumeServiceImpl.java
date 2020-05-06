@@ -1,9 +1,15 @@
 package cn.edu.cess.service.content.student.impl;
 
 import cn.edu.cess.constant.Constant;
+import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.Vo.FileUrlVo;
+import cn.edu.cess.entity.Vo.UserPostionsResumeVo;
+import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.entity.content.student.*;
 import cn.edu.cess.mapper.content.student.ResumeMapper;
+import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.content.enterprise.IPositionsService;
+import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import cn.edu.cess.service.content.student.*;
 import cn.edu.cess.util.FileUploadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -28,6 +34,8 @@ import java.util.List;
 public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> implements IResumeService {
 
     @Autowired
+    IUserService iUserService;
+    @Autowired
     IUserResumeService iUserResumeService;
     @Autowired
     IExperienceCertificateService iExperienceCertificateService;
@@ -39,6 +47,16 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
     IExperienceProjectService iExperienceProjectService;
     @Autowired
     IExperienceWorkService iExperienceWorkService;
+    @Autowired
+    IUserEnterpriseService iUserEnterpriseService;
+    @Autowired
+    IPositionsService iPositionsService;
+    @Autowired
+    IResumeService iResumeService;
+    @Autowired
+    IResumePositionsService iResumePositionsService;
+    @Autowired
+    IStudentService iStudentService;
 
     @Override
     public void saveFilePath(String filePath, Integer userId) {
@@ -187,4 +205,47 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         return getOne(q);
     }
 
+    @Override
+    public List<UserPostionsResumeVo> getUserPostionsResumeVos(Integer userId, HttpServletRequest request) {
+        ArrayList<UserPostionsResumeVo> userPostionsResumeVos = new ArrayList<>();
+        //通过企业用户id获取企业的全部职位
+        List<Positions> positionList = iPositionsService.getPositionsListByUid(userId);
+        int index = 0;
+        for (Positions positions : positionList) {
+            //获取职位对应的简历集合
+            List<Resume> resumeList = getPreResumeListByPid(positions.getId(), request);
+            for (Resume resume : resumeList) {
+                //一个resumePosition记录，对应一个UserPostionsResumeVo
+                User user = iUserService.getByRid(resume.getId());
+                Student student = iStudentService.getByUid(user.getId());
+                //首先保存简历状态
+                Integer stateId = resume.getStateId();
+                //其次根据简历id获取完整信息的简历
+                resume = getCompleteResumeByUid(user.getId(), request);
+                //最后再复原简历状态
+                resume.setStateId(stateId);
+
+                UserPostionsResumeVo userPostionsResumeVo = new UserPostionsResumeVo();
+                userPostionsResumeVo.setIndex(index++);
+                userPostionsResumeVo.setPositions(positions);
+                userPostionsResumeVo.setUser(user);
+                userPostionsResumeVo.setStudent(student);
+                userPostionsResumeVo.setResume(resume);
+                userPostionsResumeVos.add(userPostionsResumeVo);
+            }
+        }
+        return userPostionsResumeVos;
+    }
+
+    @Override
+    public List<Resume> getPreResumeListByPid(Integer pid, HttpServletRequest request) {
+        ArrayList<Resume> resumeList = new ArrayList<>();
+        List<ResumePositions> resumePositionsList = iResumePositionsService.getByPid(pid);
+        for (ResumePositions resumePositions : resumePositionsList) {
+            Resume resume = getById(resumePositions.getRid());
+            resume.setStateId(resumePositions.getStateId());
+            resumeList.add(resume);
+        }
+        return resumeList;
+    }
 }

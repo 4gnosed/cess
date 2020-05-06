@@ -4,6 +4,8 @@ import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.result.ResultPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -19,7 +21,11 @@ public interface IPositionsService extends IService<Positions> {
     ResultPage getByPage(Integer page, Integer size, String keywords, Integer experienceId,
                          Integer degreeId, Integer salaryId, Integer financeId, Integer scaleId);
 
-    Integer getUserByPid(Integer positionId);
+    Integer getUserIdByPid(Integer positionId);
 
     ResultPage getByPage(Integer page, Integer size, Integer eid);
+
+    List<Positions> getPositionsListByEid(Integer eid);
+
+    List<Positions> getPositionsListByUid(Integer userId);
 }

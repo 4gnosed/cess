@@ -29,6 +29,12 @@ public class Resume implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 简历状态id
+     */
+    @TableField(exist = false)
+    private Integer stateId;
+
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
