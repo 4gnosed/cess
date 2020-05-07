@@ -68,4 +68,6 @@ public class Constant {
     public static final Integer EMPLOYED_STATE_ID = 5;
     public static final Integer TALENT_POOL_STATE_ID = 6;
     public static final String STATE_ID = "state_id";
+    public static final String ADVICE = "advice";
+    public static final String SCORE_SHEET_ID = "score_sheet_id";
 }
