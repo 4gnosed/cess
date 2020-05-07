@@ -26,4 +26,8 @@ public interface IResumePositionsService extends IService<ResumePositions> {
     boolean setScoreSheetId(Integer rid, Integer pid, Integer scoreSheetId);
 
     Integer getSidByRidPid(Integer rid, Integer pid);
+
+    Integer getOidByRidPid(Integer rid, Integer pid);
+
+    void setSheetOfferId(Integer rid, Integer pid, Integer sheetOfferId);
 }

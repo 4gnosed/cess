@@ -70,4 +70,7 @@ public class Constant {
     public static final String STATE_ID = "state_id";
     public static final String ADVICE = "advice";
     public static final String SCORE_SHEET_ID = "score_sheet_id";
+    public static final String SHEET_OFFER_ID = "sheet_offer_id";
+    public static final String POSITIONS_ID = "positions_id";
+    public static final String NEW_POSITIONS_ID = "new_positions_id";
 }

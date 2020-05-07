@@ -49,9 +49,15 @@ public class ResumePositions implements Serializable {
     private Integer stateId;
 
     /**
-     * 评分表id
+     * offer表id
      */
     @TableField("score_sheet_id")
     private Integer scoreSheetId;
+
+    /**
+     * 评分表id
+     */
+    @TableField("sheet_offer_id")
+    private Integer sheetOfferId;
 
 }

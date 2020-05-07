@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("score_item")
+@TableName("sheet_score_item")
 public class ScoreItem implements Serializable {
 
     private static final long serialVersionUID = 1L;

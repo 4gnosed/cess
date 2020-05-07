@@ -76,6 +76,19 @@ public class ResumePositionsServiceImpl extends ServiceImpl<ResumePositionsMappe
         return getOne(q).getScoreSheetId();
     }
 
+    @Override
+    public Integer getOidByRidPid(Integer rid, Integer pid) {
+        QueryWrapper<ResumePositions> q = getQueryWrapper(rid, pid);
+        return getOne(q).getSheetOfferId();
+    }
+
+    @Override
+    public void setSheetOfferId(Integer rid, Integer pid, Integer sheetOfferId) {
+        UpdateWrapper<ResumePositions> u = new UpdateWrapper<>();
+        u.eq(Constant.RID, rid).eq(Constant.PID, pid).set(Constant.SHEET_OFFER_ID, sheetOfferId);
+        update(u);
+    }
+
     public QueryWrapper<ResumePositions> getQueryWrapper(Integer rid, Integer pid) {
         QueryWrapper<ResumePositions> q = new QueryWrapper<>();
         q.eq(Constant.RID, rid).eq(Constant.PID, pid).last("LIMIT 1");
