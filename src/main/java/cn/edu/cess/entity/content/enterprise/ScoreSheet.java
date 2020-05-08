@@ -52,12 +52,6 @@ public class ScoreSheet implements Serializable {
     private String advice;
 
     /**
-     * 是否通过面试，0未通过，1通过
-     */
-    @TableField("pass")
-    private Boolean pass;
-
-    /**
      * 面试人
      */
     @TableField("interviewer")

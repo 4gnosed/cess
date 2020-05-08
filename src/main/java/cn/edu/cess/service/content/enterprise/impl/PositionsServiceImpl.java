@@ -114,17 +114,46 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         Page<Positions> posPage = page(new Page<>(page, size - entPosNumber), pQueryWrapper);
         positionsSet.addAll(posPage.getRecords());
 
-        for (Positions pos : positionsSet) {
-            Integer eid = getEnterpriseId(epQueryWrapper, pos.getId());
-            //职位(企业)所属用户id
-            pos.setEnterpriseId(eid);
-            //职位所属企业id
-            pos.setUserId(iUserEnterpriseService.getByEid(eid).getUid());
-        }
+//        for (Positions pos : positionsSet) {
+//            Integer eid = getEnterpriseId(epQueryWrapper, pos.getId());
+//            //职位(企业)所属用户id
+//            pos.setEnterpriseId(eid);
+//            //职位所属企业id
+//            pos.setUserId(iUserEnterpriseService.getByEid(eid).getUid());
+//        }
+        fillData(positionsSet, epQueryWrapper);
         ResultPage resultPage = new ResultPage();
         resultPage.setData(positionsSet);
         resultPage.setTotal(posPage.getTotal());
         return resultPage;
+    }
+
+    @Override
+    public void fillData(Collection<Positions> positionsCollection, QueryWrapper<EnterprisePositions> epQueryWrapper) {
+        if (epQueryWrapper == null) {
+            epQueryWrapper = new QueryWrapper<EnterprisePositions>();
+        }
+        for (Positions positions : positionsCollection) {
+            fillData(positions, epQueryWrapper);
+        }
+    }
+
+    @Override
+    public void fillData(Positions positions, QueryWrapper<EnterprisePositions> epQueryWrapper) {
+        Integer eid = getEnterpriseId(epQueryWrapper, positions.getId());
+        //职位(企业)所属用户id
+        positions.setEnterpriseId(eid);
+        //职位所属企业id
+        positions.setUserId(iUserEnterpriseService.getByEid(eid).getUid());
+    }
+
+    @Override
+    public void fillData(Positions positions) {
+        Integer eid = getEnterpriseId(new QueryWrapper<EnterprisePositions>(), positions.getId());
+        //职位(企业)所属用户id
+        positions.setEnterpriseId(eid);
+        //职位所属企业id
+        positions.setUserId(iUserEnterpriseService.getByEid(eid).getUid());
     }
 
     public Integer getEnterpriseId(QueryWrapper<EnterprisePositions> epQueryWrapper, Integer positionId) {

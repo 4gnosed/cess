@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Gnosed Lu
@@ -19,6 +19,8 @@ public interface IResumePositionsService extends IService<ResumePositions> {
 
     List<ResumePositions> getByPid(Integer pid);
 
+    List<ResumePositions> getByRid(Integer rid);
+
     boolean changeState(Integer rid, Integer pid, Integer stateId);
 
     boolean deleteResumePostions(Integer rid, Integer pid);
@@ -28,6 +30,8 @@ public interface IResumePositionsService extends IService<ResumePositions> {
     Integer getSidByRidPid(Integer rid, Integer pid);
 
     Integer getOidByRidPid(Integer rid, Integer pid);
+
+    ResumePositions getResumePositions(Integer rid, Integer pid);
 
     void setSheetOfferId(Integer rid, Integer pid, Integer sheetOfferId);
 }

@@ -121,9 +121,14 @@ public class ResumeController extends AbstractClass {
         }
     }
 
-    @GetMapping("/getUserPostionsResumeVos")
-    public Result getUserPostionsResumeVos(@RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
-        return ResultFactory.buildSuccessResult(iResumeService.getUserPostionsResumeVos(userId, request));
+    @GetMapping("/getUserPositionsResumeVos")
+    public Result getUserPositionsResumeVos(@RequestParam(value = "userId") Integer userId, HttpServletRequest request) {
+        return ResultFactory.buildSuccessResult(iResumeService.getUserPositionsResumeVos(userId, request));
+    }
+
+    @GetMapping("/getResumePositionsList")
+    public Result getResumePositionsVos(@RequestParam(value = "rid") Integer rid) {
+        return ResultFactory.buildSuccessResult(iResumeService.getResumePositionsVos(rid));
     }
 
     @PutMapping("/state")

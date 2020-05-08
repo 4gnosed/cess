@@ -206,8 +206,8 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
     }
 
     @Override
-    public List<UserPostionsResumeVo> getUserPostionsResumeVos(Integer userId, HttpServletRequest request) {
-        ArrayList<UserPostionsResumeVo> userPostionsResumeVos = new ArrayList<>();
+    public List<UserPostionsResumeVo> getUserPositionsResumeVos(Integer userId, HttpServletRequest request) {
+        ArrayList<UserPostionsResumeVo> userPositionsResumeVos = new ArrayList<>();
         //通过企业用户id获取企业的全部职位
         List<Positions> positionList = iPositionsService.getPositionsListByUid(userId);
         int index = 0;
@@ -231,10 +231,10 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
                 userPostionsResumeVo.setUser(user);
                 userPostionsResumeVo.setStudent(student);
                 userPostionsResumeVo.setResume(resume);
-                userPostionsResumeVos.add(userPostionsResumeVo);
+                userPositionsResumeVos.add(userPostionsResumeVo);
             }
         }
-        return userPostionsResumeVos;
+        return userPositionsResumeVos;
     }
 
     @Override
@@ -247,5 +247,20 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
             resumeList.add(resume);
         }
         return resumeList;
+    }
+
+    @Override
+    public List<ResumePositions> getResumePositionsVos(Integer rid) {
+        //通过学生简历id获取全部投递简历对应的职位
+        List<ResumePositions> resumePositionsList = iResumePositionsService.getByRid(rid);
+        if (resumePositionsList.size() == 0) {
+            return null;
+        }
+        for (ResumePositions resumePositions : resumePositionsList) {
+            Positions positions = iPositionsService.getById(resumePositions.getPid());
+            iPositionsService.fillData(positions);
+            resumePositions.setPositions(positions);
+        }
+        return resumePositionsList;
     }
 }

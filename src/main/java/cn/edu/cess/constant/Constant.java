@@ -73,4 +73,5 @@ public class Constant {
     public static final String SHEET_OFFER_ID = "sheet_offer_id";
     public static final String POSITIONS_ID = "positions_id";
     public static final String NEW_POSITIONS_ID = "new_positions_id";
+    public static final String LAST_STATE_ID = "last_state_id";
 }

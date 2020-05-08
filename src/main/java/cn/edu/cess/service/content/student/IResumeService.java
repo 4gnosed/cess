@@ -1,13 +1,12 @@
 package cn.edu.cess.service.content.student;
 
-import cn.edu.cess.entity.User;
 import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.Vo.UserPostionsResumeVo;
 import cn.edu.cess.entity.content.student.Resume;
+import cn.edu.cess.entity.content.student.ResumePositions;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +29,9 @@ public interface IResumeService extends IService<Resume> {
 
     boolean updateResume(Integer userId, Resume resume);
 
-    List<UserPostionsResumeVo> getUserPostionsResumeVos(Integer userId, HttpServletRequest request);
+    List<UserPostionsResumeVo> getUserPositionsResumeVos(Integer userId, HttpServletRequest request);
 
     List<Resume> getPreResumeListByPid(Integer pid, HttpServletRequest request);
+
+    List<ResumePositions> getResumePositionsVos(Integer rid);
 }

@@ -11,6 +11,8 @@ import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 前端控制器
@@ -31,7 +33,8 @@ public class EnterpriseController extends AbstractClass {
 
     @GetMapping("")
     public Result getAll() {
-        return ResultFactory.buildSuccessResult(iEnterpriseService.list());
+        List<Enterprise> enterpriseList = iEnterpriseService.list();
+        return ResultFactory.buildSuccessResult(enterpriseList);
     }
 
     @GetMapping("/getById")

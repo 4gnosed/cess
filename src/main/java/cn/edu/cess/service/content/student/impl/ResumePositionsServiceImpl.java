@@ -52,8 +52,22 @@ public class ResumePositionsServiceImpl extends ServiceImpl<ResumePositionsMappe
     }
 
     @Override
+    public List<ResumePositions> getByRid(Integer pid) {
+        QueryWrapper<ResumePositions> q = new QueryWrapper<>();
+        q.eq(Constant.RID, pid);
+        return list(q);
+    }
+
+    @Override
     public boolean changeState(Integer rid, Integer pid, Integer stateId) {
+        ResumePositions resumePositions = getResumePositions(rid, pid);
+        Integer stateIdSaved = resumePositions.getStateId();
         UpdateWrapper<ResumePositions> u = new UpdateWrapper<>();
+        //保存上一个简历状态
+        u.eq(Constant.RID, rid).eq(Constant.PID, pid).set(Constant.LAST_STATE_ID, stateIdSaved);
+        update(u);
+        //保存更新状态
+        u.clear();
         u.eq(Constant.RID, rid).eq(Constant.PID, pid).set(Constant.STATE_ID, stateId);
         return update(u);
     }
@@ -72,14 +86,20 @@ public class ResumePositionsServiceImpl extends ServiceImpl<ResumePositionsMappe
 
     @Override
     public Integer getSidByRidPid(Integer rid, Integer pid) {
-        QueryWrapper<ResumePositions> q = getQueryWrapper(rid, pid);
-        return getOne(q).getScoreSheetId();
+        ResumePositions resumePositions = getResumePositions(rid, pid);
+        return resumePositions.getScoreSheetId();
     }
 
     @Override
     public Integer getOidByRidPid(Integer rid, Integer pid) {
+        ResumePositions resumePositions = getResumePositions(rid, pid);
+        return resumePositions.getSheetOfferId();
+    }
+
+    @Override
+    public ResumePositions getResumePositions(Integer rid, Integer pid) {
         QueryWrapper<ResumePositions> q = getQueryWrapper(rid, pid);
-        return getOne(q).getSheetOfferId();
+        return getOne(q);
     }
 
     @Override

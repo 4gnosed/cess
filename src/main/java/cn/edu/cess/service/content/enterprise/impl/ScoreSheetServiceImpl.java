@@ -34,7 +34,6 @@ public class ScoreSheetServiceImpl extends ServiceImpl<ScoreSheetMapper, ScoreSh
     @Override
     public ScoreSheet add(Integer rid, Integer pid, ScoreSheet scoreSheet) {
         List<ScoreItem> itemList = scoreSheet.getItemList();
-        scoreSheet.setPass(false);
         save(scoreSheet);
         Integer scoreSheetId = getByAdvice(scoreSheet.getAdvice()).getId();
         scoreSheet.setId(scoreSheetId);
