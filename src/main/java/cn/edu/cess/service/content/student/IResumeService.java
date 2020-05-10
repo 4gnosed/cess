@@ -34,4 +34,5 @@ public interface IResumeService extends IService<Resume> {
     List<Resume> getPreResumeListByPid(Integer pid, HttpServletRequest request);
 
     List<ResumePositions> getResumePositionsVos(Integer rid);
+
 }

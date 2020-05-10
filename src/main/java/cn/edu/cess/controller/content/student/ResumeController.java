@@ -1,11 +1,13 @@
 package cn.edu.cess.controller.content.student;
 
 
+import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.content.student.Resume;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IMessageService;
+import cn.edu.cess.service.content.enterprise.ISheetContractService;
 import cn.edu.cess.service.content.student.IResumePositionsService;
 import cn.edu.cess.service.content.student.IResumeService;
 import cn.edu.cess.util.FileUploadUtil;
@@ -37,6 +39,9 @@ public class ResumeController extends AbstractClass {
 
     @Autowired
     IMessageService iMessageService;
+
+    @Autowired
+    ISheetContractService iSheetContractService;
 
     /**
      * 简历附件
@@ -131,8 +136,19 @@ public class ResumeController extends AbstractClass {
         return ResultFactory.buildSuccessResult(iResumeService.getResumePositionsVos(rid));
     }
 
+    @GetMapping("/getContractVos")
+    public Result getContractVosVosByPage(@RequestParam(defaultValue = "1") Integer page,
+                                                         @RequestParam(defaultValue = "20") Integer size) {
+        return ResultFactory.buildSuccessResult(
+                iResumePositionsService.getContractVosByPage(page, size));
+    }
+
     @PutMapping("/state")
     public Result changeResumeState(@RequestParam Integer rid, @RequestParam Integer pid, @RequestParam Integer stateId) {
+//        if (stateId == Constant.EMPLOYED_STATE_ID) {
+//            Integer contractId = iResumePositionsService.getContractIdByRidPid(rid, pid);
+//            iSheetContractService.enabled(contractId);
+//        }
         if (iResumePositionsService.changeState(rid, pid, stateId)) {
             return ResultFactory.buildSuccessResult("");
         }
@@ -140,8 +156,8 @@ public class ResumeController extends AbstractClass {
     }
 
     @DeleteMapping("/state/delete")
-    public Result changeResumePostions(@RequestParam Integer rid, @RequestParam Integer pid) {
-        if (iResumePositionsService.deleteResumePostions(rid, pid)) {
+    public Result changeResumePositions(@RequestParam Integer rid, @RequestParam Integer pid) {
+        if (iResumePositionsService.deleteResumePositions(rid, pid)) {
             return ResultFactory.buildSuccessResult("");
         }
         return ResultFactory.buildFailResult("");

@@ -52,7 +52,7 @@ public class ScoreSheetServiceImpl extends ServiceImpl<ScoreSheetMapper, ScoreSh
 
     @Override
     public ScoreSheet getByRidPid(Integer rid, Integer pid) {
-        Integer scoreSheetId = iResumePositionsService.getSidByRidPid(rid, pid);
+        Integer scoreSheetId = iResumePositionsService.getScoreIdByRidPid(rid, pid);
         if (scoreSheetId == null) {
             return null;
         }

@@ -263,4 +263,5 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
         }
         return resumePositionsList;
     }
+
 }

@@ -7,10 +7,7 @@ import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.mapper.content.enterprise.PositionsMapper;
 import cn.edu.cess.result.ResultPage;
-import cn.edu.cess.service.content.enterprise.IEnterprisePositionsService;
-import cn.edu.cess.service.content.enterprise.IEnterpriseService;
-import cn.edu.cess.service.content.enterprise.IPositionsService;
-import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
+import cn.edu.cess.service.content.enterprise.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -37,6 +34,8 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
     IUserEnterpriseService iUserEnterpriseService;
     @Autowired
     IEnterpriseService iEnterpriseService;
+    @Autowired
+    ISalaryService iSalaryService;
 
     @Override
     public void savePosition(Positions position) {
@@ -139,6 +138,16 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
     }
 
     @Override
+    public Enterprise getEnterpriseByPid(Integer pid) {
+        QueryWrapper<EnterprisePositions> q = new QueryWrapper<>();
+        q.eq(Constant.PID, pid).last("LIMIT 1");
+        EnterprisePositions enterprisePositions = iEnterprisePositionsService.getOne(q);
+        Enterprise enterprise = iEnterpriseService.getById(enterprisePositions.getEid());
+        iEnterpriseService.fillData(enterprise);
+        return enterprise;
+    }
+
+    @Override
     public void fillData(Positions positions, QueryWrapper<EnterprisePositions> epQueryWrapper) {
         Integer eid = getEnterpriseId(epQueryWrapper, positions.getId());
         //职位(企业)所属用户id
@@ -154,6 +163,8 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         positions.setEnterpriseId(eid);
         //职位所属企业id
         positions.setUserId(iUserEnterpriseService.getByEid(eid).getUid());
+        //年薪
+        positions.setSalary(iSalaryService.getById(positions.getSalaryId()));
     }
 
     public Integer getEnterpriseId(QueryWrapper<EnterprisePositions> epQueryWrapper, Integer positionId) {

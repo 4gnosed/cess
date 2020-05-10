@@ -67,6 +67,12 @@ public class Positions implements Serializable {
     private Integer salaryId;
 
     /**
+     * 年薪
+     */
+    @TableField(exist = false)
+    private Salary salary;
+
+    /**
      * 学历id
      */
     @TableField("degree_id")
