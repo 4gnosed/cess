@@ -14,6 +14,11 @@ import java.util.UUID;
  * @Date 2020/1/14
  */
 public class FileUploadUtil {
+
+    public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request) {
+        return upload(multiFile, request);
+    }
+
     /**
      * 文件保存本地文件系统
      *
@@ -21,10 +26,15 @@ public class FileUploadUtil {
      * @param request
      * @return
      */
-    public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request) {
+    public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request, String fileFolder) {
+        String partPath = Constant.IMG_PATH;
         String filename = multiFile.getOriginalFilename();
         filename = UUID.randomUUID().toString() + filename;
-        File folder = new File(Constant.FILE_FOLDER);
+        if (fileFolder == null || "".equals(fileFolder)) {
+            fileFolder = Constant.FILE_FOLDER;
+            partPath = Constant.PART_PATH;
+        }
+        File folder = new File(fileFolder);
         File file = new File(folder, filename);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
@@ -33,7 +43,7 @@ public class FileUploadUtil {
             multiFile.transferTo(file);
             FileUrlVo fileUrlVo = new FileUrlVo();
             String ipPort = getIpPort(request);
-            String filePath = Constant.PART_PATH + file.getName();
+            String filePath = partPath + file.getName();
             fileUrlVo.setIpPort(ipPort);
             fileUrlVo.setFilePath(filePath);
             return fileUrlVo;

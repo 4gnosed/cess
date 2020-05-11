@@ -2,7 +2,9 @@ package cn.edu.cess.constant;
 
 public class Constant {
     public static final String FILE_FOLDER = "F:/MyCode/IdeaProjects/_file/";
+    public static final String IMG_FOLDER = "F:/MyCode/IdeaProjects/_file/img";
     public static final String PART_PATH = "/api/file/";
+    public static final String IMG_PATH = "/api/file/img/";
     public static final String[] REQUIRED_AUTH_PAGE = {"index"};
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -91,4 +93,6 @@ public class Constant {
     public static final String PREPARATION = "preparation";
     public static final String REQUIREMENTS = "requirements";
     public static final String ENTERPRISE_HOPE = "enterprise_hope";
+    public static final Integer SCHOOL_NOTICE_TYPE = 1;
+    public static final Integer Enterprise_NOTICE_TYPE = 2;
 }
