@@ -93,6 +93,6 @@ public class Constant {
     public static final String PREPARATION = "preparation";
     public static final String REQUIREMENTS = "requirements";
     public static final String ENTERPRISE_HOPE = "enterprise_hope";
-    public static final Integer SCHOOL_NOTICE_TYPE = 1;
-    public static final Integer Enterprise_NOTICE_TYPE = 2;
+    public static final String SCHOOL_NOTICE_TYPE = "学校通知";
+    public static final String Enterprise_NOTICE_TYPE = "企业通知";
 }

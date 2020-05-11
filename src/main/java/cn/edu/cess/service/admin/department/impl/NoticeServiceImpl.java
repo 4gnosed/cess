@@ -8,8 +8,12 @@ import cn.edu.cess.service.admin.department.INoticeService;
 import cn.edu.cess.util.DateTimeUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,9 +31,26 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
     @Override
     public boolean saveNotice(Notice notice) {
-        notice.setNoticeType(Constant.SCHOOL_NOTICE_TYPE);
-        notice.setTime(DateTimeUtils.getCurrentTime());
         return save(notice);
+    }
+
+    @Override
+    public void fillData(Notice notice, String type) {
+        Subject subject = SecurityUtils.getSubject();
+        String userName = (String) subject.getPrincipal();
+        notice.setPublisher(userName.toString());
+        notice.setNoticeType(type);
+        notice.setTime(DateTimeUtils.getCurrentTime());
+    }
+
+    @Override
+    public boolean deleteNotices(List<Notice> notices) {
+        for (Notice notice : notices) {
+            if (!removeById(notice.getId())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Notice getByTitleAndTime(Notice notice) {

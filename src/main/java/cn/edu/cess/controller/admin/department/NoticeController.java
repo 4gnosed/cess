@@ -7,8 +7,11 @@ import cn.edu.cess.entity.admin.department.Notice;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.admin.department.INoticeService;
+import cn.edu.cess.util.DateTimeUtils;
 import cn.edu.cess.util.FileUploadUtil;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,7 @@ import cn.edu.cess.base.AbstractClass;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -43,6 +47,7 @@ public class NoticeController extends AbstractClass {
 
     @PostMapping("")
     public Result publicNotice(@RequestBody Notice notice) {
+        iNoticeService.fillData(notice, Constant.SCHOOL_NOTICE_TYPE);
         if (iNoticeService.saveNotice(notice)) {
             return ResultFactory.buildSuccessResult("");
         } else {
@@ -53,5 +58,23 @@ public class NoticeController extends AbstractClass {
     @GetMapping("")
     public Result getNoticeByPage() {
         return ResultFactory.buildSuccessResult(iNoticeService.list());
+    }
+
+    @DeleteMapping("")
+    public Result deleteNotice(@RequestParam() Integer nid) {
+        if (iNoticeService.removeById(nid)) {
+            return ResultFactory.buildSuccessResult("");
+        } else {
+            return ResultFactory.buildFailResult("");
+        }
+    }
+
+    @DeleteMapping("/deletes")
+    public Result deleteNotices(@RequestBody() List<Notice> notices) {
+        if (iNoticeService.deleteNotices(notices)) {
+            return ResultFactory.buildSuccessResult("");
+        } else {
+            return ResultFactory.buildFailResult("");
+        }
     }
 }

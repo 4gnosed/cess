@@ -51,14 +51,18 @@ public class Notice implements Serializable {
      * 发布时间
      */
     @TableField("time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date time;
 
     /**
      * 1表示学校通知，2表示企业校招通知
      */
     @TableField("notice_type")
-    private Integer noticeType;
+    private String noticeType;
 
-
+    /**
+     * 发布者
+     */
+    @TableField("publisher")
+    private String publisher;
 }
