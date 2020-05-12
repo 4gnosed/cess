@@ -3,10 +3,12 @@ package cn.edu.cess.service.admin.department.impl;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.admin.department.Notice;
 import cn.edu.cess.mapper.admin.department.NoticeMapper;
+import cn.edu.cess.result.ResultPage;
 import cn.edu.cess.service.admin.department.INoticeEnterpriseService;
 import cn.edu.cess.service.admin.department.INoticeService;
 import cn.edu.cess.util.DateTimeUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -51,6 +53,16 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
             }
         }
         return true;
+    }
+
+    @Override
+    public ResultPage listByPage(Integer page, Integer size) {
+        Page<Notice> noticePage = page(new Page<>(page, size));
+        List<Notice> noticeList = noticePage.getRecords();
+        ResultPage resultPage = new ResultPage();
+        resultPage.setTotal(noticePage.getTotal());
+        resultPage.setData(noticeList);
+        return resultPage;
     }
 
     private Notice getByTitleAndTime(Notice notice) {

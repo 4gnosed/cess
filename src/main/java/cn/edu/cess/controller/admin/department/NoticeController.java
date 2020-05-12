@@ -30,12 +30,12 @@ import java.util.List;
  * @since 2020-05-11
  */
 @RestController
-@RequestMapping("/api/admin/notice")
+@RequestMapping("/api")
 public class NoticeController extends AbstractClass {
     @Autowired
     INoticeService iNoticeService;
 
-    @PostMapping("/img")
+    @PostMapping("/admin/notice/img")
     public Result uploadImg(@RequestParam(value = "img") MultipartFile multipartFile, HttpServletRequest request) {
         if (multipartFile == null) {
             return ResultFactory.buildFailResult("文件为空");
@@ -45,7 +45,7 @@ public class NoticeController extends AbstractClass {
         return ResultFactory.buildSuccessResult(fileUrlVo.getPath());
     }
 
-    @PostMapping("")
+    @PostMapping("/admin/notice")
     public Result publicNotice(@RequestBody Notice notice) {
         iNoticeService.fillData(notice, Constant.SCHOOL_NOTICE_TYPE);
         if (iNoticeService.saveNotice(notice)) {
@@ -55,12 +55,23 @@ public class NoticeController extends AbstractClass {
         }
     }
 
-    @GetMapping("")
-    public Result getNoticeByPage() {
+    @GetMapping("/admin/notice/byPage")
+    public Result getNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
+                                  @RequestParam(defaultValue = "10") Integer size) {
+        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size));
+    }
+
+    @GetMapping("/notice")
+    public Result getNoticeById(@RequestParam Integer noticeId) {
+        return ResultFactory.buildSuccessResult(iNoticeService.getById(noticeId));
+    }
+
+    @GetMapping("/admin/notice")
+    public Result getAllNotice() {
         return ResultFactory.buildSuccessResult(iNoticeService.list());
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/admin/notice")
     public Result deleteNotice(@RequestParam() Integer nid) {
         if (iNoticeService.removeById(nid)) {
             return ResultFactory.buildSuccessResult("");
@@ -69,7 +80,7 @@ public class NoticeController extends AbstractClass {
         }
     }
 
-    @DeleteMapping("/deletes")
+    @DeleteMapping("/admin/notice/deletes")
     public Result deleteNotices(@RequestBody() List<Notice> notices) {
         if (iNoticeService.deleteNotices(notices)) {
             return ResultFactory.buildSuccessResult("");
