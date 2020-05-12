@@ -55,7 +55,7 @@ public class NoticeController extends AbstractClass {
         }
     }
 
-    @GetMapping("/admin/notice/byPage")
+    @GetMapping("/notice/byPage")
     public Result getNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer size) {
         return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size));
