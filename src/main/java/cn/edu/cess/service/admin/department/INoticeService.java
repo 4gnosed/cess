@@ -24,4 +24,5 @@ public interface INoticeService extends IService<Notice> {
 
     ResultPage listByPage(Integer page, Integer size);
 
+    boolean updateNotice(Notice notice);
 }

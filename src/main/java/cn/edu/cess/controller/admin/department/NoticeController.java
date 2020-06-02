@@ -55,6 +55,15 @@ public class NoticeController extends AbstractClass {
         }
     }
 
+    @PutMapping("/admin/notice")
+    public Result updateNotice(@RequestBody Notice notice) {
+        if (iNoticeService.updateNotice(notice)) {
+            return ResultFactory.buildSuccessResult("");
+        } else {
+            return ResultFactory.buildFailResult("");
+        }
+    }
+
     @GetMapping("/notice/byPage")
     public Result getNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer size) {

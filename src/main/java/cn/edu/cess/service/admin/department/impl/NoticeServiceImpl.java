@@ -8,6 +8,7 @@ import cn.edu.cess.service.admin.department.INoticeEnterpriseService;
 import cn.edu.cess.service.admin.department.INoticeService;
 import cn.edu.cess.util.DateTimeUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.SecurityUtils;
@@ -63,6 +64,13 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         resultPage.setTotal(noticePage.getTotal());
         resultPage.setData(noticeList);
         return resultPage;
+    }
+
+    @Override
+    public boolean updateNotice(Notice notice) {
+        UpdateWrapper<Notice> u = new UpdateWrapper<>();
+        u.eq(Constant.ID,notice.getId());
+        return update(notice,u);
     }
 
     private Notice getByTitleAndTime(Notice notice) {
