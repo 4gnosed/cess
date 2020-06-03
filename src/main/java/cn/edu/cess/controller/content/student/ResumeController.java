@@ -152,7 +152,7 @@ public class ResumeController extends AbstractClass {
         if (iResumePositionsService.changeState(rid, pid, stateId)) {
             return ResultFactory.buildSuccessResult("");
         }
-        return ResultFactory.buildFailResult("");
+        return ResultFactory.buildFailResult("未填写当前状态信息");
     }
 
     @DeleteMapping("/state/delete")

@@ -83,12 +83,30 @@ public class ResumePositionsServiceImpl extends ServiceImpl<ResumePositionsMappe
     @Override
     public boolean changeState(Integer rid, Integer pid, Integer stateId) {
         ResumePositions resumePositions = getResumePositions(rid, pid);
+        //判断事是否已经填写当前状态对应的消息表
+        switch (stateId) {
+            case 3:
+                if (resumePositions.getSheetExamId() == null) {
+                    return false;
+                }
+                break;
+            case 4:
+                if (resumePositions.getScoreSheetId() == null) {
+                    return false;
+                }
+                break;
+            case 5:
+                if (resumePositions.getSheetOfferId() == null) {
+                    return false;
+                }
+                break;
+        }
         Integer stateIdSaved = resumePositions.getStateId();
         UpdateWrapper<ResumePositions> u = new UpdateWrapper<>();
-        //保存上一个简历状态
+        //保存当前状态
         u.eq(Constant.RID, rid).eq(Constant.PID, pid).set(Constant.LAST_STATE_ID, stateIdSaved);
         update(u);
-        //保存更新状态
+        //保存最新状态
         u.clear();
         u.eq(Constant.RID, rid).eq(Constant.PID, pid).set(Constant.STATE_ID, stateId);
         return update(u);
@@ -174,7 +192,7 @@ public class ResumePositionsServiceImpl extends ServiceImpl<ResumePositionsMappe
     @Override
     public ResultPage getContractVosByPage(Integer page, Integer size) {
         QueryWrapper<ResumePositions> q = new QueryWrapper<>();
-        q.eq(Constant.STATE_ID, Constant.Contract_STATE_ID).or().eq(Constant.STATE_ID,Constant.EMPLOYED_STATE_ID);
+        q.eq(Constant.STATE_ID, Constant.Contract_STATE_ID).or().eq(Constant.STATE_ID, Constant.EMPLOYED_STATE_ID);
         Page<ResumePositions> rpPage = page(new Page<>(page, size), q);
         List<ResumePositions> resumePositionsList = rpPage.getRecords();
 
