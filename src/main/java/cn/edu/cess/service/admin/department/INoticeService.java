@@ -22,7 +22,7 @@ public interface INoticeService extends IService<Notice> {
 
     boolean deleteNotices(List<Notice> notices);
 
-    ResultPage listByPage(Integer page, Integer size);
+    ResultPage listByPage(Integer page, Integer size, String type);
 
     boolean updateNotice(Notice notice);
 }

@@ -5,9 +5,11 @@ import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.admin.department.Notice;
+import cn.edu.cess.entity.admin.department.NoticeEnterprise;
 import cn.edu.cess.entity.admin.department.NoticePicture;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import cn.edu.cess.service.admin.department.INoticeEnterpriseService;
 import cn.edu.cess.service.admin.department.INoticePictureService;
 import cn.edu.cess.service.admin.department.INoticeService;
 import cn.edu.cess.util.FileUploadUtil;
@@ -33,6 +35,8 @@ public class NoticeController extends AbstractClass {
     INoticeService iNoticeService;
     @Autowired
     INoticePictureService iNoticePictureService;
+    @Autowired
+    INoticeEnterpriseService iNoticeEnterpriseService;
 
     @PostMapping("/admin/notice/img")
     public Result uploadImg(@RequestParam(value = "img") MultipartFile multipartFile, HttpServletRequest request) {
@@ -57,7 +61,7 @@ public class NoticeController extends AbstractClass {
         }
     }
 
-    @PutMapping({"/admin/notice","/notice"})
+    @PutMapping({"/admin/notice", "/notice"})
     public Result updateNotice(@RequestBody Notice notice) {
         if (iNoticeService.updateNotice(notice)) {
             return ResultFactory.buildSuccessResult("");
@@ -69,12 +73,17 @@ public class NoticeController extends AbstractClass {
     @GetMapping("/notice/byPage")
     public Result getNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer size) {
-        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size));
+        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size,Constant.SCHOOL_NOTICE_TYPE));
     }
 
     @GetMapping("/notice")
     public Result getNoticeById(@RequestParam String noticeId) {
-        return ResultFactory.buildSuccessResult(iNoticeService.getById(noticeId));
+        Notice notice = iNoticeService.getById(noticeId);
+        NoticeEnterprise noticeEnterprise = iNoticeEnterpriseService.getById(noticeId);
+        if (noticeEnterprise != null) {
+            notice.setEid(noticeEnterprise.getEid());
+        }
+        return ResultFactory.buildSuccessResult(notice);
     }
 
     @GetMapping("/admin/notice")

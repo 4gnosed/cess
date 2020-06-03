@@ -32,6 +32,12 @@ public class Notice implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 对应企业的ID
+     */
+    @TableField(exist = false)
+    private Integer eid;
+
     @TableId(value = "id")
     private String id;
 

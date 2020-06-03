@@ -1,10 +1,12 @@
 package cn.edu.cess.controller.admin.department;
 
 
+import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.admin.department.Notice;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.admin.department.INoticeEnterpriseService;
+import cn.edu.cess.service.admin.department.INoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,8 @@ import cn.edu.cess.base.AbstractClass;
 public class NoticeEnterpriseController extends AbstractClass {
     @Autowired
     INoticeEnterpriseService iNoticeEnterpriseService;
+    @Autowired
+    INoticeService iNoticeService;
 
     @GetMapping("")
     public Result getNotice(@RequestParam Integer enterpriseId) {
@@ -33,6 +37,12 @@ public class NoticeEnterpriseController extends AbstractClass {
         return ResultFactory.buildSuccessResult(notice);
     }
 
+    @GetMapping("/byPage")
+    public Result getNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
+                                  @RequestParam(defaultValue = "10") Integer size) {
+        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size, Constant.Enterprise_NOTICE_TYPE));
+    }
+
     @PostMapping("")
     public Result saveNotice(@RequestBody Notice notice, @RequestParam Integer enterpriseId) {
         if (iNoticeEnterpriseService.saveNotice(notice, enterpriseId)) {
@@ -40,5 +50,4 @@ public class NoticeEnterpriseController extends AbstractClass {
         }
         return ResultFactory.buildFailResult("");
     }
-    
 }

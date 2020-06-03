@@ -57,8 +57,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
-    public ResultPage listByPage(Integer page, Integer size) {
-        Page<Notice> noticePage = page(new Page<>(page, size));
+    public ResultPage listByPage(Integer page, Integer size,String type) {
+        QueryWrapper<Notice> q = new QueryWrapper<>();
+        q.eq(Constant.NOTICE_TYPE, type);
+        Page<Notice> noticePage = page(new Page<>(page, size), q);
         List<Notice> noticeList = noticePage.getRecords();
         ResultPage resultPage = new ResultPage();
         resultPage.setTotal(noticePage.getTotal());
@@ -69,8 +71,8 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Override
     public boolean updateNotice(Notice notice) {
         UpdateWrapper<Notice> u = new UpdateWrapper<>();
-        u.eq(Constant.ID,notice.getId());
-        return update(notice,u);
+        u.eq(Constant.ID, notice.getId());
+        return update(notice, u);
     }
 
     private Notice getByTitleAndTime(Notice notice) {
