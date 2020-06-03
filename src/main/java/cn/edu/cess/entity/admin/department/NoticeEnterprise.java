@@ -1,5 +1,6 @@
 package cn.edu.cess.entity.admin.department;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -24,14 +25,11 @@ public class NoticeEnterprise implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId("id")
-    private Integer id;
-
     /**
      * 通知id
      */
-    @TableField("nid")
-    private Integer nid;
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String nid;
 
     /**
      * 企业id

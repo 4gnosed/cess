@@ -57,7 +57,7 @@ public class NoticeController extends AbstractClass {
         }
     }
 
-    @PutMapping("/admin/notice")
+    @PutMapping({"/admin/notice","/notice"})
     public Result updateNotice(@RequestBody Notice notice) {
         if (iNoticeService.updateNotice(notice)) {
             return ResultFactory.buildSuccessResult("");
