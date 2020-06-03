@@ -1,21 +1,18 @@
 package cn.edu.cess.controller.admin.department;
 
 
+import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.admin.department.Notice;
+import cn.edu.cess.entity.admin.department.NoticePicture;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import cn.edu.cess.service.admin.department.INoticePictureService;
 import cn.edu.cess.service.admin.department.INoticeService;
-import cn.edu.cess.util.DateTimeUtils;
 import cn.edu.cess.util.FileUploadUtil;
-import org.apache.ibatis.annotations.Param;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import cn.edu.cess.base.AbstractClass;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +31,8 @@ import java.util.List;
 public class NoticeController extends AbstractClass {
     @Autowired
     INoticeService iNoticeService;
+    @Autowired
+    INoticePictureService iNoticePictureService;
 
     @PostMapping("/admin/notice/img")
     public Result uploadImg(@RequestParam(value = "img") MultipartFile multipartFile, HttpServletRequest request) {
@@ -42,7 +41,10 @@ public class NoticeController extends AbstractClass {
         }
         //保存图片
         FileUrlVo fileUrlVo = FileUploadUtil.upload(multipartFile, request, Constant.IMG_FOLDER);
-        return ResultFactory.buildSuccessResult(fileUrlVo.getPath());
+        //保存图片-公告记录
+        NoticePicture noticePicture = iNoticePictureService.save(fileUrlVo);
+        //返回公告id
+        return ResultFactory.buildSuccessResult(noticePicture);
     }
 
     @PostMapping("/admin/notice")
@@ -71,7 +73,7 @@ public class NoticeController extends AbstractClass {
     }
 
     @GetMapping("/notice")
-    public Result getNoticeById(@RequestParam Integer noticeId) {
+    public Result getNoticeById(@RequestParam String noticeId) {
         return ResultFactory.buildSuccessResult(iNoticeService.getById(noticeId));
     }
 
@@ -81,7 +83,7 @@ public class NoticeController extends AbstractClass {
     }
 
     @DeleteMapping("/admin/notice")
-    public Result deleteNotice(@RequestParam() Integer nid) {
+    public Result deleteNotice(@RequestParam() String nid) {
         if (iNoticeService.removeById(nid)) {
             return ResultFactory.buildSuccessResult("");
         } else {

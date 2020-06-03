@@ -110,7 +110,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
                     a -> a.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords));
         }
 
-        Page<Positions> posPage = page(new Page<>(page, size - entPosNumber), pQueryWrapper);
+        Page<Positions> posPage = page(new Page<>(page, size - positionsSet.size()), pQueryWrapper);
         positionsSet.addAll(posPage.getRecords());
 
 //        for (Positions pos : positionsSet) {
