@@ -22,4 +22,6 @@ public interface IUserEnterpriseService extends IService<UserEnterprise> {
     UserEnterprise getByUid(Integer userId);
 
     UserEnterprise getByEid(Integer eid);
+
+    int getTotal();
 }

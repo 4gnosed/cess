@@ -51,13 +51,14 @@ public class EnterpriseController extends AbstractClass {
         if (userEnterprise == null) {
             //未填写信息
             return ResultFactory.buildEmptyResult("");
-        } else if (userEnterprise.getEnabled() == false) {
-            //未审核通过
-            return ResultFactory.buildFailResult("");
         }
-        Enterprise Enterprise = iEnterpriseService.getById(userEnterprise.getEid());
-        iEnterpriseService.fillData(Enterprise);
-        return ResultFactory.buildSuccessResult(Enterprise);
+        Enterprise enterprise = iEnterpriseService.getById(userEnterprise.getEid());
+        iEnterpriseService.fillData(enterprise);
+        if (userEnterprise.getEnabled() == false) {
+            //未审核通过
+            return ResultFactory.buildNotCheckResult(enterprise);
+        }
+        return ResultFactory.buildSuccessResult(enterprise);
     }
 
     @PutMapping("")
@@ -69,13 +70,14 @@ public class EnterpriseController extends AbstractClass {
     @PostMapping("")
     public Result addEnterprise(@RequestBody Enterprise enterprise) {
 //        enterprise.setId(iEnterpriseService.getLastId() + 1);
+        Integer userId = enterprise.getUserId();
+        iEnterpriseService.save(enterprise);
         enterprise = iEnterpriseService.getByName(enterprise.getName());
         UserEnterprise userEnterprise = new UserEnterprise();
-        userEnterprise.setUid(enterprise.getUserId());
+        userEnterprise.setUid(userId);
         userEnterprise.setEid(enterprise.getId());
         userEnterprise.setEnabled(false);
         iUserEnterpriseService.save(userEnterprise);
-        iEnterpriseService.save(enterprise);
         return ResultFactory.buildSuccessResult(enterprise);
     }
 }

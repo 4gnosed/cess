@@ -16,6 +16,10 @@ public class ResultFactory extends AbstractClass {
         return buildResult(ResultCode.SUCCESS, "成功", data);
     }
 
+    public static Result buildNotCheckResult(Object data) {
+        return buildResult(ResultCode.NOT_CHECK, "未审核", data);
+    }
+
     public static Result buildFailResult(String message) {
         return buildResult(ResultCode.FAIL, message, null);
     }

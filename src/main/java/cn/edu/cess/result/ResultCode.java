@@ -6,6 +6,7 @@ package cn.edu.cess.result;
  */
 public class ResultCode {
     public static final int SUCCESS = 200;
+    public static final int NOT_CHECK = 444;
     public static final int NO_CONTENT = 204;
     public static final int FAIL = 400;
     public static final int UNAUTHORIZED = 401;

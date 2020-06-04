@@ -63,7 +63,7 @@ public class UserEnterpriseController extends AbstractClass {
             userEnterpriseVos.add(userEnterpriseVo);
         }
         ResultPage resultPage = new ResultPage();
-        resultPage.setTotal((long) userEnterpriseList.size());
+        resultPage.setTotal((long) iUserEnterpriseService.getTotal());
         resultPage.setData(userEnterpriseVos);
         return ResultFactory.buildSuccessResult(resultPage);
     }

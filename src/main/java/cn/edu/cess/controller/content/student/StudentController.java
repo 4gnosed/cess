@@ -101,7 +101,7 @@ public class StudentController extends AbstractClass {
     public Result addStudent(@RequestBody Student student) {
 //        student.setId(iStudentService.getLastId() + 1);
         iStudentService.save(student);
-        student=iStudentService.getByStudentId(student.getStudentId());
+        student = iStudentService.getByStudentId(student.getStudentId());
         UserStudent userStudent = new UserStudent();
         userStudent.setUid(student.getUserId());
         userStudent.setSid(student.getId());
@@ -117,11 +117,12 @@ public class StudentController extends AbstractClass {
         if (userStudent == null) {
             //未填写信息
             return ResultFactory.buildEmptyResult("");
-        } else if (userStudent.getEnabled() == false) {
-            //未审核通过
-            return ResultFactory.buildFailResult("");
         }
         Student student = iStudentService.listById(userStudent.getSid());
+        if (userStudent.getEnabled() == false) {
+            //未审核通过
+            return ResultFactory.buildNotCheckResult(student);
+        }
         return ResultFactory.buildSuccessResult(student);
     }
 

@@ -1,7 +1,6 @@
 package cn.edu.cess.service.content.enterprise.impl;
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.mapper.content.enterprise.UserEnterpriseMapper;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
@@ -50,5 +49,10 @@ public class UserEnterpriseServiceImpl extends ServiceImpl<UserEnterpriseMapper,
         QueryWrapper<UserEnterprise> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.EID,eid);
         return getOne(queryWrapper);
+    }
+
+    @Override
+    public int getTotal() {
+        return list().size();
     }
 }
