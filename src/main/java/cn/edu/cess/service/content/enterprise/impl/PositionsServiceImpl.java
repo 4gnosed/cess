@@ -43,7 +43,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         Integer eid = iUserEnterpriseService.getByUid(userId).getEid();
         save(position);
         QueryWrapper<Positions> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Constant.NAME, position.getName());
+        queryWrapper.eq(Constant.DESCRIPTION, position.getDescription()).last("LIMIT 1");
         Integer pid = getOne(queryWrapper).getId();
         EnterprisePositions enterprisePositions = new EnterprisePositions();
         enterprisePositions.setEid(eid);
