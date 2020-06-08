@@ -98,4 +98,5 @@ public class Constant {
     public static final String GUIDE_NOTICE_TYPE = "就业指导";
     public static final String POLICY_NOTICE_TYPE = "就业政策";
     public static final String TYPE = "type";
+    public static final String NID = "nid";
 }

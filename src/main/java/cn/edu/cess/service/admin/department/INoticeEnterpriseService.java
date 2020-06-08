@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author Gnosed Lu
@@ -17,4 +17,7 @@ public interface INoticeEnterpriseService extends IService<NoticeEnterprise> {
     Notice getByEId(Integer enterpriseId);
 
     boolean saveNotice(Notice notice, Integer enterpriseId);
+
+    Integer getEnterpriseId(String noticeId);
+
 }

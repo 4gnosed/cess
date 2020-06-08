@@ -62,6 +62,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         Page<Notice> noticePage = page(new Page<>(page, size), q);
         List<Notice> noticeList = noticePage.getRecords();
         ResultPage resultPage = new ResultPage();
+        if (type.equals(Constant.Enterprise_NOTICE_TYPE))
+            for (Notice notice : noticeList) {
+                notice.setEid(iNoticeEnterpriseService.getEnterpriseId(notice.getId()));
+            }
         resultPage.setTotal(noticePage.getTotal());
         resultPage.setData(noticeList);
         return resultPage;

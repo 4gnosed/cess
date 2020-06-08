@@ -28,12 +28,18 @@ public class NoticeEnterpriseServiceImpl extends ServiceImpl<NoticeEnterpriseMap
 
     @Override
     public Notice getByEId(Integer enterpriseId) {
+        NoticeEnterprise noticeEnterprise = getNoticeEnterprise(enterpriseId);
+        if (noticeEnterprise == null) return null;
+        Notice notice = iNoticeService.getById(noticeEnterprise.getNid());
+        return notice;
+    }
+
+    public NoticeEnterprise getNoticeEnterprise(Integer enterpriseId) {
         QueryWrapper<NoticeEnterprise> q = new QueryWrapper<>();
         q.eq(Constant.EID, enterpriseId).last("LIMIT 1");
         NoticeEnterprise noticeEnterprise = getOne(q);
         if (noticeEnterprise == null) return null;
-        Notice notice = iNoticeService.getById(noticeEnterprise.getNid());
-        return notice;
+        return noticeEnterprise;
     }
 
     @Override
@@ -45,5 +51,14 @@ public class NoticeEnterpriseServiceImpl extends ServiceImpl<NoticeEnterpriseMap
         iNoticeService.fillData(notice);
         iNoticeService.save(notice);
         return true;
+    }
+
+    @Override
+    public Integer getEnterpriseId(String noticeId) {
+        QueryWrapper<NoticeEnterprise> q = new QueryWrapper<>();
+        q.eq(Constant.NID, noticeId).last("LIMIT 1");
+        NoticeEnterprise noticeEnterprise = getOne(q);
+        if (noticeEnterprise == null) return null;
+        return noticeEnterprise.getEid();
     }
 }
