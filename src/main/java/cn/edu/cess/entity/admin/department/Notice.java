@@ -61,10 +61,10 @@ public class Notice implements Serializable {
     private Date time;
 
     /**
-     * 1表示学校通知，2表示企业校招通知
+     * 类型
      */
-    @TableField("notice_type")
-    private String noticeType;
+    @TableField("type")
+    private String type;
 
     /**
      * 发布者

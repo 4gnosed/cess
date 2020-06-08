@@ -42,7 +42,7 @@ public class NoticeEnterpriseServiceImpl extends ServiceImpl<NoticeEnterpriseMap
         noticeEnterprise.setEid(enterpriseId);
         save(noticeEnterprise);
         notice.setId(noticeEnterprise.getNid());
-        iNoticeService.fillData(notice, Constant.Enterprise_NOTICE_TYPE);
+        iNoticeService.fillData(notice);
         iNoticeService.save(notice);
         return true;
     }

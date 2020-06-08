@@ -18,7 +18,7 @@ public interface INoticeService extends IService<Notice> {
 
     boolean saveNotice(Notice notice);
 
-    void fillData(Notice notice, String schoolNoticeType);
+    void fillData(Notice notice);
 
     boolean deleteNotices(List<Notice> notices);
 

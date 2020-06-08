@@ -93,7 +93,9 @@ public class Constant {
     public static final String PREPARATION = "preparation";
     public static final String REQUIREMENTS = "requirements";
     public static final String ENTERPRISE_HOPE = "enterprise_hope";
-    public static final String SCHOOL_NOTICE_TYPE = "学校通知";
-    public static final String Enterprise_NOTICE_TYPE = "企业通知";
-    public static final String NOTICE_TYPE = "notice_type";
+    public static final String Enterprise_NOTICE_TYPE = "招聘信息";
+    public static final String NORMAL_NOTICE_TYPE = "公告公示";
+    public static final String GUIDE_NOTICE_TYPE = "就业指导";
+    public static final String POLICY_NOTICE_TYPE = "就业政策";
+    public static final String TYPE = "type";
 }

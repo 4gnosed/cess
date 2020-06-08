@@ -53,7 +53,7 @@ public class NoticeController extends AbstractClass {
 
     @PostMapping("/admin/notice")
     public Result publicNotice(@RequestBody Notice notice) {
-        iNoticeService.fillData(notice, Constant.SCHOOL_NOTICE_TYPE);
+        iNoticeService.fillData(notice);
         if (iNoticeService.saveNotice(notice)) {
             return ResultFactory.buildSuccessResult("");
         } else {
@@ -70,10 +70,23 @@ public class NoticeController extends AbstractClass {
         }
     }
 
-    @GetMapping("/notice/byPage")
-    public Result getNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
-                                  @RequestParam(defaultValue = "10") Integer size) {
-        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size,Constant.SCHOOL_NOTICE_TYPE));
+    @GetMapping("/noticeNormal/byPage")
+    public Result getNormalNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
+                                        @RequestParam(defaultValue = "10") Integer size) {
+        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size, Constant.NORMAL_NOTICE_TYPE));
+    }
+
+    @GetMapping("/noticeGuide/byPage")
+    public Result getGuideNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
+                                       @RequestParam(defaultValue = "10") Integer size) {
+        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size, Constant.GUIDE_NOTICE_TYPE));
+
+    }
+
+    @GetMapping("/noticePolicy/byPage")
+    public Result getPolicyNoticeByPage(@RequestParam(defaultValue = "1") Integer page,
+                                        @RequestParam(defaultValue = "10") Integer size) {
+        return ResultFactory.buildSuccessResult(iNoticeService.listByPage(page, size, Constant.POLICY_NOTICE_TYPE));
     }
 
     @GetMapping("/notice")

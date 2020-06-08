@@ -38,11 +38,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
-    public void fillData(Notice notice, String type) {
+    public void fillData(Notice notice) {
         Subject subject = SecurityUtils.getSubject();
         String userName = (String) subject.getPrincipal();
-        notice.setPublisher(userName.toString());
-        notice.setNoticeType(type);
+        notice.setPublisher(userName);
         notice.setTime(DateTimeUtils.getCurrentTime());
     }
 
@@ -57,9 +56,9 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
-    public ResultPage listByPage(Integer page, Integer size,String type) {
+    public ResultPage listByPage(Integer page, Integer size, String type) {
         QueryWrapper<Notice> q = new QueryWrapper<>();
-        q.eq(Constant.NOTICE_TYPE, type);
+        q.eq(Constant.TYPE, type).orderByDesc(Constant.TIME);
         Page<Notice> noticePage = page(new Page<>(page, size), q);
         List<Notice> noticeList = noticePage.getRecords();
         ResultPage resultPage = new ResultPage();
