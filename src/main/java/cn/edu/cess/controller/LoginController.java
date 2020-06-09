@@ -12,6 +12,7 @@ import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
+import cn.edu.cess.util.FileUploadUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -19,6 +20,8 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
@@ -40,7 +43,7 @@ public class LoginController extends AbstractClass {
      * @return
      */
     @PostMapping(value = "/login")
-    public Result login(@RequestBody() User requestUser) {
+    public Result login(@RequestBody() User requestUser, HttpServletRequest request) {
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
         Subject subject = SecurityUtils.getSubject();
@@ -52,13 +55,7 @@ public class LoginController extends AbstractClass {
                 return ResultFactory.buildFailResult("用户已被禁用");
             }
             iUserService.updateLastLogin(username);
-            AdminRole role = iAdminRoleService.listRoleByUsername(username).get(0);
-            Integer roleId = role.getId();
-            User user = iUserService.getByUsername(username);
-            user.setPassword("");
-            user.setSalt("");
-            user.setRole(role.getNameZh());
-            user.setRoleId(roleId);
+            User user = iUserService.fillUser(request, username, null);
             return ResultFactory.buildSuccessResult(user);
         } catch (UnknownAccountException uae) {
             //username wasn't in the system, show them an error message?
@@ -110,6 +107,7 @@ public class LoginController extends AbstractClass {
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
+        user.setAvatarPath(Constant.AVATAR1_PATH + Constant.DEFAULT_HEAD_PNG);
         int userId = iUserService.add(user);
         AdminUserRole adminUserRole = new AdminUserRole();
         adminUserRole.setUid(userId);

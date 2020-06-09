@@ -5,12 +5,13 @@ import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface IUserService extends IService<User> {
     User list(String username, String password);
 
-    User getByUsername(String username) ;
+    User getByUsername(String username);
 
     int add(User user);
 
@@ -37,4 +38,8 @@ public interface IUserService extends IService<User> {
     User getByEid(int eid);
 
     User getByRid(int rid);
+
+    boolean saveAvatarPath(String filePath, Integer userId);
+
+    User fillUser(HttpServletRequest request, String username, Integer userId);
 }

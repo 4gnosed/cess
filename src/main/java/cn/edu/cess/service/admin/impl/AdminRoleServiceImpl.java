@@ -56,6 +56,16 @@ public class AdminRoleServiceImpl extends ServiceImpl<AdminRoleMapper, AdminRole
     }
 
     @Override
+    public List<AdminRole> listRoleByUserId(Integer userId) {
+        List<AdminUserRole> adminUserRoles = iAdminUserRoleService.getUserRoleByUid(userId);
+        ArrayList<AdminRole> roles = new ArrayList<>();
+        for (AdminUserRole adminUserRole : adminUserRoles) {
+            roles.addAll(listById(adminUserRole.getRid()));
+        }
+        return roles;
+    }
+
+    @Override
     public boolean saveRole(AdminRole role) {
         if (listByName(role.getName()).isEmpty()) {
             role.setEnabled(false);

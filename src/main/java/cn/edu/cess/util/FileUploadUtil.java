@@ -15,8 +15,16 @@ import java.util.UUID;
  */
 public class FileUploadUtil {
 
-    public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request) {
-        return upload(multiFile, request);
+    public static FileUrlVo uploadResume(MultipartFile multiFile, HttpServletRequest request) {
+        return upload(multiFile, request, Constant.RESUME_PATH);
+    }
+
+    public static FileUrlVo uploadImg(MultipartFile multiFile, HttpServletRequest request) {
+        return upload(multiFile, request, Constant.IMG_PATH);
+    }
+
+    public static FileUrlVo uploadAvatar(MultipartFile multiFile, HttpServletRequest request) {
+        return upload(multiFile, request, Constant.AVATAR1_PATH);
     }
 
     /**
@@ -26,31 +34,27 @@ public class FileUploadUtil {
      * @param request
      * @return
      */
-    public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request, String fileFolder) {
-        String partPath = Constant.IMG_PATH;
+    public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request, String partPath) {
         String filename = multiFile.getOriginalFilename();
         filename = UUID.randomUUID().toString() + filename;
-        if (fileFolder == null || "".equals(fileFolder)) {
-            fileFolder = Constant.FILE_FOLDER;
-            partPath = Constant.PART_PATH;
-        }
-        File folder = new File(fileFolder);
+
+        File folder = new File(Constant.FILE_FOLDER + partPath.substring(10));
         File file = new File(folder, filename);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         try {
             multiFile.transferTo(file);
-            FileUrlVo fileUrlVo = new FileUrlVo();
-            String ipPort = getIpPort(request);
-            String filePath = partPath + file.getName();
-            fileUrlVo.setIpPort(ipPort);
-            fileUrlVo.setFilePath(filePath);
-            return fileUrlVo;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+        FileUrlVo fileUrlVo = new FileUrlVo();
+        String ipPort = getIpPort(request);
+        String filePath = partPath + file.getName();
+        fileUrlVo.setIpPort(ipPort);
+        fileUrlVo.setFilePath(filePath);
+        return fileUrlVo;
     }
 
     public static String getIpPort(HttpServletRequest request) {

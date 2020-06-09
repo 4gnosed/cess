@@ -2,9 +2,10 @@ package cn.edu.cess.constant;
 
 public class Constant {
     public static final String FILE_FOLDER = "F:/MyCode/IdeaProjects/_file/";
-    public static final String IMG_FOLDER = "F:/MyCode/IdeaProjects/_file/img";
-    public static final String PART_PATH = "/api/file/";
+    public static final String RESUME_PATH = "/api/file/resume/";
     public static final String IMG_PATH = "/api/file/img/";
+    public static final String AVATAR1_PATH = "/api/file/avatar/";
+    public static final String PART_PATH = "/api/file/";
     public static final String[] REQUIRED_AUTH_PAGE = {"index"};
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -99,4 +100,6 @@ public class Constant {
     public static final String POLICY_NOTICE_TYPE = "就业政策";
     public static final String TYPE = "type";
     public static final String NID = "nid";
+    public static final String AVATAR_PATH = "avatar_path";
+    public static String DEFAULT_HEAD_PNG="defaultHead.png";
 }

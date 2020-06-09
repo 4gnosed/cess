@@ -44,7 +44,7 @@ public class NoticeController extends AbstractClass {
             return ResultFactory.buildFailResult("文件为空");
         }
         //保存图片
-        FileUrlVo fileUrlVo = FileUploadUtil.upload(multipartFile, request, Constant.IMG_FOLDER);
+        FileUrlVo fileUrlVo = FileUploadUtil.uploadImg(multipartFile, request);
         //保存图片-公告记录
         NoticePicture noticePicture = iNoticePictureService.save(fileUrlVo);
         //返回公告id

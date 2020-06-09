@@ -24,7 +24,7 @@ public class FileUrlVo {
     }
 
     public String getFileName() {
-        return filePath == null ? null : filePath.substring(Constant.PART_PATH.length() + Constant.UUID_LENGTH);
+        return filePath == null ? null : filePath.substring(filePath.lastIndexOf("/") + 1 + Constant.UUID_LENGTH);
     }
 
     public FileUrlVo() {

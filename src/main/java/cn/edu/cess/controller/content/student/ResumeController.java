@@ -55,7 +55,7 @@ public class ResumeController extends AbstractClass {
             return ResultFactory.buildFailResult("接收文件为空");
         }
         //保存文件
-        FileUrlVo fileUrlVo = FileUploadUtil.upload(multipartFile, request);
+        FileUrlVo fileUrlVo = FileUploadUtil.uploadResume(multipartFile, request);
         //保存文件路径
         iResumeService.saveFilePath(fileUrlVo.getFilePath(), userId);
         return ResultFactory.buildSuccessResult(fileUrlVo.getPath());

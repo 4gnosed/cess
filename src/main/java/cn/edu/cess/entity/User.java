@@ -30,4 +30,9 @@ public class User {
     private String role;
     @TableField(exist = false)
     private boolean rememberMe;
+    /**
+     * 头像路径
+     */
+    @TableField("avatar_path")
+    private String avatarPath;
 }

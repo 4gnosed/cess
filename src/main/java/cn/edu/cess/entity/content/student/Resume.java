@@ -51,12 +51,6 @@ public class Resume implements Serializable {
     private String remark;
 
     /**
-     * 头像路径
-     */
-    @TableField("avatar_path")
-    private String avatarPath;
-
-    /**
      * 附件路径
      */
     @TableField("file_path")

@@ -4,6 +4,7 @@ package cn.edu.cess.service.impl;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.entity.content.student.UserResume;
@@ -14,6 +15,7 @@ import cn.edu.cess.service.admin.IAdminUserRoleService;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import cn.edu.cess.service.content.student.IUserResumeService;
 import cn.edu.cess.util.DateTimeUtils;
+import cn.edu.cess.util.FileUploadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,5 +180,29 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     public User getByRid(int rid) {
         UserResume userResume = iUserResumeService.getByRid(rid);
         return getById(userResume.getUid());
+    }
+
+    @Override
+    public boolean saveAvatarPath(String filePath, Integer userId) {
+        UpdateWrapper<User> u = new UpdateWrapper<>();
+        u.eq(Constant.ID,userId).set(Constant.AVATAR_PATH,filePath );
+        return update(u);
+    }
+
+    @Override
+    public User fillUser(HttpServletRequest request, String username, Integer userId) {
+        User user = null;
+        if (username != null && userId == null) {
+            user = getByUsername(username);
+        } else if (username == null && userId != null) {
+            user = getById(userId);
+        }
+        AdminRole role = iAdminRoleService.listRoleByUserId(user.getId()).get(0);
+        user.setPassword("");
+        user.setSalt("");
+        user.setRole(role.getNameZh());
+        user.setRoleId(role.getId());
+        user.setAvatarPath(FileUploadUtil.getIpPort(request) + user.getAvatarPath());
+        return user;
     }
 }
