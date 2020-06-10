@@ -20,4 +20,6 @@ public interface IUserStudentService extends IService<UserStudent> {
     List<UserStudent> getUserStudentsByPage(Integer page, Integer size);
 
     void updateStatus(boolean enabled, String id);
+
+    boolean removeByUid(int userId);
 }

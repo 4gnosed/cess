@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author Gnosed Lu
@@ -33,26 +33,33 @@ public class UserEnterpriseServiceImpl extends ServiceImpl<UserEnterpriseMapper,
     @Override
     public void updateStatus(boolean enabled, String id) {
         UpdateWrapper<UserEnterprise> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq(Constant.ID, id).set(Constant.ENABLED,enabled);
+        updateWrapper.eq(Constant.ID, id).set(Constant.ENABLED, enabled);
         update(updateWrapper);
     }
 
     @Override
     public UserEnterprise getByUid(Integer userId) {
         QueryWrapper<UserEnterprise> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Constant.UID,userId);
+        queryWrapper.eq(Constant.UID, userId);
         return getOne(queryWrapper);
     }
 
     @Override
     public UserEnterprise getByEid(Integer eid) {
         QueryWrapper<UserEnterprise> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Constant.EID,eid);
+        queryWrapper.eq(Constant.EID, eid);
         return getOne(queryWrapper);
     }
 
     @Override
     public int getTotal() {
         return list().size();
+    }
+
+    @Override
+    public boolean removeByUid(int userId) {
+        QueryWrapper<UserEnterprise> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.UID, userId);
+        return remove(queryWrapper);
     }
 }

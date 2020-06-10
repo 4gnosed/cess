@@ -110,8 +110,12 @@ public class ResumeServiceImpl extends ServiceImpl<ResumeMapper, Resume> impleme
 
     @Override
     public FileUrlVo getFileUrlVo(Integer userId, HttpServletRequest request) {
+        String filePath = getPreResumeByUid(userId).getFilePath();
+        if (filePath == null || "".equals(filePath)) {
+            return null;
+        }
         FileUrlVo fileUrlVo = new FileUrlVo();
-        fileUrlVo.setFilePath(getPreResumeByUid(userId).getFilePath());
+        fileUrlVo.setFilePath(filePath);
         fileUrlVo.setIpPort(FileUploadUtil.getIpPort(request));
         fileUrlVo.setPath(fileUrlVo.getPath());
         fileUrlVo.setFileName(fileUrlVo.getFileName());

@@ -43,4 +43,11 @@ public class UserStudentServiceImpl extends ServiceImpl<UserStudentMapper, UserS
         updateWrapper.eq(Constant.ID, id).set(Constant.ENABLED, enabled);
         update(updateWrapper);
     }
+
+    @Override
+    public boolean removeByUid(int userId) {
+        QueryWrapper<UserStudent> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.UID, userId);
+        return remove(queryWrapper);
+    }
 }

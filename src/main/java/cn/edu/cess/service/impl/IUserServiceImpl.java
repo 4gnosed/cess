@@ -14,6 +14,7 @@ import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import cn.edu.cess.service.content.student.IUserResumeService;
+import cn.edu.cess.service.content.student.IUserStudentService;
 import cn.edu.cess.util.DateTimeUtils;
 import cn.edu.cess.util.FileUploadUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -43,6 +44,8 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     IUserEnterpriseService iUserEnterpriseService;
     @Autowired
     IUserResumeService iUserResumeService;
+    @Autowired
+    IUserStudentService iUserStudentService;
 
     @Override
     public User list(String username, String password) {
@@ -136,10 +139,15 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     @Override
     public boolean removeUser(int userId) {
         boolean b1 = removeById(userId);
+        //删除关联角色记录
         QueryWrapper<AdminUserRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.UID, userId);
         boolean b2 = iAdminUserRoleService.remove(queryWrapper);
-        return b1 && b2;
+        //删除关联学生记录
+        boolean b3 = iUserEnterpriseService.removeByUid(userId);
+        //删除关联企业记录
+        boolean b4 = iUserStudentService.removeByUid(userId);
+        return b1 && b2 && (b3 || b4);
     }
 
     @Override
@@ -185,7 +193,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     @Override
     public boolean saveAvatarPath(String filePath, Integer userId) {
         UpdateWrapper<User> u = new UpdateWrapper<>();
-        u.eq(Constant.ID,userId).set(Constant.AVATAR_PATH,filePath );
+        u.eq(Constant.ID, userId).set(Constant.AVATAR_PATH, filePath);
         return update(u);
     }
 
