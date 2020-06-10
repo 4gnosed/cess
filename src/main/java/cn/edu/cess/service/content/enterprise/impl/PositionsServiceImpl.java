@@ -106,8 +106,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         }
 
         if (keywords != null && keywords != "") {
-            pQueryWrapper.nested(
-                    a -> a.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords));
+            pQueryWrapper.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords);
         }
 
         Page<Positions> posPage = page(new Page<>(page, size - positionsSet.size()), pQueryWrapper);
