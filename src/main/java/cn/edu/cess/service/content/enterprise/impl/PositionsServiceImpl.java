@@ -158,7 +158,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
     @Override
     public void fillData(Positions positions) {
         Integer eid = getEnterpriseId(new QueryWrapper<EnterprisePositions>(), positions.getId());
-        //职位(企业)所属用户id
+        //职位(企业)
         positions.setEnterpriseId(eid);
         //职位所属企业id
         positions.setUserId(iUserEnterpriseService.getByEid(eid).getUid());

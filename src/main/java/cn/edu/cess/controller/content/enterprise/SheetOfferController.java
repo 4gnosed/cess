@@ -38,4 +38,9 @@ public class SheetOfferController extends AbstractClass {
     public Result alter(@RequestBody SheetOffer sheetOffer) {
         return ResultFactory.buildSuccessResult(iSheetOfferService.update(sheetOffer));
     }
+
+    @GetMapping("/getById")
+    public Result getById(@RequestParam Integer oid) {
+        return ResultFactory.buildSuccessResult(iSheetOfferService.getById(oid));
+    }
 }

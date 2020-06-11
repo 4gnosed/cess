@@ -69,4 +69,9 @@ public class PositionsController extends AbstractClass {
     public Result getById(@RequestParam Integer positionId) {
         return ResultFactory.buildSuccessResult(iPositionsService.getById(positionId));
     }
+
+    @GetMapping("/getAll")
+    public Result getAll() {
+        return ResultFactory.buildSuccessResult(iPositionsService.list());
+    }
 }

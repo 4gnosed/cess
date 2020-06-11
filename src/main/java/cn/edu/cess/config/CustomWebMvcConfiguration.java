@@ -24,8 +24,8 @@ public class CustomWebMvcConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)     //允许跨域使用 cookie
-//                .allowedOrigins("http://localhost:8080")
-                .allowedOrigins("http://192.168.0.109:8765")
+                .allowedOrigins("http://127.0.0.1:8765")
+//                .allowedOrigins("http://192.168.0.109:8765")
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                 .allowedHeaders("*");
     }
@@ -37,7 +37,7 @@ public class CustomWebMvcConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(Constant.PART_PATH+"**")
+        registry.addResourceHandler(Constant.PART_PATH + "**")
                 .addResourceLocations("file:" + Constant.FILE_FOLDER);
     }
 
