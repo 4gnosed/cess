@@ -22,4 +22,6 @@ public interface IUserStudentService extends IService<UserStudent> {
     void updateStatus(boolean enabled, String id);
 
     boolean removeByUid(int userId);
+
+    boolean removeBySid(Integer studentId);
 }

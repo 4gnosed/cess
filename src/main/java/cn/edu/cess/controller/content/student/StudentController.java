@@ -89,7 +89,9 @@ public class StudentController extends AbstractClass {
 
     @DeleteMapping("")
     public Result deleteStudentById(@RequestParam("studentId") Integer studentId) {
-        return ResultFactory.buildSuccessResult(iStudentService.removeById(studentId));
+        boolean b1 = iStudentService.removeById(studentId);
+        boolean b2 = iUserStudentService.removeBySid(studentId);
+        return ResultFactory.buildSuccessResult("");
     }
 
     @PutMapping("")

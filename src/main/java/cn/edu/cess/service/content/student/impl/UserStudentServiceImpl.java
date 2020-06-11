@@ -50,4 +50,11 @@ public class UserStudentServiceImpl extends ServiceImpl<UserStudentMapper, UserS
         queryWrapper.eq(Constant.UID, userId);
         return remove(queryWrapper);
     }
+
+    @Override
+    public boolean removeBySid(Integer studentId) {
+        QueryWrapper<UserStudent> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(Constant.SID, studentId);
+        return remove(queryWrapper);
+    }
 }
