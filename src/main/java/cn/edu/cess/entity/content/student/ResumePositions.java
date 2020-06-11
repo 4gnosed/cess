@@ -59,7 +59,7 @@ public class ResumePositions implements Serializable {
      * 上一个简历状态id
      */
     @TableField("last_state_id")
-    private Integer lastStateId;
+        private Integer lastStateId;
 
     /**
      * 笔试情况表id

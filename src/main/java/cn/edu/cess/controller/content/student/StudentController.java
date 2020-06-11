@@ -128,4 +128,8 @@ public class StudentController extends AbstractClass {
         return ResultFactory.buildSuccessResult(student);
     }
 
+    @GetMapping("/getTotal")
+    public Result getAll(){
+        return ResultFactory.buildSuccessResult(iStudentService.count());
+    }
 }

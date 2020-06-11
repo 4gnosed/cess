@@ -6,10 +6,13 @@ import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.content.enterprise.IPositionsService;
 import cn.edu.cess.util.DateTimeUtils;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import cn.edu.cess.base.AbstractClass;
+
+import java.util.List;
 
 /**
  * <p>
@@ -70,8 +73,14 @@ public class PositionsController extends AbstractClass {
         return ResultFactory.buildSuccessResult(iPositionsService.getById(positionId));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getNumber")
     public Result getAll() {
-        return ResultFactory.buildSuccessResult(iPositionsService.list());
+        return ResultFactory.buildSuccessResult(iPositionsService.getNumber());
+    }
+
+    @PostMapping("/getSalaryIds")
+    public Result getSalaryIds(@RequestBody() String ids) {
+        List<Integer> positionIds = JSONObject.parseArray(ids, Integer.class);
+        return ResultFactory.buildSuccessResult(iPositionsService.getSalaryIds(positionIds));
     }
 }

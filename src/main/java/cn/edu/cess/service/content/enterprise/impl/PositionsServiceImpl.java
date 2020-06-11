@@ -1,6 +1,7 @@
 package cn.edu.cess.service.content.enterprise.impl;
 
 import cn.edu.cess.constant.Constant;
+import cn.edu.cess.entity.Vo.NumberVo;
 import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.EnterprisePositions;
 import cn.edu.cess.entity.content.enterprise.Positions;
@@ -144,6 +145,59 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         Enterprise enterprise = iEnterpriseService.getById(enterprisePositions.getEid());
         iEnterpriseService.fillData(enterprise);
         return enterprise;
+    }
+
+    @Override
+    public NumberVo getNumber() {
+        int totalNumber = 0;
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            list.add(0);
+        }
+        List<Positions> positionsList = list();
+        for (Positions positions : positionsList) {
+            totalNumber += positions.getNumber();
+            Integer salaryId = positions.getSalaryId();
+            if (salaryId == 1) {
+                Integer element0 = list.get(0);
+                list.set(0, ++element0);
+            } else if (salaryId == 2) {
+                Integer element1 = list.get(1);
+                list.set(1, ++element1);
+            } else if (salaryId == 3) {
+                Integer element2 = list.get(2);
+                list.set(2, ++element2);
+            } else if (salaryId == 4) {
+                Integer element3 = list.get(3);
+                list.set(3, ++element3);
+            } else if (salaryId == 5) {
+                Integer element4 = list.get(4);
+                list.set(4, ++element4);
+            } else if (salaryId == 6) {
+                Integer element5 = list.get(5);
+                list.set(5, ++element5);
+            } else if (salaryId == 7) {
+                Integer element6 = list.get(6);
+                list.set(6, ++element6);
+            } else if (salaryId == 8) {
+                Integer element7 = list.get(7);
+                list.set(7, ++element7);
+            }
+        }
+        NumberVo numberVo = new NumberVo();
+        numberVo.setTotalPositionNumber(totalNumber);
+        numberVo.setSalaryPositionNumber(list);
+        return numberVo;
+    }
+
+    @Override
+    public List<Integer> getSalaryIds(List<Integer> positionIds) {
+        ArrayList<Integer> salaryIds = new ArrayList<>();
+        for (Integer positionId : positionIds) {
+            Positions positions = getById(positionId);
+            salaryIds.add(positions.getSalaryId());
+        }
+        return salaryIds;
     }
 
     @Override

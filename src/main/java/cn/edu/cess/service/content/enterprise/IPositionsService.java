@@ -1,5 +1,6 @@
 package cn.edu.cess.service.content.enterprise;
 
+import cn.edu.cess.entity.Vo.NumberVo;
 import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.EnterprisePositions;
 import cn.edu.cess.entity.content.enterprise.Positions;
@@ -40,4 +41,8 @@ public interface IPositionsService extends IService<Positions> {
     void fillData(Collection<Positions> positionsCollection, QueryWrapper<EnterprisePositions> epQueryWrapper);
 
     Enterprise getEnterpriseByPid(Integer pid);
+
+    NumberVo getNumber();
+
+    List<Integer> getSalaryIds(List<Integer> positionIds);
 }
