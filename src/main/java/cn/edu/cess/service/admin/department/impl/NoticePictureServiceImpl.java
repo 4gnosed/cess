@@ -21,7 +21,7 @@ public class NoticePictureServiceImpl extends ServiceImpl<NoticePictureMapper, N
     @Override
     public NoticePicture save(FileUrlVo fileUrlVo) {
         NoticePicture noticePicture = new NoticePicture();
-        noticePicture.setPname(fileUrlVo.getPath());
+        noticePicture.setPname(fileUrlVo.getFilePath());
         save(noticePicture);
         return noticePicture;
     }

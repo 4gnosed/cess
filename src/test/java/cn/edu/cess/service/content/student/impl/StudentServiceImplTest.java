@@ -23,8 +23,8 @@ import java.util.Random;
  * @Date 2020/3/31
  * @Description
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class StudentServiceImplTest extends AbstractClass {
 
     @Autowired
@@ -37,7 +37,7 @@ public class StudentServiceImplTest extends AbstractClass {
     /**
      * 生成学号
      */
-    @Test
+//    @Test
     public void generateStudentId() {
         List<Student> studentList = iStudentService.list();
         Integer studentId = studentList.get(0).getStudentId();
@@ -50,7 +50,7 @@ public class StudentServiceImplTest extends AbstractClass {
     /**
      * 随机分配学生所属院系
      */
-    @Test
+//    @Test
     public void distributeDepartment() {
         List<Student> studentList = iStudentService.list();
         Random random = new Random();
@@ -68,7 +68,7 @@ public class StudentServiceImplTest extends AbstractClass {
     /**
      * 随机分配专业，对应起学生所属院系的关系
      */
-    @Test
+//    @Test
     public void distributeSpecialty() {
         List<Student> studentList = iStudentService.list();
         List<Specialty> specialtyList = iSpecialtyService.list();
@@ -99,7 +99,7 @@ public class StudentServiceImplTest extends AbstractClass {
         }
     }
 
-    @Test
+//    @Test
     public void randTest() {
         for (int i = 0; i < 100; i++) {
 //            int rand = (int) (Math.random() * 14);
@@ -112,7 +112,7 @@ public class StudentServiceImplTest extends AbstractClass {
     /**
      * 重置表主键id
      */
-    @Test
+//    @Test
     public void resetId() {
         List<Student> studentList = iStudentService.list();
         for (Student student : studentList) {
