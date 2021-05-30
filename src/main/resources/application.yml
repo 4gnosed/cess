@@ -1,13 +1,16 @@
 #app
 server:
   port: 8443
-#  address: 192.168.0.109
+  servlet:
+    context-path: /cess
+#  address: 120.24.147.211
+#  address: 127.0.0.1
 
 spring:
   application:
     name: college employment service system
   profiles:
-    active: dev
+    active: prod
 
 #mybatis
 mybatis-plus:

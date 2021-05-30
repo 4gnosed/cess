@@ -168,8 +168,8 @@
         </filter>
     </appender>
 
-    <logger name="org.springframework.web" level="info"/>
-    <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor" level="INFO"/>
+    <logger name="org.springframework.web" level="debug"/>
+    <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor" level="debug"/>
 
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
