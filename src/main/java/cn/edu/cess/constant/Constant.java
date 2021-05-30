@@ -1,7 +1,8 @@
 package cn.edu.cess.constant;
 
 public class Constant {
-    public static final String FILE_FOLDER = "F:/MyCode/IdeaProjects/_file/";
+//    public static final String FILE_FOLDER = "F:/MyCode/IdeaProjects/_file/";
+    public static final String FILE_FOLDER = "cess_file/";
     public static final String RESUME_PATH = "/api/file/resume/";
     public static final String IMG_PATH = "/api/file/img/";
     public static final String AVATAR1_PATH = "/api/file/avatar/";
