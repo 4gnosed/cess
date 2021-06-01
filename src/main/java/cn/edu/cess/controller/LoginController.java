@@ -12,6 +12,7 @@ import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
+import cn.edu.cess.util.CommonUtil;
 import cn.edu.cess.util.FileUploadUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -19,6 +20,8 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +46,11 @@ public class LoginController extends AbstractClass {
      * @return
      */
     @PostMapping(value = "/login")
-    public Result login(@RequestBody() User requestUser, HttpServletRequest request) {
+    public Result login(@RequestBody @Validated User requestUser, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return CommonUtil.returnErrorList(bindingResult);
+        }
+
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
         Subject subject = SecurityUtils.getSubject();
@@ -84,7 +91,11 @@ public class LoginController extends AbstractClass {
      * @return
      */
     @PostMapping(value = "/register")
-    public Result register(@RequestBody LoginUserDto loginUserDto) {
+    public Result register(@RequestBody @Validated LoginUserDto loginUserDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return CommonUtil.returnErrorList(bindingResult);
+        }
+
         String username = loginUserDto.getUsername();
         String password = loginUserDto.getPassword();
         String name = loginUserDto.getName();
