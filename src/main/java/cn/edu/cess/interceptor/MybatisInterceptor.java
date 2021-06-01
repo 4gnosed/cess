@@ -1,4 +1,4 @@
-package cn.edu.cess.mapper.intercepter;
+package cn.edu.cess.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.executor.Executor;
@@ -19,7 +19,7 @@ import java.util.Properties;
 @Intercepts({
         @Signature(method = "query", type = Executor.class, args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class, Integer.class})})
-public class AuthInterceptor implements Interceptor {
+public class MybatisInterceptor implements Interceptor {
 
     protected Logger log = LoggerFactory.getLogger(getClass());
 
@@ -35,7 +35,7 @@ public class AuthInterceptor implements Interceptor {
             String sql = boundSql.getSql();
             Object parameterObject = boundSql.getParameterObject();
             log.info("查询sql：" + sql);
-            log.info("查询sql参数：{}", JSON.toJSONString(parameterObject));
+            log.info("查询sql参数：{}", parameterObject);
         }
         return invocation.proceed();
     }
