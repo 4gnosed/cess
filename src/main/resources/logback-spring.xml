@@ -14,10 +14,8 @@
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
-    <conversionRule conversionWord="wex"
-                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
-    <conversionRule conversionWord="wEx"
-                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
     <!-- 彩色日志格式 -->
     <property name="CONSOLE_LOG_PATTERN"
               value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
@@ -59,9 +57,6 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!--日志文件保留天数-->
             <maxHistory>30</maxHistory>
-            <maxFileSize>50MB</maxFileSize>
-            <totalSizeCap>10GB</totalSizeCap>
-            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <!-- 此日志文件只记录debug级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -96,9 +91,6 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!--日志文件保留天数-->
             <maxHistory>30</maxHistory>
-            <maxFileSize>50MB</maxFileSize>
-            <totalSizeCap>10GB</totalSizeCap>
-            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <!-- 此日志文件只记录info级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -133,9 +125,6 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!--日志文件保留天数-->
             <maxHistory>30</maxHistory>
-            <maxFileSize>50MB</maxFileSize>
-            <totalSizeCap>10GB</totalSizeCap>
-            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <!-- 此日志文件只记录warn级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -170,9 +159,6 @@
             </timeBasedFileNamingAndTriggeringPolicy>
             <!--日志文件保留天数-->
             <maxHistory>30</maxHistory>
-            <maxFileSize>50MB</maxFileSize>
-            <totalSizeCap>10GB</totalSizeCap>
-            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <!-- 此日志文件只记录ERROR级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -182,8 +168,8 @@
         </filter>
     </appender>
 
-    <logger name="org.springframework.web" level="debug"/>
-    <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor" level="debug"/>
+    <logger name="org.springframework.web" level="info"/>
+    <logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor" level="INFO"/>
 
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
@@ -198,7 +184,7 @@
 
     <!--测试环境:打印控制台和输出到文件-->
     <springProfile name="test">
-        <root level="debug">
+        <root level="info">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="WARN_FILE"/>
@@ -208,7 +194,7 @@
 
     <!--生产环境:输出到文件-->
     <springProfile name="prod">
-        <root level="debug">
+        <root level="error">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="DEBUG_FILE"/>
             <appender-ref ref="INFO_FILE"/>
