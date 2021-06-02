@@ -81,7 +81,7 @@ public class FileUploadUtil {
         String filePath = partPath + file.getName();
         fileUrlVo.setIpPort(ipPort);
         fileUrlVo.setFilePath(filePath);
-        log.info("开始保存文件成功返回>>>>>>fileUrlVo：{}", JSON.toJSONString(fileUrlVo));
+        log.info("保存文件成功返回>>>>>>fileUrlVo：{}", JSON.toJSONString(fileUrlVo));
 
         return fileUrlVo;
     }
