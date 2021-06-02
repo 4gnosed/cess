@@ -35,6 +35,9 @@ public class UserController {
         }
         //保存图片
         FileUrlVo fileUrlVo = FileUploadUtil.uploadAvatar(multipartFile, request);
+        if(fileUrlVo==null){
+            return ResultFactory.buildFailResult("保存失败");
+        }
         //保存图片路径
         if (iUserService.saveAvatarPath(fileUrlVo.getFilePath(), userId)) {
             //返回用户对象
