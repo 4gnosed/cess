@@ -35,3 +35,7 @@ logback:
 logging:
   level:
     cn.edu.cess: debug
+
+snowflake:
+  workId: 1
+  datacenterId: 1
