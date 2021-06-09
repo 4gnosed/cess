@@ -106,8 +106,8 @@ public class SnowFlakeId {
             this.workerId = workerId;
             this.datacenterId = datacenterId;
         } else {
-            this.workerId = workerId;
-            this.datacenterId = datacenterId;
+            this.workerId = 1;
+            this.datacenterId = 1;
         }
 
         if (workerId > maxWorkerId || workerId < 0) {

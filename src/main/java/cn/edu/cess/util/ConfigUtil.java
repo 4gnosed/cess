@@ -21,8 +21,9 @@ public class ConfigUtil {
 
     }
 
-    public static int getIntProperty(String key) {
-        return Integer.parseInt(localEnv.getProperty(key));
+    public static Integer getIntProperty(String key) {
+        String property = localEnv.getProperty(key);
+        return property == null ? null : Integer.parseInt(property);
     }
 
 
