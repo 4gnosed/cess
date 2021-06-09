@@ -37,6 +37,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     IPositionService iPositionService;
     @Autowired
     IUserStudentService iUserStudentService;
+    @Autowired
+    StudentMapper studentMapper;
 
     /**
      * mybatis-plus分页插件
@@ -126,9 +128,11 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public Student getByStudentId(Integer studentId) {
-        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Constant.STUDENT_ID, studentId);
-        return getOne(queryWrapper);
+//        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.eq(Constant.STUDENT_ID, studentId);
+//        return getOne(queryWrapper);
+        //使用mapper
+        return studentMapper.selectByPrimaryKey(studentId);
     }
 
     @Override

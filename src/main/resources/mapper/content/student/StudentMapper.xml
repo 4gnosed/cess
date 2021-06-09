@@ -1,5 +1,281 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.cess.mapper.content.student.StudentMapper">
-
+    <resultMap id="BaseResultMap" type="cn.edu.cess.entity.content.student.Student">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="student_id" jdbcType="INTEGER" property="studentId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="gender" jdbcType="CHAR" property="gender"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="id_card" jdbcType="CHAR" property="idCard"/>
+        <result column="nation_id" jdbcType="INTEGER" property="nationId"/>
+        <result column="native_place" jdbcType="VARCHAR" property="nativePlace"/>
+        <result column="politic_id" jdbcType="INTEGER" property="politicId"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="top_degree" jdbcType="VARCHAR" property="topDegree"/>
+        <result column="school" jdbcType="VARCHAR" property="school"/>
+        <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+        <result column="specialty_id" jdbcType="INTEGER" property="specialtyId"/>
+        <result column="position_id" jdbcType="INTEGER" property="positionId"/>
+        <result column="language_level" jdbcType="VARCHAR" property="languageLevel"/>
+        <result column="computer_level" jdbcType="VARCHAR" property="computerLevel"/>
+        <result column="begin_date" jdbcType="DATE" property="beginDate"/>
+        <result column="end_date" jdbcType="DATE" property="endDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, student_id, name, gender, birthday, id_card, nation_id, native_place, politic_id,
+        email, phone, address, top_degree, school, department_id, specialty_id, position_id,
+        language_level, computer_level, begin_date, end_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from student
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.edu.cess.entity.content.student.Student">
+        insert into student (id, student_id, name,
+        gender, birthday, id_card, nation_id,
+        native_place, politic_id, email,
+        phone, address, top_degree,
+        school, department_id, specialty_id,
+        position_id, language_level, computer_level,
+        begin_date, end_date)
+        values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+        #{gender,jdbcType=CHAR}, #{birthday,jdbcType=DATE}, #{idCard,jdbcType=CHAR}, #{nationId,jdbcType=INTEGER},
+        #{nativePlace,jdbcType=VARCHAR}, #{politicId,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{topDegree,jdbcType=VARCHAR},
+        #{school,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER}, #{specialtyId,jdbcType=INTEGER},
+        #{positionId,jdbcType=INTEGER}, #{languageLevel,jdbcType=VARCHAR}, #{computerLevel,jdbcType=VARCHAR},
+        #{beginDate,jdbcType=DATE}, #{endDate,jdbcType=DATE})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.edu.cess.entity.content.student.Student">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="studentId != null">
+                student_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="idCard != null">
+                id_card,
+            </if>
+            <if test="nationId != null">
+                nation_id,
+            </if>
+            <if test="nativePlace != null">
+                native_place,
+            </if>
+            <if test="politicId != null">
+                politic_id,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="topDegree != null">
+                top_degree,
+            </if>
+            <if test="school != null">
+                school,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+            <if test="specialtyId != null">
+                specialty_id,
+            </if>
+            <if test="positionId != null">
+                position_id,
+            </if>
+            <if test="languageLevel != null">
+                language_level,
+            </if>
+            <if test="computerLevel != null">
+                computer_level,
+            </if>
+            <if test="beginDate != null">
+                begin_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="studentId != null">
+                #{studentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=CHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="idCard != null">
+                #{idCard,jdbcType=CHAR},
+            </if>
+            <if test="nationId != null">
+                #{nationId,jdbcType=INTEGER},
+            </if>
+            <if test="nativePlace != null">
+                #{nativePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="politicId != null">
+                #{politicId,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="topDegree != null">
+                #{topDegree,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="specialtyId != null">
+                #{specialtyId,jdbcType=INTEGER},
+            </if>
+            <if test="positionId != null">
+                #{positionId,jdbcType=INTEGER},
+            </if>
+            <if test="languageLevel != null">
+                #{languageLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="computerLevel != null">
+                #{computerLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="beginDate != null">
+                #{beginDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                #{endDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.edu.cess.entity.content.student.Student">
+        update student
+        <set>
+            <if test="studentId != null">
+                student_id = #{studentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=CHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="idCard != null">
+                id_card = #{idCard,jdbcType=CHAR},
+            </if>
+            <if test="nationId != null">
+                nation_id = #{nationId,jdbcType=INTEGER},
+            </if>
+            <if test="nativePlace != null">
+                native_place = #{nativePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="politicId != null">
+                politic_id = #{politicId,jdbcType=INTEGER},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="topDegree != null">
+                top_degree = #{topDegree,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                school = #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="specialtyId != null">
+                specialty_id = #{specialtyId,jdbcType=INTEGER},
+            </if>
+            <if test="positionId != null">
+                position_id = #{positionId,jdbcType=INTEGER},
+            </if>
+            <if test="languageLevel != null">
+                language_level = #{languageLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="computerLevel != null">
+                computer_level = #{computerLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="beginDate != null">
+                begin_date = #{beginDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.cess.entity.content.student.Student">
+        update student
+        set student_id = #{studentId,jdbcType=INTEGER},
+        name = #{name,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=CHAR},
+        birthday = #{birthday,jdbcType=DATE},
+        id_card = #{idCard,jdbcType=CHAR},
+        nation_id = #{nationId,jdbcType=INTEGER},
+        native_place = #{nativePlace,jdbcType=VARCHAR},
+        politic_id = #{politicId,jdbcType=INTEGER},
+        email = #{email,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        top_degree = #{topDegree,jdbcType=VARCHAR},
+        school = #{school,jdbcType=VARCHAR},
+        department_id = #{departmentId,jdbcType=INTEGER},
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
+        position_id = #{positionId,jdbcType=INTEGER},
+        language_level = #{languageLevel,jdbcType=VARCHAR},
+        computer_level = #{computerLevel,jdbcType=VARCHAR},
+        begin_date = #{beginDate,jdbcType=DATE},
+        end_date = #{endDate,jdbcType=DATE}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

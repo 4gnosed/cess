@@ -112,6 +112,12 @@ public class StudentController extends AbstractClass {
         return ResultFactory.buildSuccessResult(student);
     }
 
+    @GetMapping("/getAStudent")
+    public Result getAStudent(@RequestParam Integer studentId) {
+        Student student = iStudentService.getByStudentId(studentId);
+        return ResultFactory.buildSuccessResult(student);
+    }
+
     @GetMapping("/getOne")
     public Result getOneStudent(@RequestParam("userId") Integer userId) {
         //根据用户角色绑定对应的角色对象
