@@ -95,7 +95,7 @@ public class DruidConfigMaster {
     @Value("${datasource.filters}")
     private String filters;
 
-    @Value("{datasource.connectionProperties}")
+    @Value("${datasource.connectionProperties}")
     private String connectionProperties;
 
 

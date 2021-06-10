@@ -47,26 +47,22 @@ datasource:
   # 可以把这个数值配置大一些，比如说100
   maxPoolPreparedStatementPerConnectionSize: 100
   # 配置监控统计拦截的filters，监控统计用的stat、日志用的log4j、 防御sql注入的wall、ConfigFilter非对称加密password
-#  filters: stat,wall,slf4j,config
-  filters: stat,wall,slf4j
+  filters: stat,wall,slf4j,config
   # 打开mergeSql功能；慢SQL记录
   # ConfigFilter非对称加密的公钥，config.decrypt=true;config.decrypt.key=${publickey}
-#  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIB8+939ON8hRUt98tCof3dpYVXOFd6CmTF+PRJAo3xNmlVmXbiPVcVfbqqI84PjKN6IGsCH1GfMeAAu9I5A+zsCAwEAAQ==
-  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANiL6vcx3hZrOwhe2FonuBxGt55PBgIIHdS7kXgIqNUNdHcvQRKgdqvkAs3KvZeQLyKzraI/H8LIxbfnyOhMWA0CAwEAAQ==
   #配置了两个数据源
   master:
     datasource:
       url: jdbc:mysql://127.0.0.1:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
-#      password: cw6mq/MZWZdqXtDLzkfuNu1/GnEYrlHh6KZCXaygORuydbaM2hK7OFhldwcrljfGN1pMJ94EaCBogUucYEgWcw==
-      password: 123456
+      password: ykbSF6bkD3UPEa9qXYXzBUyn3VD/UCBYt6ko/ULbrMQUa9bYm9AsZJ9dz9kM0+C/34XonHOtWsPjv1Cii6pLSg==
       driverClassName: com.mysql.cj.jdbc.Driver
   cluster:
     datasource:
       url: jdbc:mysql://127.0.0.1:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
-#      password: cw6mq/MZWZdqXtDLzkfuNu1/GnEYrlHh6KZCXaygORuydbaM2hK7OFhldwcrljfGN1pMJ94EaCBogUucYEgWcw==
-      password: 123456
+      password: ykbSF6bkD3UPEa9qXYXzBUyn3VD/UCBYt6ko/ULbrMQUa9bYm9AsZJ9dz9kM0+C/34XonHOtWsPjv1Cii6pLSg==
       driverClassName: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
