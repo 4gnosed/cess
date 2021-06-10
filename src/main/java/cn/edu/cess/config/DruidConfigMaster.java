@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,7 +30,7 @@ import java.sql.SQLException;
  */
 
 @Configuration
-@MapperScan(basePackages = {"cn.edu.cess.mapper.content"},
+@MapperScan(basePackages = {"cn.edu.cess.mapper", "cn.edu.cess.mapper.content"},
         sqlSessionFactoryRef = "masterSqlSessionFactory", sqlSessionTemplateRef = "masterSqlSessionTemplate")
 public class DruidConfigMaster {
 
@@ -161,6 +162,7 @@ public class DruidConfigMaster {
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
         configuration.setJdbcTypeForNull(JdbcType.NULL);
+        configuration.setLogImpl(StdOutImpl.class);
         factoryBean.setConfiguration(configuration);
         //指定xml路径.
         factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(DruidConfigMaster.MAPPER_LOCATION));
