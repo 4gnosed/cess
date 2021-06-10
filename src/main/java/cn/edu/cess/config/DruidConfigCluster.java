@@ -25,12 +25,9 @@ import java.sql.SQLException;
  */
 
 @Configuration
-@MapperScan(basePackages = DruidConfigCluster.PACKAGE, sqlSessionFactoryRef = "clusterSqlSessionFactory", sqlSessionTemplateRef = "clusterSqlSessionTemplate")
+@MapperScan(basePackages = {"cn.edu.cess.mapper", "cn.edu.cess.mapper.admin"}, sqlSessionFactoryRef = "clusterSqlSessionFactory", sqlSessionTemplateRef = "clusterSqlSessionTemplate")
 public class DruidConfigCluster {
-    /**
-     * 配置多数据源 关键就在这里 这里配置了不同的数据源扫描不同mapper
-     */
-    static final String PACKAGE = "cn.edu.cess.mapper.admin";
+
     static final String MAPPER_LOCATION = "classpath:mapper/*.xml,classpath:mapper/*/*.xml,classpath:mapper/*/*/*.xml";
 
     /**

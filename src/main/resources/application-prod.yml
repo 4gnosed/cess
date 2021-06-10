@@ -10,9 +10,9 @@ datasource:
   # 使用druid数据源
   type: com.alibaba.druid.pool.DruidDataSource
   # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
-  initialSize: 5
+  initialSize: 10
   # 最小连接数
-  minIdle: 5
+  minIdle: 10
   # 最大连接数
   maxActive: 100
   # 获取连接时最大等待时间，单位毫秒。配置了maxWait之后，
