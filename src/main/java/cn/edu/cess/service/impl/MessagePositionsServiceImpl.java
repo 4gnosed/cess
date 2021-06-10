@@ -1,7 +1,7 @@
 package cn.edu.cess.service.impl;
 
 import cn.edu.cess.entity.MessagePositions;
-import cn.edu.cess.mapper.MessagePositionsMapper;
+import cn.edu.cess.mapper.common.MessagePositionsMapper;
 import cn.edu.cess.service.IMessagePositionsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

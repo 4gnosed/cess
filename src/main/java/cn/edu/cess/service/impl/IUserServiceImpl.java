@@ -8,7 +8,7 @@ import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.entity.content.student.UserResume;
-import cn.edu.cess.mapper.UserMapper;
+import cn.edu.cess.mapper.common.UserMapper;
 import cn.edu.cess.service.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
