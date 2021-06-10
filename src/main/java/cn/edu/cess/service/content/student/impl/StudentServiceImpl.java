@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -102,9 +104,35 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      *
      * @param studentList
      */
+    @Override
     public void fillData(List<Student> studentList) {
+        List<Integer> nationIds = studentList.stream().map(o -> o.getNationId()).collect(Collectors.toList());
+        List<Integer> politicIds = studentList.stream().map(o -> o.getPoliticId()).collect(Collectors.toList());
+        List<Integer> departmentIds = studentList.stream().map(o -> o.getDepartmentId()).collect(Collectors.toList());
+        List<Integer> specialtyIds = studentList.stream().map(o -> o.getSpecialtyId()).collect(Collectors.toList());
+        List<Integer> positionIds = studentList.stream().map(o -> o.getPositionId()).collect(Collectors.toList());
+        List<Nation> nations = iNationService.listByIds(nationIds);
+        List<Politics> politics = iPoliticsService.listByIds(politicIds);
+        List<Department> departments = iDepartmentService.listByIds(departmentIds);
+        List<Specialty> specialties = iSpecialtyService.listByIds(specialtyIds);
+        List<Position> positions = iPositionService.listByIds(positionIds);
+        Map<Integer, List<Nation>> nation = nations.stream().collect(Collectors.groupingBy(o -> o.getId()));
+        Map<Integer, List<Politics>> plitic = politics.stream().collect(Collectors.groupingBy(o -> o.getId()));
+        Map<Integer, List<Department>> department = departments.stream().collect(Collectors.groupingBy(o -> o.getId()));
+        Map<Integer, List<Specialty>> special = specialties.stream().collect(Collectors.groupingBy(o -> o.getId()));
+        Map<Integer, List<Position>> position = positions.stream().collect(Collectors.groupingBy(o -> o.getId()));
+        // 填充一个学生民族、政治面貌等属性
         for (Student stu : studentList) {
-            fillData(stu);
+            List<Nation> ns = nation.get(stu.getNationId());
+            List<Politics> ps = plitic.get(stu.getPoliticId());
+            List<Department> ds = department.get(stu.getDepartmentId());
+            List<Specialty> ss = special.get(stu.getSpecialtyId());
+            List<Position> pos = position.get(stu.getPositionId());
+            stu.setPolitics(ps.size()>0?ps.get(0):null);
+            stu.setNation(ns.size()>0?ns.get(0):null);
+            stu.setDepartment(ds.size()>0?ds.get(0):null);
+            stu.setSpecialty(ss.size()>0?ss.get(0):null);
+            stu.setPosition(pos.size()>0?pos.get(0):null);
         }
     }
 
@@ -113,6 +141,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      *
      * @param stu
      */
+    @Override
     public void fillData(Student stu) {
         QueryWrapper<Nation> nationQueryWrapper = new QueryWrapper<>();
         QueryWrapper<Politics> politicsQueryWrapper = new QueryWrapper<>();
