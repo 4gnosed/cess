@@ -128,11 +128,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             List<Department> ds = department.get(stu.getDepartmentId());
             List<Specialty> ss = special.get(stu.getSpecialtyId());
             List<Position> pos = position.get(stu.getPositionId());
-            stu.setPolitics(ps.size()>0?ps.get(0):null);
-            stu.setNation(ns.size()>0?ns.get(0):null);
-            stu.setDepartment(ds.size()>0?ds.get(0):null);
-            stu.setSpecialty(ss.size()>0?ss.get(0):null);
-            stu.setPosition(pos.size()>0?pos.get(0):null);
+
+            stu.setPolitics(ps != null ? ps.size() > 0 ? ps.get(0) : null : null);
+            stu.setNation(ns != null ? ns.size() > 0 ? ns.get(0) : null : null);
+            stu.setDepartment(ds != null ? ds.size() > 0 ? ds.get(0) : null : null);
+            stu.setSpecialty(ss != null ? ss.size() > 0 ? ss.get(0) : null : null);
+            stu.setPosition(pos != null ? pos.size() > 0 ? pos.get(0) : null : null);
         }
     }
 
