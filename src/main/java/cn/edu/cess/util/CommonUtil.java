@@ -2,9 +2,14 @@ package cn.edu.cess.util;
 
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,4 +66,22 @@ public class CommonUtil {
     }
 
 
+    /**
+     * 解析mapper多个路径返回 Resource数组
+     * @param mapperLocation classpath*:mapper/*.xml  有个英文,分隔开
+     * @return
+     */
+    public static Resource[] resolveMapperLocations(String mapperLocation) {
+        PathMatchingResourcePatternResolver resolve = new PathMatchingResourcePatternResolver();
+        List<String> locations = Arrays.asList(mapperLocation.split(","));
+        List<Resource> resp = new ArrayList<>();
+        locations.parallelStream().forEach(location -> {
+            try {
+                resp.addAll(Arrays.asList(resolve.getResources(location)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        return resp.toArray(new Resource[0]);
+    }
 }

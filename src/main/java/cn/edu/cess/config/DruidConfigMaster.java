@@ -1,5 +1,6 @@
 package cn.edu.cess.config;
 
+import cn.edu.cess.util.CommonUtil;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
@@ -37,10 +37,11 @@ import java.sql.SQLException;
         sqlSessionFactoryRef = "masterSqlSessionFactory", sqlSessionTemplateRef = "masterSqlSessionTemplate")
 public class DruidConfigMaster {
 
-    static final String MAPPER_LOCATION = "classpath:mapper/*.xml,classpath:mapper/*/*.xml,classpath:mapper/*/*/*.xml";
-
     @Autowired
     PaginationInterceptor paginationInterceptor;
+
+    @Value("${mybatis-plus.mapper-locations}")
+    private String mapperLocation;
 
     /**
      * 连接数据库信息 这个其实更好的是用配置中心完成
@@ -171,7 +172,7 @@ public class DruidConfigMaster {
         configuration.setLogImpl(StdOutImpl.class);
         factoryBean.setConfiguration(configuration);
         //指定xml路径.
-        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(DruidConfigMaster.MAPPER_LOCATION));
+        factoryBean.setMapperLocations(CommonUtil.resolveMapperLocations(mapperLocation));
         //分页插件
         Interceptor[] plugins = {paginationInterceptor};
         factoryBean.setPlugins(plugins);
