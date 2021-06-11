@@ -1,7 +1,7 @@
 package cn.edu.cess.realm;
 
-import cn.edu.cess.entity.User;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.entity.common.User;
+import cn.edu.cess.service.common.IUserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

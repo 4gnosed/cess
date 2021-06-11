@@ -1,6 +1,5 @@
 package cn.edu.cess.entity.Vo;
 
-import cn.edu.cess.entity.User;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

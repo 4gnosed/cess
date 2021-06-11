@@ -2,11 +2,11 @@ package cn.edu.cess.service.admin.impl;
 
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.mapper.admin.AdminUserRoleMapper;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

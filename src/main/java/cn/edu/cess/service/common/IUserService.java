@@ -1,8 +1,8 @@
-package cn.edu.cess.service;
+package cn.edu.cess.service.common;
 
 
 import cn.edu.cess.entity.Vo.AdminUserDto;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,4 +42,6 @@ public interface IUserService extends IService<User> {
     boolean saveAvatarPath(String filePath, Integer userId);
 
     User fillUser(HttpServletRequest request, String username, Integer userId);
+
+    List<User> queryEnableUser();
 }

@@ -1,6 +1,6 @@
-package cn.edu.cess.service;
+package cn.edu.cess.service.common;
 
-import cn.edu.cess.entity.Message;
+import cn.edu.cess.entity.common.Message;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

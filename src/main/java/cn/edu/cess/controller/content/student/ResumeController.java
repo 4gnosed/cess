@@ -1,12 +1,11 @@
 package cn.edu.cess.controller.content.student;
 
 
-import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.content.student.Resume;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.IMessageService;
+import cn.edu.cess.service.common.IMessageService;
 import cn.edu.cess.service.content.enterprise.ISheetContractService;
 import cn.edu.cess.service.content.student.IResumePositionsService;
 import cn.edu.cess.service.content.student.IResumeService;

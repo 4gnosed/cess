@@ -1,6 +1,6 @@
-package cn.edu.cess.service;
+package cn.edu.cess.service.common;
 
-import cn.edu.cess.entity.MessagePositions;
+import cn.edu.cess.entity.common.MessagePositions;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

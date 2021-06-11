@@ -1,17 +1,12 @@
 package cn.edu.cess.controller;
 
-import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.FileUrlVo;
-import cn.edu.cess.entity.admin.department.NoticePicture;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,5 +40,10 @@ public class UserController {
         } else {
             return ResultFactory.buildFailResult("保存失败");
         }
+    }
+
+    @GetMapping("/queryEnableUser")
+    public Result queryEnableUser(){
+        return ResultFactory.buildSuccessResult(iUserService.queryEnableUser());
     }
 }

@@ -3,10 +3,10 @@ package cn.edu.cess.controller.admin;
 
 import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.entity.Vo.AdminUserDto;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

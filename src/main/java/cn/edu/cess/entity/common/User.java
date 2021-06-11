@@ -1,4 +1,4 @@
-package cn.edu.cess.entity;
+package cn.edu.cess.entity.common;
 
 import cn.edu.cess.entity.content.student.Student;
 import com.baomidou.mybatisplus.annotation.IdType;

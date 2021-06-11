@@ -1,7 +1,7 @@
 package cn.edu.cess.mapper.common;
 
 
-import cn.edu.cess.entity.Message;
+import cn.edu.cess.entity.common.Message;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

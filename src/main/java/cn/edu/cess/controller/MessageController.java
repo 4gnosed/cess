@@ -1,10 +1,10 @@
 package cn.edu.cess.controller;
 
 
-import cn.edu.cess.entity.Message;
+import cn.edu.cess.entity.common.Message;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
-import cn.edu.cess.service.IMessageService;
+import cn.edu.cess.service.common.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

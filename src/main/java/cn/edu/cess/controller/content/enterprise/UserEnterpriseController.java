@@ -2,15 +2,15 @@ package cn.edu.cess.controller.content.enterprise;
 
 
 import cn.edu.cess.base.AbstractClass;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.Vo.UserEnterpriseVo;
 import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.result.ResultPage;
-import cn.edu.cess.service.IMessageService;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IMessageService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.content.enterprise.IEnterpriseService;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import org.apache.shiro.SecurityUtils;

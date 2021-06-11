@@ -1,6 +1,6 @@
 package cn.edu.cess.entity.Vo;
 
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.content.student.Student;
 import lombok.Data;
 

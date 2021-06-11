@@ -1,14 +1,14 @@
 package cn.edu.cess.controller.content.student;
 
 
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.Vo.UserStudentVo;
 import cn.edu.cess.entity.content.student.Student;
 import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
 import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.result.ResultPage;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.content.student.IStudentService;
 import cn.edu.cess.service.content.student.IUserStudentService;
 import org.springframework.beans.factory.annotation.Autowired;

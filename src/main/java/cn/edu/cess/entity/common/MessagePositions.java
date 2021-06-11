@@ -1,4 +1,4 @@
-package cn.edu.cess.entity;
+package cn.edu.cess.entity.common;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;

@@ -1,15 +1,15 @@
-package cn.edu.cess.service.impl;
+package cn.edu.cess.service.common.impl;
 
 
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.AdminUserDto;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.admin.AdminRole;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.entity.content.student.UserResume;
 import cn.edu.cess.mapper.common.UserMapper;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.admin.IAdminRoleService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
@@ -46,6 +46,8 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     IUserResumeService iUserResumeService;
     @Autowired
     IUserStudentService iUserStudentService;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public User list(String username, String password) {
@@ -212,5 +214,10 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
         user.setRoleId(role.getId());
         user.setAvatarPath(FileUploadUtil.getIpPort(request) + user.getAvatarPath());
         return user;
+    }
+
+    @Override
+    public List<User> queryEnableUser() {
+        return userMapper.queryEnableUser();
     }
 }

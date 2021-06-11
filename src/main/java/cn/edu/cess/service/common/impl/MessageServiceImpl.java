@@ -1,15 +1,15 @@
-package cn.edu.cess.service.impl;
+package cn.edu.cess.service.common.impl;
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.Message;
-import cn.edu.cess.entity.MessagePositions;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.Message;
+import cn.edu.cess.entity.common.MessagePositions;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.content.enterprise.Enterprise;
 import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.mapper.common.MessageMapper;
-import cn.edu.cess.service.IMessagePositionsService;
-import cn.edu.cess.service.IMessageService;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IMessagePositionsService;
+import cn.edu.cess.service.common.IMessageService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.content.enterprise.IEnterpriseService;
 import cn.edu.cess.service.content.enterprise.IPositionsService;
 import cn.edu.cess.util.DateTimeUtils;

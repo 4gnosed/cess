@@ -1,13 +1,13 @@
 package cn.edu.cess.service.content.student.impl;
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.Vo.FileUrlVo;
 import cn.edu.cess.entity.Vo.UserPostionsResumeVo;
 import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.entity.content.student.*;
 import cn.edu.cess.mapper.content.student.ResumeMapper;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.content.enterprise.IPositionsService;
 import cn.edu.cess.service.content.enterprise.IUserEnterpriseService;
 import cn.edu.cess.service.content.student.*;

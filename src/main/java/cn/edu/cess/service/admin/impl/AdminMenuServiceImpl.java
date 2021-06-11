@@ -2,12 +2,12 @@ package cn.edu.cess.service.admin.impl;
 
 
 import cn.edu.cess.constant.Constant;
-import cn.edu.cess.entity.User;
+import cn.edu.cess.entity.common.User;
 import cn.edu.cess.entity.admin.AdminMenu;
 import cn.edu.cess.entity.admin.AdminRoleMenu;
 import cn.edu.cess.entity.admin.AdminUserRole;
 import cn.edu.cess.mapper.admin.AdminMenuMapper;
-import cn.edu.cess.service.IUserService;
+import cn.edu.cess.service.common.IUserService;
 import cn.edu.cess.service.admin.IAdminMenuService;
 import cn.edu.cess.service.admin.IAdminRoleMenuService;
 import cn.edu.cess.service.admin.IAdminUserRoleService;
