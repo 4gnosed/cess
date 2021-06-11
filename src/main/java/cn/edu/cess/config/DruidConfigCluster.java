@@ -29,7 +29,8 @@ import java.sql.SQLException;
  */
 
 @Configuration
-@MapperScan(basePackages = {"cn.edu.cess.mapper.admin"}, sqlSessionFactoryRef = "clusterSqlSessionFactory", sqlSessionTemplateRef = "clusterSqlSessionTemplate")
+@MapperScan(basePackages = {"cn.edu.cess.mapper.admin"},
+        sqlSessionTemplateRef = "clusterSqlSessionTemplate")
 public class DruidConfigCluster {
 
     @Autowired

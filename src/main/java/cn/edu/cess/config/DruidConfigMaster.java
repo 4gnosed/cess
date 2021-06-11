@@ -34,7 +34,7 @@ import java.sql.SQLException;
 
 @Configuration
 @MapperScan(basePackages = {"cn.edu.cess.mapper.common", "cn.edu.cess.mapper.content"},
-        sqlSessionFactoryRef = "masterSqlSessionFactory", sqlSessionTemplateRef = "masterSqlSessionTemplate")
+        sqlSessionTemplateRef = "masterSqlSessionTemplate")
 public class DruidConfigMaster {
 
     @Autowired
