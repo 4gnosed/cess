@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableTransactionManagement
-@MapperScan("cn.edu.cess.mapper")
 public class CessApplication {
 
     public static void main(String[] args) {
