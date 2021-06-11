@@ -4,7 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 雪花算法生成器
+ * 雪花算法生成器，64bit
+ * 64bit=2的64次方。
+ * 2的10次方约等于10的3次方。
+ * 2的60次方约等于10的18次方。
+ * 2的4次方=8
+ * 所以用10进制表示，差不多就是18~19位
  */
 public class SnowFlakeId {
 
@@ -228,7 +233,7 @@ public class SnowFlakeId {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < 100; i++) {
-            System.out.println(SnowFlakeId.generate());
+            System.out.println(SnowFlakeId.generate(12));
         }
         long endTime = System.currentTimeMillis();
         System.out.println("耗时" + (endTime - startTime) + "ms");
