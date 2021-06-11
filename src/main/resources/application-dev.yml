@@ -99,7 +99,9 @@ mybatis-plus:
 
 logback:
   logDir: log/dev
-
+  appName: cess_log
+  fileType: log
 logging:
   level:
     cn.edu.cess: debug
+#  config: classpath:logback-spring.xml

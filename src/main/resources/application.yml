@@ -7,13 +7,9 @@ spring:
   application:
     name: college employment service system
   profiles:
-    active: dev
+    active: prod
 
 #雪花算法机房ID，机器ID
 snowflake:
   workId: 1
   datacenterId: 1
-
-logback:
-  appName: cess
-  fileType: log

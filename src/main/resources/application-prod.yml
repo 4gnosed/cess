@@ -97,8 +97,10 @@ mybatis-plus:
     #sql-injector: com.baomidou.springboot.xxx
 
 logback:
-  logDir: log/dev
-
+  logDir: log/prod
+  appName: cess_log
+  fileType: log
 logging:
   level:
     cn.edu.cess: debug
+#  config: classpath:logback-spring.xml
