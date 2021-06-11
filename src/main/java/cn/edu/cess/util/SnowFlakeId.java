@@ -102,13 +102,12 @@ public class SnowFlakeId {
         Integer datacenterId = ConfigUtil.getIntProperty("snowflake.datacenterId");
         log.info("-----snowflakeId---------读取环境变量配置文件,workerId:" + workerId);
         log.info("-----snowflakeId---------从外部读取配置文件,datacenterId:" + datacenterId);
-        if (workerId != null && datacenterId != null) {
-            this.workerId = workerId;
-            this.datacenterId = datacenterId;
-        } else {
-            this.workerId = 1;
-            this.datacenterId = 1;
+        if (workerId == null || datacenterId == null) {
+            workerId = new Integer(1);
+            datacenterId = new Integer(1);
         }
+        this.workerId = workerId;
+        this.datacenterId = datacenterId;
 
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(

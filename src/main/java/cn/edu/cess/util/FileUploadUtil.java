@@ -43,7 +43,7 @@ public class FileUploadUtil {
      */
     public static FileUrlVo upload(MultipartFile multiFile, HttpServletRequest request, String partPath) {
         String filename = multiFile.getOriginalFilename();
-        filename = SnowFlakeId.generate() + filename;
+        filename = SnowFlakeId.generate(Constant.SNOWFLAKE_LENGTH) + filename;
 
         File folder = new File(Constant.FILE_FOLDER + partPath.substring(10));
         File file = new File(folder, filename);

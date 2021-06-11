@@ -22,16 +22,19 @@ public class ConfigUtil {
     }
 
     public static Integer getIntProperty(String key) {
+        if(localEnv==null) return null;
         String property = localEnv.getProperty(key);
         return property == null ? null : Integer.parseInt(property);
     }
 
 
     public static String getProperty(String key) {
+        if(localEnv==null) return null;
         return localEnv.getProperty(key);
     }
 
     public static String getProperty(String key, String def) {
+        if(localEnv==null) return null;
         if (StringUtils.isBlank(localEnv.getProperty(key))) {
             return def;
         }
