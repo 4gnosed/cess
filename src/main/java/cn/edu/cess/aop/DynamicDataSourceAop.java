@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 @Order(2)
 public class DynamicDataSourceAop {
 
-    @Before("@annotation(DataSource)")
+    @Before("@annotation(cn.edu.cess.config.datasource.dynamic.DataSource)")
     public void beforeSwitchDS(JoinPoint point) {
         //获得当前访问的class
         Class<?> className = point.getTarget().getClass();
@@ -49,7 +49,7 @@ public class DynamicDataSourceAop {
         DataSourceContextHolder.setDB(dataSource);
     }
 
-    @After("@annotation(DataSource)")
+    @After("@annotation(cn.edu.cess.config.datasource.dynamic.DataSource)")
     public void afterSwitchDS(JoinPoint point) {
         DataSourceContextHolder.clearDB();
     }
