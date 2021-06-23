@@ -54,15 +54,15 @@ datasource:
   #配置了两个数据源
   master:
     datasource:
-      url: jdbc:mysql://127.0.0.1:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: root
-      password: ykbSF6bkD3UPEa9qXYXzBUyn3VD/UCBYt6ko/ULbrMQUa9bYm9AsZJ9dz9kM0+C/34XonHOtWsPjv1Cii6pLSg==
+      url: jdbc:mysql://mysql_host:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: readwriter
+      password: cw6mq/MZWZdqXtDLzkfuNu1/GnEYrlHh6KZCXaygORuydbaM2hK7OFhldwcrljfGN1pMJ94EaCBogUucYEgWcw==
       driverClassName: com.mysql.cj.jdbc.Driver
   cluster:
     datasource:
-      url: jdbc:mysql://127.0.0.1:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: root
-      password: ykbSF6bkD3UPEa9qXYXzBUyn3VD/UCBYt6ko/ULbrMQUa9bYm9AsZJ9dz9kM0+C/34XonHOtWsPjv1Cii6pLSg==
+      url: jdbc:mysql://mysql_host:3307/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: reader
+      password: cw6mq/MZWZdqXtDLzkfuNu1/GnEYrlHh6KZCXaygORuydbaM2hK7OFhldwcrljfGN1pMJ94EaCBogUucYEgWcw==
       driverClassName: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
