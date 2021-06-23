@@ -1,4 +1,4 @@
-package cn.edu.cess.config;
+package cn.edu.cess.config.datasource.druid;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

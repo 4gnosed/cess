@@ -1,4 +1,4 @@
-package cn.edu.cess.config;
+package cn.edu.cess.config.datasource.druid;
 
 import cn.edu.cess.util.CommonUtil;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -33,10 +33,11 @@ import java.sql.SQLException;
  */
 
 @Configuration
-@MapperScan(basePackages = {"cn.edu.cess.mapper.common", "cn.edu.cess.mapper.content"},
+@MapperScan(basePackages = {"cn.edu.cess.mapper"},
         sqlSessionTemplateRef = "masterSqlSessionTemplate")
 public class DruidConfigMaster {
 
+    public static final String MASTER_DATA_SOURCE = "masterDataSource";
     @Autowired
     PaginationInterceptor paginationInterceptor;
 
@@ -105,7 +106,7 @@ public class DruidConfigMaster {
     private String connectionProperties;
 
 
-    @Bean(name = "masterDataSource")
+    @Bean(name = MASTER_DATA_SOURCE)
     @Primary //标志这个 Bean 如果在多个同类 Bean 候选时，该 Bean 优先被考虑。
     public DataSource masterDataSource() {
         DruidDataSource dataSource = new DruidDataSource();

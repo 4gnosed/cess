@@ -1,5 +1,7 @@
 package cn.edu.cess.service.content.student.impl;
 
+import cn.edu.cess.config.datasource.druid.DruidConfigCluster;
+import cn.edu.cess.config.datasource.dynamic.DataSource;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.student.*;
 import cn.edu.cess.mapper.content.student.StudentMapper;
@@ -52,6 +54,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
      * @return
      */
     @Override
+    @DataSource(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     public ResultPage getStudentByPage(Integer page, Integer size, Student student, String[] beginDateScope) {
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         String name = student.getName();

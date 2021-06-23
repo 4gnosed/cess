@@ -1,4 +1,4 @@
-package cn.edu.cess.config;
+package cn.edu.cess.config.datasource.druid;
 
 import cn.edu.cess.util.CommonUtil;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -29,10 +29,11 @@ import java.sql.SQLException;
  */
 
 @Configuration
-@MapperScan(basePackages = {"cn.edu.cess.mapper.admin"},
+@MapperScan(basePackages = {"cn.edu.cess.mapper"},
         sqlSessionTemplateRef = "clusterSqlSessionTemplate")
 public class DruidConfigCluster {
 
+    public static final String CLUSTER_DATA_SOURCE = "clusterDataSource";
     @Autowired
     PaginationInterceptor paginationInterceptor;
 
@@ -102,7 +103,7 @@ public class DruidConfigCluster {
     private String connectionProperties;
 
 
-    @Bean(name = "clusterDataSource")
+    @Bean(name = CLUSTER_DATA_SOURCE)
     public DataSource clusterDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(url);
