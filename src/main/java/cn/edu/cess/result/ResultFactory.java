@@ -23,6 +23,9 @@ public class ResultFactory extends AbstractClass {
     public static Result buildFailResult(String message) {
         return buildResult(ResultCode.FAIL, message, null);
     }
+    public static Result buildSysErrorResult() {
+        return buildResult(ResultCode.FAIL, "系统异常", null);
+    }
 
     public static Result buildEmptyResult(String message) {
         return buildResult(ResultCode.NO_CONTENT, message, null);
