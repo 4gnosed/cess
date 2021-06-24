@@ -1,6 +1,8 @@
 package cn.edu.cess.service.common.impl;
 
 
+import cn.edu.cess.config.datasource.druid.DruidConfigCluster;
+import cn.edu.cess.config.datasource.dynamic.DataSourceType;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.AdminUserDto;
 import cn.edu.cess.entity.common.User;
@@ -57,6 +59,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
+    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     public User getByUsername(String username) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>();
         queryWrapper.eq(Constant.USERNAME, username);
@@ -70,6 +73,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
         return userSaved.getId();
     }
 
+    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     private User getUser(String username, QueryWrapper<User> queryWrapper) {
         List<User> list = list(queryWrapper);
         if (list == null || list.size() == 0) {
@@ -181,12 +185,14 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
+    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     public User getByEid(int eid) {
         UserEnterprise userEnterprise = iUserEnterpriseService.getByEid(eid);
         return getById(userEnterprise.getUid());
     }
 
     @Override
+    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     public User getByRid(int rid) {
         UserResume userResume = iUserResumeService.getByRid(rid);
         return getById(userResume.getUid());
@@ -200,6 +206,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
+    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     public User fillUser(HttpServletRequest request, String username, Integer userId) {
         User user = null;
         if (username != null && userId == null) {
@@ -217,6 +224,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
+    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
     public List<User> queryEnableUser() {
         return userMapper.queryEnableUser();
     }
