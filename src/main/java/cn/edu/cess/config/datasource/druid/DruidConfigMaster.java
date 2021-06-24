@@ -28,13 +28,15 @@ import java.sql.SQLException;
  * 2) dataSource.setFilters(filters): 这个是用来配置 druid 监控sql语句的, 如果你有两个数据源 这个配置哪个数据源就监控哪个 数据源的sql,同时配置那就都监控。
  * 3) 能够做到多个数据源的关键点 就是每个数据源所扫描的mapper包不一样,谁扫描到哪个mapper那么该mapper就用哪个数据源,同时都扫到了呢,
  * 那当然就得用主数据源咯,也就是添加@Primary 的数据源。
+ *
+ * 根据mapper路径指定数据源，丢弃该方案，采用注解动态切换DynamicDataSource
  * @Author: LuDeSong
  * @Date: 2021-6-10 11:23
  */
 
-@Configuration
-@MapperScan(basePackages = {"cn.edu.cess.mapper"},
-        sqlSessionTemplateRef = "masterSqlSessionTemplate")
+//@Configuration
+//@MapperScan(basePackages = {"cn.edu.cess.mapper.common", "cn.edu.cess.mapper.content"},
+//        sqlSessionTemplateRef = "masterSqlSessionTemplate")
 public class DruidConfigMaster {
 
     public static final String MASTER_DATA_SOURCE = "masterDataSource";
@@ -47,16 +49,16 @@ public class DruidConfigMaster {
     /**
      * 连接数据库信息 这个其实更好的是用配置中心完成
      */
-    @Value("${datasource.master.datasource.url}")
+    @Value("${datasource.master.url}")
     private String url;
 
-    @Value("${datasource.master.datasource.username}")
+    @Value("${datasource.master.username}")
     private String username;
 
-    @Value("${datasource.master.datasource.password}")
+    @Value("${datasource.master.password}")
     private String password;
 
-    @Value("${datasource.master.datasource.driverClassName}")
+    @Value("${datasource.master.driver-class-name}")
     private String driverClassName;
 
 

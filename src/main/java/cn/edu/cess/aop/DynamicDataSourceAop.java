@@ -1,6 +1,6 @@
 package cn.edu.cess.aop;
 
-import cn.edu.cess.config.datasource.dynamic.DataSource;
+import cn.edu.cess.config.datasource.dynamic.DataSourceType;
 import cn.edu.cess.config.datasource.dynamic.DataSourceContextHolder;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 @Order(2)
 public class DynamicDataSourceAop {
 
-    @Before("@annotation(cn.edu.cess.config.datasource.dynamic.DataSource)")
+    @Before("@annotation(cn.edu.cess.config.datasource.dynamic.DataSourceType)")
     public void beforeSwitchDS(JoinPoint point) {
         //获得当前访问的class
         Class<?> className = point.getTarget().getClass();
@@ -37,8 +37,8 @@ public class DynamicDataSourceAop {
             // 得到访问的方法对象
             Method method = className.getMethod(methodName, argClass);
             // 判断是否存在@DataSource注解
-            if (method.isAnnotationPresent(DataSource.class)) {
-                DataSource annotation = method.getAnnotation(DataSource.class);
+            if (method.isAnnotationPresent(DataSourceType.class)) {
+                DataSourceType annotation = method.getAnnotation(DataSourceType.class);
                 // 取出注解中的数据源名
                 dataSource = annotation.value();
             }
@@ -49,7 +49,7 @@ public class DynamicDataSourceAop {
         DataSourceContextHolder.setDB(dataSource);
     }
 
-    @After("@annotation(cn.edu.cess.config.datasource.dynamic.DataSource)")
+    @After("@annotation(cn.edu.cess.config.datasource.dynamic.DataSourceType)")
     public void afterSwitchDS(JoinPoint point) {
         DataSourceContextHolder.clearDB();
     }

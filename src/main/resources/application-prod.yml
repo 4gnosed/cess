@@ -50,20 +50,19 @@ datasource:
   filters: stat,wall,slf4j,config
   # 打开mergeSql功能；慢SQL记录
   # ConfigFilter非对称加密的公钥，config.decrypt=true;config.decrypt.key=${publickey}
-  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIB8+939ON8hRUt98tCof3dpYVXOFd6CmTF+PRJAo3xNmlVmXbiPVcVfbqqI84PjKN6IGsCH1GfMeAAu9I5A+zsCAwEAAQ==
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALBSd/UiJpyLRhAJP0V7gn9TwDbNF8K86do9q25LOG4wHFz1Qu+xnPIpLWqz5/Wp9TrdZOPKoK6PYw2EA59ZRr0CAwEAAQ==
   #配置了两个数据源
   master:
-    datasource:
-      url: jdbc:mysql://mysql_host:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: readwriter
-      password: cw6mq/MZWZdqXtDLzkfuNu1/GnEYrlHh6KZCXaygORuydbaM2hK7OFhldwcrljfGN1pMJ94EaCBogUucYEgWcw==
-      driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql_host:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: readwriter
+    password: H6Q7SvrgaP5JqPvT8ctTzP6F5wxdx0oOcL0XuOBCYvx2/MbaIrNQkRpXjkUYrz7Q+bnmYjQMKv0OGoX/z4CSDw==
+    driver-class-name: com.mysql.cj.jdbc.Driver
   cluster:
-    datasource:
-      url: jdbc:mysql://mysql_host:3307/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: reader
-      password: cw6mq/MZWZdqXtDLzkfuNu1/GnEYrlHh6KZCXaygORuydbaM2hK7OFhldwcrljfGN1pMJ94EaCBogUucYEgWcw==
-      driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql_host:3307/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: reader
+    password: H6Q7SvrgaP5JqPvT8ctTzP6F5wxdx0oOcL0XuOBCYvx2/MbaIrNQkRpXjkUYrz7Q+bnmYjQMKv0OGoX/z4CSDw==
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
 
 mybatis-plus:
   configuration:

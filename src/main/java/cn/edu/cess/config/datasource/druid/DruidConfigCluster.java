@@ -23,14 +23,14 @@ import java.sql.SQLException;
 
 /**
  * @Package: cn.edu.cess.config
- * @Description:次数据源配置
+ * @Description:次数据源配置 ，根据mapper路径指定数据源，丢弃该方案，采用注解动态切换DynamicDataSource
  * @Author: LuDeSong
  * @Date: 2021-6-10 11:23
  */
 
-@Configuration
-@MapperScan(basePackages = {"cn.edu.cess.mapper"},
-        sqlSessionTemplateRef = "clusterSqlSessionTemplate")
+//@Configuration
+//@MapperScan(basePackages = {"cn.edu.cess.mapper.admin"},
+//        sqlSessionTemplateRef = "clusterSqlSessionTemplate")
 public class DruidConfigCluster {
 
     public static final String CLUSTER_DATA_SOURCE = "clusterDataSource";
@@ -44,16 +44,16 @@ public class DruidConfigCluster {
     /**
      * 连接数据库信息 这个其实更好的是用配置中心完成
      */
-    @Value("${datasource.cluster.datasource.url}")
+    @Value("${datasource.cluster.url}")
     private String url;
 
-    @Value("${datasource.cluster.datasource.username}")
+    @Value("${datasource.cluster.username}")
     private String username;
 
-    @Value("${datasource.cluster.datasource.password}")
+    @Value("${datasource.cluster.password}")
     private String password;
 
-    @Value("${datasource.cluster.datasource.driverClassName}")
+    @Value("${datasource.cluster.driver-class-name}")
     private String driverClassName;
 
 

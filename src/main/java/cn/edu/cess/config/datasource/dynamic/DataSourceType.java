@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface DataSource {
+public @interface DataSourceType {
     //数据源名称
     String value() default DruidConfigMaster.MASTER_DATA_SOURCE;
 }
