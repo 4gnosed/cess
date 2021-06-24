@@ -1,8 +1,21 @@
-# cess
+# college employment service system（cess）
 高校就业服务系统-后台
 
 ### 在线体验
 http://120.77.32.19
+
+### 技术栈（实时更新）
+version 1.0
+前端框架：vue
+后端基础架构：SpringBoot + Mybatis-plus 单体
+权限框架：shiro   
+数据库：mysql 一主一从，读写分离，druid作连接池，多数据源动态切换
+工具相关：aop+注解、validation、全局异常、validation、雪花算法、mybatis sql拦截、POI、文件上传、lombok
+
+
+
+后续版本持续更新……
+
 
 ### 系统架构图
 https://www.processon.com/diagraming/5ec5eb2af346fb690709a696
