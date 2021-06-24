@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         if (e instanceof CustomException) {
             return ResultFactory.buildResult(ResultCode.FAIL, ((CustomException) e).getMessageContent(), "");
         } else {
-            return ResultFactory.buildFailResult(e.getMessage());
+            return ResultFactory.buildSysErrorResult();
         }
     }
 
