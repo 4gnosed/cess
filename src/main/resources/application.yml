@@ -2,6 +2,36 @@ server:
   port: 8443
   servlet:
     context-path: /cess
+    multipart:
+      enabled: true
+      max-file-size: 300MB
+      max-request-size: 1000MB
+  #链接建立超时时间ms
+  connection-timeout: 10000
+  tomcat:
+    uri-encoding: UTF-8
+    #最小线程数
+    min-spare-threads: 100
+    #最大线程数（建议这个配置数可以在服务器CUP核心数的200~250倍之间）
+    max-threads: 500
+    #最大等待队列长度
+    accept-count: 100
+    #最大链接数
+    max-connections: 600
+    #请求头最大长度kb
+    max-http-header-size: 1048576
+    #请请求体最大长度kb
+    #max-http-post-size: 2097152
+    #tomcat目录
+    basedir: cess-tomcat
+    #tomcat日志配置
+    accesslog:
+      buffered: true
+      directory: logs
+      enabled: true
+      file-date-format: .yyyy-MM-dd
+      pattern: '%t %a "%r" %s (%D ms)'
+      prefix: access_log
 
 spring:
   application:
