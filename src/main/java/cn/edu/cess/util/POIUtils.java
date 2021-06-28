@@ -1,11 +1,14 @@
 package cn.edu.cess.util;
 
+import cn.edu.cess.base.AbstractClass;
 import cn.edu.cess.entity.content.student.*;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +25,8 @@ import java.util.List;
  * @since 2020-03-30
  */
 public class POIUtils {
+    private static Logger logger= LoggerFactory.getLogger(POIUtils.class);
+
     static String excelFileName = "毕业生信息表";
     static String[] heads = new String[]{
             "编号", "姓名", "学号", "性别", "出生日期",
@@ -30,7 +35,7 @@ public class POIUtils {
             "学生职位", "外语水平", "计算机水平", "入学时间", "毕业时间",
     };
 
-    public static void student2Excel(List<Student> list, HttpServletResponse response) {
+    public static boolean student2Excel(List<Student> list, HttpServletResponse response) {
         //1. 创建一个 Excel 文档
         HSSFWorkbook workbook = new HSSFWorkbook();
         //2. 创建文档摘要
@@ -121,9 +126,11 @@ public class POIUtils {
             os = response.getOutputStream();
             workbook.write(os);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error("导出异常：{}",e.getMessage());
+            return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("导出异常：{}",e.getMessage());
+            return false;
         } finally {
             try {
                 os.flush();
@@ -133,7 +140,7 @@ public class POIUtils {
                 e.printStackTrace();
             }
         }
-
+        return true;
     }
 
     public static List<Student> excel2Student(MultipartFile file, List<Nation> allNations, List<Politics> allPolitics, List<Department> allDepartments, List<Position> allPositions, List<Specialty> allSpecialties) {

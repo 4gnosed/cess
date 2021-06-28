@@ -2,8 +2,6 @@ package cn.edu.cess.controller.content.student;
 
 
 import cn.edu.cess.base.AbstractClass;
-import cn.edu.cess.common.LoadingStatus;
-import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.student.Student;
 import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
@@ -11,11 +9,14 @@ import cn.edu.cess.result.ResultFactory;
 import cn.edu.cess.service.content.student.*;
 import cn.edu.cess.util.POIUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -28,8 +29,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/content/student")
 public class StudentController extends AbstractClass {
+
     @Autowired
-    LoadingStatus loadingStatus;
+    RedisTemplate<String, Boolean> redisTemplate;
     @Autowired
     IStudentService iStudentService;
     @Autowired
@@ -52,34 +54,40 @@ public class StudentController extends AbstractClass {
         return ResultFactory.buildSuccessResult(iStudentService.saveBatch(studentList));
     }
 
-    @GetMapping("/export")
-    public void exportData(HttpServletResponse response) {
-        loading(response);
-        POIUtils.student2Excel(iStudentService.getStudents(), response);
-        loaded(response);
-    }
-
     @GetMapping("/loading")
-    public Result exportData() {
-        while (loadingStatus.getStatus() != Constant.LOADED) ;
-        loadingStatus.setStatus(Constant.DEFAULT);
-        return ResultFactory.buildSuccessResult("");
-    }
-
-    private void loading(HttpServletResponse response) {
-        if (loadingStatus.getStatus() == Constant.DEFAULT) {
-            logger.info("----------------------------开始导出----------------------------");
-            loadingStatus.setResponse(response);
-            loadingStatus.setStatus(Constant.LOADING);
+    public void loading(HttpServletRequest request, HttpServletResponse response) {
+        String key = request.getParameter("key");
+        long start = System.currentTimeMillis();
+        Boolean export = null;
+        //等待导出完成，或者超时1分钟退出
+        while (true) {
+            long cur = System.currentTimeMillis();
+            if (cur - start > 2 * 60 * 1000) {
+                break;
+            }
+            export = redisTemplate.opsForValue().get(key);
+        }
+        if (export == null || export.equals(false)) {
+            ResultFactory.buildFailResult("失败");
+        } else {
+            ResultFactory.buildSuccessResult("成功");
         }
     }
 
-    private void loaded(HttpServletResponse response) {
-        if (response.equals(loadingStatus.getResponse())) {
-            loadingStatus.setStatus(Constant.LOADED);
+    @GetMapping("/export")
+    public void exportData(HttpServletRequest request, HttpServletResponse response) {
+        String key = request.getParameter("key");
+        logger.info("----------------------------开始导出----------------------------");
+        redisTemplate.opsForValue().set(key, false,3, TimeUnit.MINUTES);
+        boolean export = POIUtils.student2Excel(iStudentService.getStudents(), response);
+        if (export) {
             logger.info("----------------------------导出成功----------------------------");
+            redisTemplate.opsForValue().set(key, false,1, TimeUnit.MINUTES);
+        } else {
+            logger.error("----------------------------导出失败----------------------------");
         }
     }
+
 
     @GetMapping("")
     public Result getStudentByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size,
@@ -135,7 +143,7 @@ public class StudentController extends AbstractClass {
     }
 
     @GetMapping("/getTotal")
-    public Result getAll(){
+    public Result getAll() {
         return ResultFactory.buildSuccessResult(iStudentService.count());
     }
 }
