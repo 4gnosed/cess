@@ -2,6 +2,7 @@ package cn.edu.cess.controller.content.student;
 
 
 import cn.edu.cess.base.AbstractClass;
+import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.student.Student;
 import cn.edu.cess.entity.content.student.UserStudent;
 import cn.edu.cess.result.Result;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class StudentController extends AbstractClass {
 
     @Autowired
-    RedisTemplate<String, Boolean> redisTemplate;
+    RedisTemplate<String, String> redisTemplate;
     @Autowired
     IStudentService iStudentService;
     @Autowired
@@ -58,7 +59,7 @@ public class StudentController extends AbstractClass {
     public void loading(HttpServletRequest request, HttpServletResponse response) {
         String key = request.getParameter("key");
         long start = System.currentTimeMillis();
-        Boolean export = null;
+        String export = null;
         //等待导出完成，或者超时1分钟退出
         while (true) {
             long cur = System.currentTimeMillis();
@@ -67,7 +68,7 @@ public class StudentController extends AbstractClass {
             }
             export = redisTemplate.opsForValue().get(key);
         }
-        if (export == null || export.equals(false)) {
+        if (export == null || export.equals(Constant.ERROR)) {
             ResultFactory.buildFailResult("失败");
         } else {
             ResultFactory.buildSuccessResult("成功");
@@ -78,11 +79,11 @@ public class StudentController extends AbstractClass {
     public void exportData(HttpServletRequest request, HttpServletResponse response) {
         String key = request.getParameter("key");
         logger.info("----------------------------开始导出----------------------------");
-        redisTemplate.opsForValue().set(key, false,3, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, Constant.ERROR,3, TimeUnit.MINUTES);
         boolean export = POIUtils.student2Excel(iStudentService.getStudents(), response);
         if (export) {
             logger.info("----------------------------导出成功----------------------------");
-            redisTemplate.opsForValue().set(key, false,1, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(key, Constant.SUCCESS,1, TimeUnit.MINUTES);
         } else {
             logger.error("----------------------------导出失败----------------------------");
         }

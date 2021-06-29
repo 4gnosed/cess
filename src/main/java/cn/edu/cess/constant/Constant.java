@@ -104,4 +104,6 @@ public class Constant {
     public static final String NID = "nid";
     public static final String AVATAR_PATH = "avatar_path";
     public static String DEFAULT_HEAD_PNG="defaultHead.png";
+    public static String SUCCESS="success";
+    public static String ERROR="error";
 }
