@@ -14,11 +14,15 @@ import cn.edu.cess.service.admin.department.INoticePictureService;
 import cn.edu.cess.service.admin.department.INoticeService;
 import cn.edu.cess.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -31,6 +35,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class NoticeController extends AbstractClass {
+    @Resource(name = "redisTemplate")
+    RedisTemplate<String,List<Notice>> redisTemplate;
     @Autowired
     INoticeService iNoticeService;
     @Autowired
@@ -55,6 +61,9 @@ public class NoticeController extends AbstractClass {
     public Result publicNotice(@RequestBody Notice notice) {
         iNoticeService.fillData(notice);
         if (iNoticeService.saveNotice(notice)) {
+            List<Notice> list = redisTemplate.opsForValue().get(Constant.ALL_NOTICE_KEY);
+            list.add(notice);
+            redisTemplate.opsForValue().set(Constant.ALL_NOTICE_KEY,list,1, TimeUnit.DAYS);
             return ResultFactory.buildSuccessResult("");
         } else {
             return ResultFactory.buildFailResult("");
@@ -64,6 +73,14 @@ public class NoticeController extends AbstractClass {
     @PutMapping({"/admin/notice", "/notice"})
     public Result updateNotice(@RequestBody Notice notice) {
         if (iNoticeService.updateNotice(notice)) {
+            List<Notice> list = redisTemplate.opsForValue().get(Constant.ALL_NOTICE_KEY);
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getId().equals(notice.getId())) {
+                    list.set(i, notice);
+                    break;
+                }
+            }
+            redisTemplate.opsForValue().set(Constant.ALL_NOTICE_KEY, list, 1, TimeUnit.DAYS);
             return ResultFactory.buildSuccessResult("");
         } else {
             return ResultFactory.buildFailResult("");
@@ -101,12 +118,26 @@ public class NoticeController extends AbstractClass {
 
     @GetMapping("/admin/notice")
     public Result getAllNotice() {
-        return ResultFactory.buildSuccessResult(iNoticeService.list());
+        List<Notice> list = redisTemplate.opsForValue().get(Constant.ALL_NOTICE_KEY);
+        if(list==null||list.size()==0){
+            list = iNoticeService.list();
+            redisTemplate.opsForValue().set(Constant.ALL_NOTICE_KEY,list,1, TimeUnit.DAYS);
+        }
+        return ResultFactory.buildSuccessResult(list);
     }
 
     @DeleteMapping("/admin/notice")
     public Result deleteNotice(@RequestParam() String nid) {
         if (iNoticeService.removeById(nid)) {
+            List<Notice> list = redisTemplate.opsForValue().get(Constant.ALL_NOTICE_KEY);
+            Iterator<Notice> it = list.iterator();
+            while (it.hasNext()) {
+                if(it.next().getId().equals(nid)){
+                    it.remove();
+                    break;
+                }
+            }
+            redisTemplate.opsForValue().set(Constant.ALL_NOTICE_KEY,list,1, TimeUnit.DAYS);
             return ResultFactory.buildSuccessResult("");
         } else {
             return ResultFactory.buildFailResult("");
@@ -116,6 +147,7 @@ public class NoticeController extends AbstractClass {
     @DeleteMapping("/admin/notice/deletes")
     public Result deleteNotices(@RequestBody() List<Notice> notices) {
         if (iNoticeService.deleteNotices(notices)) {
+            redisTemplate.delete(Constant.ALL_NOTICE_KEY);
             return ResultFactory.buildSuccessResult("");
         } else {
             return ResultFactory.buildFailResult("");
