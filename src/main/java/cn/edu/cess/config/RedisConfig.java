@@ -55,6 +55,9 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+    @Value("${redis.database}")
+    private int database;
+
     @Value("${redis.host}")
     private String host;
 
@@ -86,7 +89,7 @@ public class RedisConfig {
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         jedisPoolConfig.setMaxTotal(maxActive);
         jedisPoolConfig.setMinIdle(minIdle);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password,database);
         return jedisPool;
     }
 
