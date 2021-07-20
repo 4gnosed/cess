@@ -88,7 +88,7 @@ public class FileUploadUtil {
 
 
     public static String getIpPort(HttpServletRequest request) {
-        return request.getScheme() + "://" + request.getServerName()
-                + ":" + request.getServerPort();
+        return request.getScheme() + "://" + request.getServerName();
+//                + ":" + request.getServerPort();
     }
 }
