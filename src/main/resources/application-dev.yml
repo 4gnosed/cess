@@ -93,9 +93,9 @@ redis:
   #redis服务器地址
   host: cess-redis
   # Redis服务器连接密码（默认为空）
-  password: 1234
+  password:
   # Redis服务器连接端口
-  port: 6379
+  port: 6789
   # 连接超时时间（毫秒）
   timeout: 2000
   # 配置 redis 连接池
