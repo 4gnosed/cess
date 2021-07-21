@@ -55,19 +55,10 @@ public class StudentController extends AbstractClass {
         return ResultFactory.buildSuccessResult(iStudentService.saveBatch(studentList));
     }
 
-    @GetMapping("/loading")
-    public void loading(HttpServletRequest request, HttpServletResponse response) {
+    @GetMapping("/exportStatus")
+    public void loading(HttpServletRequest request) {
         String key = request.getParameter("key");
-        long start = System.currentTimeMillis();
-        String export = null;
-        //等待导出完成，或者超时1分钟退出
-        while (true) {
-            long cur = System.currentTimeMillis();
-            if (cur - start > 2 * 60 * 1000) {
-                break;
-            }
-            export = redisTemplate.opsForValue().get(key);
-        }
+        String export = redisTemplate.opsForValue().get(key);
         if (export == null || export.equals(Constant.ERROR)) {
             ResultFactory.buildFailResult("失败");
         } else {
