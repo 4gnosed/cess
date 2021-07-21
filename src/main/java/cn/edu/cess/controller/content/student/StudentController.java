@@ -56,13 +56,13 @@ public class StudentController extends AbstractClass {
     }
 
     @GetMapping("/exportStatus")
-    public void loading(HttpServletRequest request) {
+    public Result loading(HttpServletRequest request) {
         String key = request.getParameter("key");
         String export = redisTemplate.opsForValue().get(key);
         if (export == null || export.equals(Constant.ERROR)) {
-            ResultFactory.buildFailResult("失败");
+            return ResultFactory.buildFailResult("失败");
         } else {
-            ResultFactory.buildSuccessResult("成功");
+            return ResultFactory.buildSuccessResult("成功");
         }
     }
 
