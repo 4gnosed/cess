@@ -46,16 +46,20 @@ datasource:
   connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJh4uhuE1PuTIDLANV7l28M+e6LmDO0yr2i8is3iZHuLKBW+//LiGxOtw+7whsNBZbRgj5yyPh6e7tysJc6/eZECAwEAAQ==
   #配置了两个数据源
   master:
-    url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:1111/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: readwriter
     password: enmrP2NheQjE1ZlbGHOGCak5AEY7klh8GUP2RImaeMnffmE5jHHvUXvs3eeCT/EJ/sRr0DPC9iNL/E3ufOnVRQ==
     driver-class-name: com.mysql.cj.jdbc.Driver
   cluster:
-    url: jdbc:mysql://localhost:3307/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:2222/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: reader
     password: enmrP2NheQjE1ZlbGHOGCak5AEY7klh8GUP2RImaeMnffmE5jHHvUXvs3eeCT/EJ/sRr0DPC9iNL/E3ufOnVRQ==
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  xxl:
+    url: jdbc:mysql://localhost:3333/xxl_job?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: xxl
+    password: enmrP2NheQjE1ZlbGHOGCak5AEY7klh8GUP2RImaeMnffmE5jHHvUXvs3eeCT/EJ/sRr0DPC9iNL/E3ufOnVRQ==
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
   configuration:
@@ -93,11 +97,11 @@ spring:
     # redis 数据库索引（默认为0）
     database: 1
     #redis服务器地址
-    host: localhost
+    host: 120.77.32.19
     # Redis服务器连接密码（默认为空）
-    password: ''
+    password: 1234
     # Redis服务器连接端口
-    port: 6379
+    port: 6789
     # 连接超时时间（毫秒）
     timeout: 2000
     # 配置 redis 连接池

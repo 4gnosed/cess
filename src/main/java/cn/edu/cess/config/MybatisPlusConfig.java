@@ -202,7 +202,6 @@ public class MybatisPlusConfig {
      * @return
      */
     @Bean
-    @Primary
     public DataSource multipleDataSource(@Qualifier(DruidConfigMaster.MASTER_DATA_SOURCE) DataSource master, @Qualifier(DruidConfigCluster.CLUSTER_DATA_SOURCE) DataSource cluster) {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();

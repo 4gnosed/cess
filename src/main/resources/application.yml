@@ -43,3 +43,25 @@ spring:
 snowflake:
   workId: 1
   datacenterId: 1
+
+xxl:
+  mapper-locations: classpath*:mapper/xxljob/*.xml
+  job:
+    accessToken: ''
+    admin:
+      addresses: http://cess-xxl:19880/xxl-job-admin-1.9.1
+    executor:
+      appname: cess-executor
+      ip: ''
+      logpath: ''
+      logretentiondays: -1
+      port: 9999
+  jobinfo:
+    delete:
+      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/remove
+    add:
+      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/add
+    update:
+      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/update
+    pause:
+      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/pause
