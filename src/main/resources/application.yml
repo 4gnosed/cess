@@ -53,7 +53,7 @@ xxl:
     executor:
       appname: cess-executor
       ip: ''
-      logpath: ''
+      logpath: /home/baby/tools/xxljob_19880/executor-log
       logretentiondays: -1
       port: 9999
   jobinfo:
