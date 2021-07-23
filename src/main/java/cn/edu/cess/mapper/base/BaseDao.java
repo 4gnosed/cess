@@ -23,16 +23,11 @@ public class BaseDao extends SqlSessionDaoSupport {
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
-    @Resource(name = "xxlSqlSessionFactory")
+    @Resource(name = "sqlSessionFactory")
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
         super.setSqlSessionFactory(sqlSessionFactory);
     }
 
-    @Override
-    @Resource(name = "xxlSqlSessionTemplate")
-    public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
-        super.setSqlSessionTemplate(sqlSessionTemplate);
-    }
 
     /**
      * 根据数据库ID获取唯一记录

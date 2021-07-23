@@ -49,7 +49,7 @@ xxl:
   job:
     accessToken: ''
     admin:
-      addresses: http://cess-xxl:19880/xxl-job-admin-1.9.1
+      addresses: http://cess-localhost:19880/xxl-job-admin-1.9.1
     executor:
       appname: cess-executor
       ip: ''
@@ -58,10 +58,10 @@ xxl:
       port: 9999
   jobinfo:
     delete:
-      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/remove
+      url: http://cess-localhost:19880/xxl-job-admin-1.9.1/jobinfo/remove
     add:
-      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/add
+      url: http://cess-localhost:19880/xxl-job-admin-1.9.1/jobinfo/add
     update:
-      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/update
+      url: http://cess-localhost:19880/xxl-job-admin-1.9.1/jobinfo/update
     pause:
-      url: http://cess-xxl:19880/xxl-job-admin-1.9.1/jobinfo/pause
+      url: http://cess-localhost:19880/xxl-job-admin-1.9.1/jobinfo/pause

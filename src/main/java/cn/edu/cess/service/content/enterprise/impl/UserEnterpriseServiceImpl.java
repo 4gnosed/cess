@@ -1,6 +1,7 @@
 package cn.edu.cess.service.content.enterprise.impl;
 
-import cn.edu.cess.config.datasource.druid.DruidConfigCluster;
+
+import cn.edu.cess.config.datasource.MybatisPlusConfig;
 import cn.edu.cess.config.datasource.dynamic.DataSourceType;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.enterprise.UserEnterprise;
@@ -26,7 +27,7 @@ import java.util.List;
 public class UserEnterpriseServiceImpl extends ServiceImpl<UserEnterpriseMapper, UserEnterprise> implements IUserEnterpriseService {
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public List<UserEnterprise> getUserEnterprisesByPage(Integer page, Integer size) {
         Page<UserEnterprise> userEnterprisePage = page(new Page<>(page, size));
         List<UserEnterprise> userEnterpriseList = userEnterprisePage.getRecords();
@@ -41,7 +42,7 @@ public class UserEnterpriseServiceImpl extends ServiceImpl<UserEnterpriseMapper,
     }
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public UserEnterprise getByUid(Integer userId) {
         QueryWrapper<UserEnterprise> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.UID, userId);
@@ -49,7 +50,7 @@ public class UserEnterpriseServiceImpl extends ServiceImpl<UserEnterpriseMapper,
     }
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public UserEnterprise getByEid(Integer eid) {
         QueryWrapper<UserEnterprise> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(Constant.EID, eid);
@@ -57,7 +58,7 @@ public class UserEnterpriseServiceImpl extends ServiceImpl<UserEnterpriseMapper,
     }
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public int getTotal() {
         return list().size();
     }

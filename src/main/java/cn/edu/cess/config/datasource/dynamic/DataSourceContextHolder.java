@@ -1,6 +1,6 @@
 package cn.edu.cess.config.datasource.dynamic;
 
-import cn.edu.cess.config.datasource.druid.DruidConfigMaster;
+import cn.edu.cess.config.datasource.MybatisPlusConfig;
 import cn.edu.cess.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class DataSourceContextHolder {
     private static final Logger log = LoggerFactory.getLogger(DataSourceContextHolder.class);
 
     //默认数据源
-    public static final String DEFAULT_DS = DruidConfigMaster.MASTER_DATA_SOURCE;
+    public static final String DEFAULT_DS = MybatisPlusConfig.MASTER_DATA_SOURCE;
 
     private static final ThreadLocal<String> THREAD_LOCAL = new ThreadLocal<>();
 

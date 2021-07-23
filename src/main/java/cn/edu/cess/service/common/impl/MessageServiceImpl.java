@@ -1,6 +1,7 @@
 package cn.edu.cess.service.common.impl;
 
-import cn.edu.cess.config.datasource.druid.DruidConfigCluster;
+
+import cn.edu.cess.config.datasource.MybatisPlusConfig;
 import cn.edu.cess.config.datasource.dynamic.DataSourceType;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.common.Message;
@@ -44,7 +45,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     IEnterpriseService iEnterpriseService;
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public List<Message> getByUserId(Integer userId) {
         QueryWrapper<Message> q = new QueryWrapper<>();
         q.eq(Constant.RECEIVER_UID, userId);
@@ -69,7 +70,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public int getNewMessageNumber(Integer userId) {
         QueryWrapper<Message> q = new QueryWrapper<>();
         q.eq(Constant.RECEIVER_UID, userId).eq(Constant.STATUS, false);
@@ -77,7 +78,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
     }
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public List<Message> getSendedMessages(Integer userId) {
         QueryWrapper<Message> q = new QueryWrapper<>();
         q.eq(Constant.SENDER_UID, userId);
@@ -150,7 +151,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         save(message);
     }
 
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public Message getByTitle(String title) {
         QueryWrapper<Message> q = new QueryWrapper<>();
         q.eq(Constant.TITLE, title).last("LIMIT 1");

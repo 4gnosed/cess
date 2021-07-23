@@ -1,5 +1,7 @@
 package cn.edu.cess.service.xxljob;
 
+import cn.edu.cess.config.datasource.MybatisPlusConfig;
+import cn.edu.cess.config.datasource.dynamic.DataSourceType;
 import cn.edu.cess.entity.xxljob.XxlJobInfo;
 import cn.edu.cess.mapper.xxljob.XxlJobDao;
 import cn.edu.cess.result.Result;
@@ -9,7 +11,6 @@ import cn.edu.cess.util.HttpSendUtil;
 import cn.edu.cess.util.StringUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class XxlJobTriggerService {
      * @param xxlJobInfo 5个必须字段：executorHandler,executorParam,jobCron,jobDesc,author
      * @return
      */
+    @DataSourceType(MybatisPlusConfig.XXL_DATA_SOURCE)
     public Result addJob(XxlJobInfo xxlJobInfo) {
         log.info("新增xxlJob调度任务入参：{}", JSON.toJSONString(xxlJobInfo));
         if (StringUtil.isEmpty(xxlJobInfo.getExecutorHandler())) {
@@ -78,6 +80,7 @@ public class XxlJobTriggerService {
      * @param xxlJobInfo 5个必须字段：executorHandler,executorParam,jobCron,jobDesc,author
      * @return
      */
+    @DataSourceType(MybatisPlusConfig.XXL_DATA_SOURCE)
     public Result updateJob(XxlJobInfo xxlJobInfo) {
         log.info("更新xxlJob调度任务入参：{}", JSON.toJSONString(xxlJobInfo));
         if (StringUtil.isEmpty(xxlJobInfo.getExecutorHandler())) {
@@ -128,6 +131,7 @@ public class XxlJobTriggerService {
      * @param xxlJobInfo 2个必须字段：executorHandler,executorParam
      * @return
      */
+    @DataSourceType(MybatisPlusConfig.XXL_DATA_SOURCE)
     public Result pauseJob(XxlJobInfo xxlJobInfo) {
         log.info("暂停xxlJob调度任务入参：{}", JSON.toJSONString(xxlJobInfo));
         if (StringUtil.isEmpty(xxlJobInfo.getExecutorHandler())) {
