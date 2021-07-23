@@ -6,6 +6,7 @@ import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * @Package: cn.edu.cess.jobhandler
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @JobHandler("DemoHandler")
 @Slf4j
+@Component
 public class DemoHandler extends IJobHandler {
 
     @Override
