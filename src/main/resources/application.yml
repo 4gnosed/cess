@@ -37,7 +37,7 @@ spring:
   application:
     name: college employment service system
   profiles:
-    active: prod
+    active: dev
 
 #雪花算法机房ID，机器ID
 snowflake:

@@ -1,6 +1,5 @@
 package cn.edu.cess.util;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -22,23 +21,24 @@ public class ConfigUtil {
     }
 
     public static Integer getIntProperty(String key) {
-        if(localEnv==null) return null;
+        if (localEnv == null) return null;
         String property = localEnv.getProperty(key);
         return property == null ? null : Integer.parseInt(property);
     }
 
 
     public static String getProperty(String key) {
-        if(localEnv==null) return null;
+        if (localEnv == null) return null;
         return localEnv.getProperty(key);
     }
 
     public static String getProperty(String key, String def) {
-        if(localEnv==null) return null;
-        if (StringUtils.isBlank(localEnv.getProperty(key))) {
+        if (localEnv == null) return null;
+        String value = localEnv.getProperty(key);
+        if (StringUtil.isEmpty(value)) {
             return def;
         }
-        return localEnv.getProperty(key);
+        return value;
     }
 
 }

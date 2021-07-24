@@ -46,19 +46,19 @@ datasource:
   connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJh4uhuE1PuTIDLANV7l28M+e6LmDO0yr2i8is3iZHuLKBW+//LiGxOtw+7whsNBZbRgj5yyPh6e7tysJc6/eZECAwEAAQ==
   #配置了多数据源
   master:
-      url: jdbc:mysql://localhost:1111/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: readwriter
-      password: enmrP2NheQjE1ZlbGHOGCak5AEY7klh8GUP2RImaeMnffmE5jHHvUXvs3eeCT/EJ/sRr0DPC9iNL/E3ufOnVRQ==
+      url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
   cluster:
-      url: jdbc:mysql://localhost:2222/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: reader
-      password: enmrP2NheQjE1ZlbGHOGCak5AEY7klh8GUP2RImaeMnffmE5jHHvUXvs3eeCT/EJ/sRr0DPC9iNL/E3ufOnVRQ==
+      url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: root/EJ/sRr0DPC9iNL/E3ufOnVRQ==
       driver-class-name: com.mysql.cj.jdbc.Driver
   xxl:
-    url: jdbc:mysql://localhost:3333/xxl_job?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: xxl
-    password: enmrP2NheQjE1ZlbGHOGCak5AEY7klh8GUP2RImaeMnffmE5jHHvUXvs3eeCT/EJ/sRr0DPC9iNL/E3ufOnVRQ==
+    url: jdbc:mysql://localhost:3306/xxl_job?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
@@ -124,3 +124,6 @@ logging:
   level:
     cn.edu.cess: debug
 #  config: classpath:logback-spring.xml
+
+swagger:
+  enable: true
