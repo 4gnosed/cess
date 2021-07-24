@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -283,6 +285,25 @@ public class MybatisPlusConfig {
         //添加分页功能
         sqlSessionFactory.setPlugins(paginationInterceptor());
         return sqlSessionFactory.getObject();
+    }
+
+    //事物管理，默认的DataSourceTransactionManager是属于DataSourceTransactionManager的，如果要开启另一个数据库事务，需要手工指定一下这个manager，不然用的都是第一个db的事务管理器，导致事务不生效
+    @Bean(name = "masterTransactionManager")
+    @Primary
+    public DataSourceTransactionManager masterTransactionManager() {
+        return new DataSourceTransactionManager(master());
+    }
+
+    @Bean(name = "clusterTransactionManager")
+    @Primary
+    public DataSourceTransactionManager clusterTransactionManager() {
+        return new DataSourceTransactionManager(cluster());
+    }
+
+    @Bean(name = "xxlTransactionManager")
+    @Primary
+    public DataSourceTransactionManager xxlTransactionManager() {
+        return new DataSourceTransactionManager(xxl());
     }
 
 }

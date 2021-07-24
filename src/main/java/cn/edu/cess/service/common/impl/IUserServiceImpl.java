@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 @Slf4j
 public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
@@ -141,7 +140,7 @@ public class IUserServiceImpl extends ServiceImpl<UserMapper, User> implements I
         return adminUserDtoList;
     }
 
-    @Transactional
+    @Transactional(transactionManager = "masterTransactionManager")
     @Override
     public boolean removeUser(int userId) {
         boolean b1 = removeById(userId);
