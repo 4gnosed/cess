@@ -65,3 +65,6 @@ xxl:
       url: http://cess-localhost:19880/xxl-job-admin-1.9.1/jobinfo/update
     pause:
       url: http://cess-localhost:19880/xxl-job-admin-1.9.1/jobinfo/pause
+
+seckill:
+  url: http://cess-localhost:8446
