@@ -38,6 +38,29 @@ spring:
     name: college employment service system
   profiles:
     active: dev
+  http:
+    multipart:
+      enabled: true
+      file-size-threshold: 50
+      max-file-size: 300MB
+      max-request-size: 300MB
+  rabbitmq:
+    host: cess-localhost
+    port: 5672
+    username: gnosed
+    password: gnosed
+    #虚拟host 可以不设置,使用server默认host
+    virtual-host: gnosed
+    #确认消息已发送到交换机(Exchange)
+    publisher-confirms: true
+    #确认消息已发送到队列(Queue)
+    publisher-returns: true
+    listener:
+      concurrency: 30
+      max-concurrency: 60
+      retry:
+        enabled: true
+        max-attempts: 3
 
 #雪花算法机房ID，机器ID
 snowflake:
