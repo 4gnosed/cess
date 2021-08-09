@@ -4,23 +4,25 @@ import cn.edu.cess.constant.MqConstant;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
  * @Package: cn.edu.cess.rabbitmq
- * @Description:生产者
+ * @Description:消费者
  * @Author: LuDeSong
  * @Date: 2021-8-4 19:10
  */
 @Component
 @Slf4j
-public class RabbitProducer {
-    @Autowired
-    private AmqpTemplate amqpTemplate;
+@RabbitListener(queues = MqConstant.DEMO_QUEUE)
+public class DemoQueueListener1 {
 
-    public void sendMessage(Object o) {
-        log.info("发送消息：{}", JSON.toJSONString(o));
-        amqpTemplate.convertAndSend(MqConstant.DIRECT_EXCHANGE_1, MqConstant.ROUTING_KEY_1, o);
+    @RabbitHandler
+    public void receiveMessage(Object o) {
+        log.info("DemoQueueListener1接收消息：{}", JSON.toJSONString(o));
     }
+
 }
