@@ -19,8 +19,23 @@ public class RabbitProducer {
     @Autowired
     private AmqpTemplate amqpTemplate;
 
-    public void sendMessage(Object o) {
-        log.info("发送消息：{}", JSON.toJSONString(o));
-        amqpTemplate.convertAndSend(MqConstant.DIRECT_EXCHANGE_1, MqConstant.ROUTING_KEY_1, o);
+    public void sendDirectMessage(Object o) {
+        log.info("sendDirectMessage发送消息：{}", JSON.toJSONString(o));
+        amqpTemplate.convertAndSend(MqConstant.DIRECT_EXCHANGE_1, MqConstant.ROUTING_KEY, o);
+    }
+
+    public void sendTopicMessage1(Object o) {
+        log.info("sendTopicMessage1发送消息：{}", JSON.toJSONString(o));
+        amqpTemplate.convertAndSend(MqConstant.TOPIC_EXCHANGE_1, MqConstant.ROUTING_KEY, o);
+    }
+
+    public void sendTopicMessage2(Object o) {
+        log.info("sendTopicMessage2发送消息：{}", JSON.toJSONString(o));
+        amqpTemplate.convertAndSend(MqConstant.TOPIC_EXCHANGE_1, "top.fjda", o);
+    }
+
+    public void sendTopicMessage3(Object o) {
+        log.info("sendTopicMessage3发送消息：{}", JSON.toJSONString(o));
+        amqpTemplate.convertAndSend(MqConstant.TOPIC_EXCHANGE_1, "top.fj.jkfd", o);
     }
 }

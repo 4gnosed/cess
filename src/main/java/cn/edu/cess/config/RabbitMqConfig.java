@@ -1,10 +1,7 @@
 package cn.edu.cess.config;
 
 import cn.edu.cess.constant.MqConstant;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,30 +13,55 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RabbitMqConfig {
-    /**
-     * 定义demoQueue队列
-     * @return
-     */
+
     @Bean
-    public Queue demoQueue() {
-        return new Queue(MqConstant.DEMO_QUEUE);
+    public Queue queue1() {
+        return new Queue(MqConstant.QUEUE1);
     }
 
-    /**
-     * 定义交换机
-     * @return
-     */
     @Bean
-    DirectExchange directExchange(){
-        return new DirectExchange(MqConstant.DIRECT_EXCHANGE_1,true,false);
+    public Queue queue2() {
+        return new Queue(MqConstant.QUEUE2);
     }
 
-    /**
-     * 将队列和交换机绑定, 并设置用于匹配键
-     * @return
-     */
     @Bean
-    Binding binding(){
-        return BindingBuilder.bind(demoQueue()).to(directExchange()).with(MqConstant.ROUTING_KEY_1);
+    public Queue queue3() {
+        return new Queue(MqConstant.QUEUE3);
     }
+
+    @Bean
+    public Queue queue4() {
+        return new Queue(MqConstant.QUEUE4);
+    }
+
+    @Bean
+    DirectExchange directExchange() {
+        return new DirectExchange(MqConstant.DIRECT_EXCHANGE_1, true, false);
+    }
+
+    @Bean
+    TopicExchange topicExchange() {
+        return new TopicExchange(MqConstant.TOPIC_EXCHANGE_1, true, false);
+    }
+
+    @Bean
+    Binding binding1() {
+        return BindingBuilder.bind(queue1()).to(directExchange()).with(MqConstant.ROUTING_KEY);
+    }
+
+    @Bean
+    Binding binding2() {
+        return BindingBuilder.bind(queue2()).to(topicExchange()).with(MqConstant.ROUTING_KEY_STAR);
+    }
+
+    @Bean
+    Binding binding3() {
+        return BindingBuilder.bind(queue3()).to(topicExchange()).with(MqConstant.ROUTING_KEY_WELL);
+    }
+
+    @Bean
+    Binding binding4() {
+        return BindingBuilder.bind(queue4()).to(topicExchange()).with(MqConstant.ROUTING_KEY);
+    }
+
 }

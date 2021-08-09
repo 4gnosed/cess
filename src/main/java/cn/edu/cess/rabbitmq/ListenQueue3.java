@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-@RabbitListener(queues = MqConstant.DEMO_QUEUE)
-public class DemoQueueListener2 {
+@RabbitListener(queues = MqConstant.QUEUE3)
+public class ListenQueue3 {
 
     @RabbitHandler
     public void receiveMessage(Object o) {
-        log.info("DemoQueueListener2接收消息：{}", JSON.toJSONString(o));
+        log.info("接收消息：{}", JSON.toJSONString(o));
     }
 
 }

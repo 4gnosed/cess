@@ -21,9 +21,27 @@ public class RabbitMqController {
     @Autowired
     RabbitProducer rabbitProducer;
 
-    @RequestMapping("/sendMessage")
-    public Result sendMessage(@RequestParam String message) {
-        rabbitProducer.sendMessage(message);
+    @RequestMapping("/sendDirectMessage")
+    public Result sendDirectMessage(@RequestParam String message) {
+        rabbitProducer.sendDirectMessage(message);
+        return ResultFactory.buildSuccessResult();
+    }
+
+    @RequestMapping("/sendTopicMessage1")
+    public Result sendTopicMessage1(@RequestParam String message) {
+        rabbitProducer.sendTopicMessage1(message);
+        return ResultFactory.buildSuccessResult();
+    }
+
+    @RequestMapping("/sendTopicMessage2")
+    public Result sendTopicMessage2(@RequestParam String message) {
+        rabbitProducer.sendTopicMessage2(message);
+        return ResultFactory.buildSuccessResult();
+    }
+
+    @RequestMapping("/sendTopicMessage3")
+    public Result sendTopicMessage3(@RequestParam String message) {
+        rabbitProducer.sendTopicMessage3(message);
         return ResultFactory.buildSuccessResult();
     }
 }
