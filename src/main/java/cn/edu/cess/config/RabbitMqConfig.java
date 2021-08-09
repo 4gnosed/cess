@@ -35,6 +35,11 @@ public class RabbitMqConfig {
     }
 
     @Bean
+    public Queue queue5() {
+        return new Queue(MqConstant.QUEUE5);
+    }
+
+    @Bean
     DirectExchange directExchange() {
         return new DirectExchange(MqConstant.DIRECT_EXCHANGE_1, true, false);
     }
@@ -42,6 +47,11 @@ public class RabbitMqConfig {
     @Bean
     TopicExchange topicExchange() {
         return new TopicExchange(MqConstant.TOPIC_EXCHANGE_1, true, false);
+    }
+
+    @Bean
+    FanoutExchange fanoutExchange() {
+        return new FanoutExchange(MqConstant.FANOUT_EXCHANGE_1, true, false);
     }
 
     @Bean
@@ -62,6 +72,31 @@ public class RabbitMqConfig {
     @Bean
     Binding binding4() {
         return BindingBuilder.bind(queue4()).to(topicExchange()).with(MqConstant.ROUTING_KEY);
+    }
+
+    @Bean
+    Binding binding5() {
+        return BindingBuilder.bind(queue1()).to(fanoutExchange());
+    }
+
+    @Bean
+    Binding binding6() {
+        return BindingBuilder.bind(queue2()).to(fanoutExchange());
+    }
+
+    @Bean
+    Binding binding7() {
+        return BindingBuilder.bind(queue3()).to(fanoutExchange());
+    }
+
+    @Bean
+    Binding binding8() {
+        return BindingBuilder.bind(queue4()).to(fanoutExchange());
+    }
+
+    @Bean
+    Binding binding9() {
+        return BindingBuilder.bind(queue5()).to(fanoutExchange());
     }
 
 }

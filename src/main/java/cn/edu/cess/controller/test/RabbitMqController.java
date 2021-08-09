@@ -44,4 +44,10 @@ public class RabbitMqController {
         rabbitProducer.sendTopicMessage3(message);
         return ResultFactory.buildSuccessResult();
     }
+
+    @RequestMapping("/sendFanoutMessage")
+    public Result sendFanoutMessage(@RequestParam String message) {
+        rabbitProducer.sendFanoutMessage(message);
+        return ResultFactory.buildSuccessResult();
+    }
 }

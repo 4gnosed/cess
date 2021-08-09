@@ -8,13 +8,15 @@ package cn.edu.cess.constant;
  */
 
 public class MqConstant {
-    public static final String ROUTING_KEY ="routing.key";
-    public static final String ROUTING_KEY_STAR ="top.*";
-    public static final String ROUTING_KEY_WELL ="top.#";
+    public static final String ROUTING_KEY = "routing.key";
+    public static final String ROUTING_KEY_STAR = "top.*";
+    public static final String ROUTING_KEY_WELL = "top.#";
     public static final String DIRECT_EXCHANGE_1 = "DIRECT_EXCHANGE_1";
     public static final String TOPIC_EXCHANGE_1 = "TOPIC_EXCHANGE_1";
+    public static final String FANOUT_EXCHANGE_1 = "FANOUT_EXCHANGE_1";
     public static final String QUEUE1 = "QUEUE1";
     public static final String QUEUE2 = "QUEUE2";
     public static final String QUEUE3 = "QUEUE3";
     public static final String QUEUE4 = "QUEUE4";
+    public static final String QUEUE5 = "QUEUE5";
 }

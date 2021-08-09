@@ -38,4 +38,9 @@ public class RabbitProducer {
         log.info("sendTopicMessage3发送消息：{}", JSON.toJSONString(o));
         amqpTemplate.convertAndSend(MqConstant.TOPIC_EXCHANGE_1, "top.fj.jkfd", o);
     }
+
+    public void sendFanoutMessage(Object o) {
+        log.info("sendFanoutMessage发送消息：{}", JSON.toJSONString(o));
+        amqpTemplate.convertAndSend(MqConstant.FANOUT_EXCHANGE_1, null, o);
+    }
 }
