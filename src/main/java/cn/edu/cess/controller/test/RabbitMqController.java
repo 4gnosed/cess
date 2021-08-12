@@ -50,4 +50,10 @@ public class RabbitMqController {
         rabbitProducer.sendFanoutMessage(message);
         return ResultFactory.buildSuccessResult();
     }
+
+    @RequestMapping("/sendDirectMessage2")
+    public Result sendDirectMessage2(@RequestParam String message) {
+        rabbitProducer.sendDirectMessage2(message);
+        return ResultFactory.buildSuccessResult();
+    }
 }

@@ -43,4 +43,10 @@ public class RabbitProducer {
         log.info("sendFanoutMessage发送消息：{}", JSON.toJSONString(o));
         amqpTemplate.convertAndSend(MqConstant.FANOUT_EXCHANGE_1, null, o);
     }
+
+    public void sendDirectMessage2(Object o) {
+        log.info("sendDirectMessage发送消息：{}", JSON.toJSONString(o));
+        amqpTemplate.convertAndSend(MqConstant.DIRECT_EXCHANGE_2, MqConstant.ROUTING_KEY, o);
+    }
+
 }
