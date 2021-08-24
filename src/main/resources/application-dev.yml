@@ -40,20 +40,20 @@ datasource:
   # 可以把这个数值配置大一些，比如说100
   maxPoolPreparedStatementPerConnectionSize: 100
   # 配置监控统计拦截的filters，监控统计用的stat、日志用的log4j、 防御sql注入的wall、ConfigFilter非对称加密password
-  filters: stat,wall,slf4j,config
+  filters: stat,wall,slf4j
   # 打开mergeSql功能；慢SQL记录
   # ConfigFilter非对称加密的公钥，config.decrypt=true;config.decrypt.key=${publickey}
-  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJh4uhuE1PuTIDLANV7l28M+e6LmDO0yr2i8is3iZHuLKBW+//LiGxOtw+7whsNBZbRgj5yyPh6e7tysJc6/eZECAwEAAQ==
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
   #配置了多数据源
   master:
       url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
-      password: root
+      password: 1234
       driver-class-name: com.mysql.cj.jdbc.Driver
   cluster:
       url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
-      password: root/EJ/sRr0DPC9iNL/E3ufOnVRQ==
+      password: 1234
       driver-class-name: com.mysql.cj.jdbc.Driver
   xxl:
     url: jdbc:mysql://localhost:3306/xxl_job?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
