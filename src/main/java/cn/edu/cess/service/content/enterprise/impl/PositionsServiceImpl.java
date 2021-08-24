@@ -65,13 +65,12 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
     ElasticsearchRestTemplate esRestTemplate;
 
 
-    private List<Positions> queryEsPositions(Integer page, Integer size, String keywords,
-                                             Integer experienceId, Integer degreeId, Integer salaryId) {
+    private List<Positions> queryEsPositions(String keywords, Integer experienceId, Integer degreeId, Integer salaryId) {
         NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         if (StringUtil.isNotEmpty(keywords)) {
             builder.withHighlightFields(new HighlightBuilder.Field(keywords));
-            boolQuery.must(QueryBuilders.matchQuery("keyword", keywords));
+            boolQuery.must(QueryBuilders.multiMatchQuery(keywords, "keyword", "name", "description"));
         }
         if (experienceId != null) {
             boolQuery.must(QueryBuilders.termQuery("experienceId", experienceId));
@@ -85,7 +84,6 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
 
         NativeSearchQuery query = builder
                 .withQuery(boolQuery)
-                .withPageable(PageRequest.of(page, size))
                 .withSort(SortBuilders.fieldSort("updateTime").order(SortOrder.DESC))
                 .build();
         try {
@@ -160,7 +158,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
 //        positionsSet.addAll(posPage.getRecords());
 
         //通过es查询职位
-        List<Positions> positions = queryEsPositions(page, size - positionsSet.size(), keywords, experienceId, degreeId, salaryId);
+        List<Positions> positions = queryEsPositions(keywords, experienceId, degreeId, salaryId);
         positionsSet.addAll(positions);
 
 //        for (Positions pos : positionsSet) {
