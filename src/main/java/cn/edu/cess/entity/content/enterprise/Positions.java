@@ -10,6 +10,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,7 +33,10 @@ import java.util.Objects;
 @Accessors(chain = true)
 @TableName("positions")
 @ApiModel("职位")
+@Document(indexName = Positions.POSITIONS_IDX_NAME)
 public class Positions implements Serializable {
+
+    public static final String POSITIONS_IDX_NAME = "positions_idx_name";
 
     private static final long serialVersionUID = 1L;
 
@@ -48,6 +56,8 @@ public class Positions implements Serializable {
 
     @ApiModelProperty("id")
     @TableId(value = "id", type = IdType.AUTO)
+    @Id
+    @Field(type = FieldType.Integer)
     private Integer id;
 
     /**
@@ -55,6 +65,7 @@ public class Positions implements Serializable {
      */
     @ApiModelProperty("职位名称")
     @TableField("name")
+    @Field(type = FieldType.Text)
     private String name;
 
     /**
@@ -62,6 +73,7 @@ public class Positions implements Serializable {
      */
     @ApiModelProperty("工作地址")
     @TableField("address")
+    @Field(type = FieldType.Text)
     private String address;
 
     /**
@@ -69,6 +81,7 @@ public class Positions implements Serializable {
      */
     @TableField("salary_id")
     @ApiModelProperty("年薪id")
+    @Field(type = FieldType.Integer)
     private Integer salaryId;
 
     /**
@@ -83,6 +96,7 @@ public class Positions implements Serializable {
      */
     @TableField("degree_id")
     @ApiModelProperty("学历id")
+    @Field(type = FieldType.Integer)
     private Integer degreeId;
 
     /**
@@ -90,6 +104,7 @@ public class Positions implements Serializable {
      */
     @TableField("experience_id")
     @ApiModelProperty("经验要求id")
+    @Field(type = FieldType.Integer)
     private Integer experienceId;
 
     /**
@@ -97,6 +112,7 @@ public class Positions implements Serializable {
      */
     @TableField("description")
     @ApiModelProperty("职位描述")
+    @Field(type = FieldType.Text)
     private String description;
 
     /**
@@ -104,6 +120,7 @@ public class Positions implements Serializable {
      */
     @TableField("nature_id")
     @ApiModelProperty("工作性质id")
+    @Field(type = FieldType.Integer)
     private Integer natureId;
 
     /**
@@ -111,6 +128,7 @@ public class Positions implements Serializable {
      */
     @TableField("number")
     @ApiModelProperty("招聘人数")
+    @Field(type = FieldType.Integer)
     private Integer number;
 
     /**
@@ -118,6 +136,7 @@ public class Positions implements Serializable {
      */
     @TableField("keyword")
     @ApiModelProperty("关键词")
+    @Field(type = FieldType.Text)
     private String keyword;
 
     /**
@@ -126,6 +145,7 @@ public class Positions implements Serializable {
     @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty("更新日期")
+    @Field(type = FieldType.Date, format = DateFormat.date)
     private Date updateTime;
 
     /**
@@ -133,6 +153,7 @@ public class Positions implements Serializable {
      */
     @TableField("enabled")
     @ApiModelProperty("审核状态，0未通过，1通过")
+    @Field(type = FieldType.Boolean)
     private boolean enabled;
 
     @Override

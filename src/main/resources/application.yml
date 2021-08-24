@@ -91,3 +91,6 @@ xxl:
 
 seckill:
   url: http://cess-localhost:8446
+
+elasticsearch:
+  hostandport: cess-localhost:9200
