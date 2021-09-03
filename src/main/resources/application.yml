@@ -61,6 +61,27 @@ spring:
       retry:
         enabled: true
         max-attempts: 3
+  #注册到admin服务端
+  boot:
+    admin:
+      client:
+        url: http://localhost:8886/admin
+#打开actuator监控
+management:
+  #监控端口
+  server:
+    port: 8887
+  endpoints:
+    web:
+      #定制跟路径
+      base-path: /actuator
+      #开放所有节点，默认只开启了health info节点，也可以设置部分启动, 如：env,beans。默认是health, info
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      #显示具体信息
+      show-details: always
 
 #雪花算法机房ID，机器ID
 snowflake:
@@ -94,20 +115,3 @@ seckill:
 
 elasticsearch:
   hostandport: cess-localhost:9200
-
-#actuator监控
-management:
-  #监控端口
-  server:
-    port: 8887
-  endpoints:
-    web:
-      #定制跟路径
-      base-path: /actuator
-      #开放所有节点，默认只开启了health info节点，也可以设置部分启动, 如：env,beans。默认是health, info
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      #显示具体信息
-      show-details: always
