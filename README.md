@@ -14,7 +14,8 @@ http://120.77.32.19
 工具相关：aop+注解、validation、全局异常、validation、雪花算法、mybatis sql拦截、POI、文件上传、lombok  
 缓存：redis
 调度任务xxljob  
-swagger接口文档
+swagger接口文档  
+应用监控：Actuator，springboot Admin，springboot mail
 
 
 
