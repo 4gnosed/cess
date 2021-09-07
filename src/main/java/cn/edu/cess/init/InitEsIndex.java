@@ -3,6 +3,7 @@ package cn.edu.cess.init;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.content.enterprise.Positions;
 import cn.edu.cess.service.content.enterprise.IPositionsService;
+import cn.edu.cess.util.ConfigUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,10 @@ public class InitEsIndex implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initPositions();
+        String search = ConfigUtil.getProperty("elasticsearch.positions.search", "false");
+        if("true".equals(search)) {
+            initPositions();
+        }
     }
 
     private void initPositions() {

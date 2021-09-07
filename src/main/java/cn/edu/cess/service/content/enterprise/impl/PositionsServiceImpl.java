@@ -9,8 +9,10 @@ import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.mapper.content.enterprise.PositionsMapper;
 import cn.edu.cess.result.ResultPage;
 import cn.edu.cess.service.content.enterprise.*;
+import cn.edu.cess.util.ConfigUtil;
 import cn.edu.cess.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -135,31 +137,40 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
             }
         }
 
-        // 过滤——职位相关
-//        QueryWrapper<Positions> pQueryWrapper = new QueryWrapper<>();
-//        if (experienceId != null) {
-//            pQueryWrapper.eq(Constant.EXPERIENCE_ID, experienceId);
-//            positionsFilter(positionsSet, Constant.EXPERIENCE_ID, experienceId);
-//        }
-//        if (degreeId != null) {
-//            pQueryWrapper.eq(Constant.DEGREE_ID, degreeId);
-//            positionsFilter(positionsSet, Constant.DEGREE_ID, degreeId);
-//        }
-//        if (salaryId != null) {
-//            pQueryWrapper.eq(Constant.SALARY_ID, salaryId);
-//            positionsFilter(positionsSet, Constant.SALARY_ID, salaryId);
-//        }
-//
-//        if (keywords != null && keywords != "") {
-//            pQueryWrapper.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords);
-//        }
-//
-//        Page<Positions> posPage = page(new Page<>(page, size - positionsSet.size()), pQueryWrapper);
-//        positionsSet.addAll(posPage.getRecords());
+        String search = ConfigUtil.getProperty("elasticsearch.positions.search", "false");
+        long total = 0;
+        if ("true".equals(search)) {
+            //通过es查询职位
+            List<Positions> positions = queryEsPositions(keywords, experienceId, degreeId, salaryId);
+            positionsSet.addAll(positions);
+            total = positions.size();
+        } else {
+            // 过滤——职位相关
+            QueryWrapper<Positions> pQueryWrapper = new QueryWrapper<>();
+            if (experienceId != null) {
+                pQueryWrapper.eq(Constant.EXPERIENCE_ID, experienceId);
+                positionsFilter(positionsSet, Constant.EXPERIENCE_ID, experienceId);
+            }
+            if (degreeId != null) {
+                pQueryWrapper.eq(Constant.DEGREE_ID, degreeId);
+                positionsFilter(positionsSet, Constant.DEGREE_ID, degreeId);
+            }
+            if (salaryId != null) {
+                pQueryWrapper.eq(Constant.SALARY_ID, salaryId);
+                positionsFilter(positionsSet, Constant.SALARY_ID, salaryId);
+            }
 
-        //通过es查询职位
-        List<Positions> positions = queryEsPositions(keywords, experienceId, degreeId, salaryId);
-        positionsSet.addAll(positions);
+            if (keywords != null && keywords != "") {
+                pQueryWrapper.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords);
+            }
+
+            Page<Positions> posPage = page(new Page<>(page, size - positionsSet.size()), pQueryWrapper);
+            positionsSet.addAll(posPage.getRecords());
+            total = posPage.getTotal();
+        }
+
+
+
 
 //        for (Positions pos : positionsSet) {
 //            Integer eid = getEnterpriseId(epQueryWrapper, pos.getId());
@@ -171,7 +182,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         fillData(positionsSet, epQueryWrapper);
         ResultPage resultPage = new ResultPage();
         resultPage.setData(positionsSet);
-        resultPage.setTotal((long)positions.size());
+        resultPage.setTotal(total);
         return resultPage;
     }
 
