@@ -40,21 +40,26 @@ datasource:
   # 可以把这个数值配置大一些，比如说100
   maxPoolPreparedStatementPerConnectionSize: 100
   # 配置监控统计拦截的filters，监控统计用的stat、日志用的log4j、 防御sql注入的wall、ConfigFilter非对称加密password
-  filters: stat,wall,slf4j,config
+  filters: stat,wall,slf4j
   # 打开mergeSql功能；慢SQL记录
   # ConfigFilter非对称加密的公钥，config.decrypt=true;config.decrypt.key=${publickey}
-  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALBSd/UiJpyLRhAJP0V7gn9TwDbNF8K86do9q25LOG4wHFz1Qu+xnPIpLWqz5/Wp9TrdZOPKoK6PYw2EA59ZRr0CAwEAAQ==
-  #配置了两个数据源
+  connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;
+  #配置了多数据源
   master:
       url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: readwriter
-      password: H6Q7SvrgaP5JqPvT8ctTzP6F5wxdx0oOcL0XuOBCYvx2/MbaIrNQkRpXjkUYrz7Q+bnmYjQMKv0OGoX/z4CSDw==
+      username: root
+      password: 123456
       driver-class-name: com.mysql.cj.jdbc.Driver
   cluster:
-      url: jdbc:mysql://localhost:3307/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: reader
-      password: H6Q7SvrgaP5JqPvT8ctTzP6F5wxdx0oOcL0XuOBCYvx2/MbaIrNQkRpXjkUYrz7Q+bnmYjQMKv0OGoX/z4CSDw==
+      url: jdbc:mysql://localhost:3306/cess?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: 123456
       driver-class-name: com.mysql.cj.jdbc.Driver
+  xxl:
+    url: jdbc:mysql://localhost:3306/xxl_job?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
   configuration:
@@ -87,28 +92,29 @@ mybatis-plus:
     #自定义SQL注入器
     #sql-injector: com.baomidou.springboot.xxx
 
-redis:
-  # redis 数据库索引（默认为0）
-  database: 0
-  #redis服务器地址
-  host: cess-redis
-  # Redis服务器连接密码（默认为空）
-  password: 1234
-  # Redis服务器连接端口
-  port: 6789
-  # 连接超时时间（毫秒）
-  timeout: 2000
-  # 配置 redis 连接池
-  jedis:
-    pool:
-      # 连接池最大连接数　（使用负值表示没有限制）
-      max-active: 1000
-      # 连接池最大阻塞等待时间（使用负值表示没有限制）
-      max-wait: 5000
-      # 连接池的最大空闲连接
-      max-idle: 100
-      # 连接池中 最小空闲连接
-      min-idle: 0
+spring:
+  redis:
+    # redis 数据库索引（默认为0）
+    database: 1
+    #redis服务器地址
+    host: 120.77.32.19
+    # Redis服务器连接密码（默认为空）
+    password: 1234
+    # Redis服务器连接端口
+    port: 6789
+    # 连接超时时间（毫秒）
+    timeout: 2000
+    # 配置 redis 连接池
+    jedis:
+      pool:
+        # 连接池最大连接数　（使用负值表示没有限制）
+        max-active: 1000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 5000
+        # 连接池的最大空闲连接
+        max-idle: 100
+        # 连接池中 最小空闲连接
+        min-idle: 0
 
 logback:
   logDir: log/dev
@@ -118,3 +124,6 @@ logging:
   level:
     cn.edu.cess: debug
 #  config: classpath:logback-spring.xml
+
+swagger:
+  enable: true

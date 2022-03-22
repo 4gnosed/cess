@@ -43,7 +43,7 @@ public class AdminUserRoleServiceImpl extends ServiceImpl<AdminUserRoleMapper, A
         return getUserRoleByUid(user.getId());
     }
 
-    @Transactional
+    @Transactional(transactionManager = "masterTransactionManager")
     @Override
     public boolean changeUserRole(List<AdminRole> roles, int userId) {
         QueryWrapper<AdminUserRole> queryWrapper = new QueryWrapper<>();

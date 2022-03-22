@@ -5,12 +5,18 @@
 http://120.77.32.19
 
 ### 技术栈（实时更新）
-version 1.0  
-前端框架：vue  
+前端框架：vue  , Nginx代理解决跨域
 后端基础架构：SpringBoot + Mybatis-plus 单体  
 权限框架：shiro  
+消息中间件：rabbitmq  
+搜索引擎：elasticsearch  
 数据库：mysql 一主一从，读写分离，druid作连接池，多数据源动态切换  
 工具相关：aop+注解、validation、全局异常、validation、雪花算法、mybatis sql拦截、POI、文件上传、lombok  
+缓存：redis
+调度任务xxljob  
+swagger接口文档  
+应用监控：Actuator，springboot Admin，springboot mail
+
 
 
 

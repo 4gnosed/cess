@@ -1,6 +1,7 @@
 package cn.edu.cess.config.datasource.dynamic;
 
-import cn.edu.cess.config.datasource.druid.DruidConfigMaster;
+
+import cn.edu.cess.config.datasource.MybatisPlusConfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,5 +15,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface DataSourceType {
     //数据源名称
-    String value() default DruidConfigMaster.MASTER_DATA_SOURCE;
+    String value() default MybatisPlusConfig.MASTER_DATA_SOURCE;
 }

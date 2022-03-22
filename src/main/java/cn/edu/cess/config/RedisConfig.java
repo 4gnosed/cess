@@ -55,31 +55,31 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    @Value("${redis.database}")
+    @Value("${spring.redis.database}")
     private int database;
 
-    @Value("${redis.host}")
+    @Value("${spring.redis.host}")
     private String host;
 
-    @Value("${redis.password}")
+    @Value("${spring.redis.password}")
     private String password;
 
-    @Value("${redis.port}")
+    @Value("${spring.redis.port}")
     private int port;
 
-    @Value("${redis.timeout}")
+    @Value("${spring.redis.timeout}")
     private int timeout;
 
-    @Value("${redis.jedis.pool.max-active}")
+    @Value("${spring.redis.jedis.pool.max-active}")
     private int maxActive;
 
-    @Value("${redis.jedis.pool.max-idle}")
+    @Value("${spring.redis.jedis.pool.max-idle}")
     private int maxIdle;
 
-    @Value("${redis.jedis.pool.min-idle}")
+    @Value("${spring.redis.jedis.pool.min-idle}")
     private int minIdle;
 
-    @Value("${redis.jedis.pool.max-wait}")
+    @Value("${spring.redis.jedis.pool.max-wait}")
     private long maxWaitMillis;
 
     @Bean

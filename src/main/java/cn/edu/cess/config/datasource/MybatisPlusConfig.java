@@ -1,11 +1,8 @@
-package cn.edu.cess.config;
+package cn.edu.cess.config.datasource;
 
-import cn.edu.cess.config.datasource.druid.DruidConfigCluster;
-import cn.edu.cess.config.datasource.druid.DruidConfigMaster;
 import cn.edu.cess.config.datasource.dynamic.DynamicDataSource;
 import cn.edu.cess.util.CommonUtil;
 import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
@@ -14,10 +11,10 @@ import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -34,6 +31,10 @@ import java.util.Map;
 @EnableTransactionManagement
 @MapperScan(basePackages = {"cn.edu.cess.mapper"})
 public class MybatisPlusConfig {
+
+    public static final String MASTER_DATA_SOURCE = "masterDataSource";
+    public static final String CLUSTER_DATA_SOURCE = "clusterDataSource";
+    public static final String XXL_DATA_SOURCE = "xxlDataSource";
 
     @Value("${mybatis-plus.mapper-locations}")
     private String mapperLocation;
@@ -60,6 +61,17 @@ public class MybatisPlusConfig {
     private String clusterPassword;
     @Value("${datasource.cluster.driver-class-name}")
     private String clusterDriverClassName;
+    /**
+     * 从库参数
+     */
+    @Value("${datasource.xxl.url}")
+    private String xxlUrl;
+    @Value("${datasource.xxl.username}")
+    private String xxlUsername;
+    @Value("${datasource.xxl.password}")
+    private String xxlPassword;
+    @Value("${datasource.xxl.driver-class-name}")
+    private String xxlDriverClassName;
 
     /**
      * 下面的配置信息可以读取配置文件，其实可以直接写死 如果是多数据源的话 还是考虑读取配置文件
@@ -119,7 +131,7 @@ public class MybatisPlusConfig {
      *
      * @return
      */
-    @Bean(name = DruidConfigMaster.MASTER_DATA_SOURCE)
+    @Bean(name = MASTER_DATA_SOURCE)
 //    @ConfigurationProperties(prefix = "datasource.master")
     public DataSource master() {
 //        return DruidDataSourceBuilder.create().build();
@@ -160,7 +172,7 @@ public class MybatisPlusConfig {
      *
      * @return
      */
-    @Bean(name = DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @Bean(name = CLUSTER_DATA_SOURCE)
 //    @ConfigurationProperties(prefix = "datasource.cluster")
     public DataSource cluster() {
 //        return DruidDataSourceBuilder.create().build();
@@ -196,18 +208,60 @@ public class MybatisPlusConfig {
         return dataSource;
     }
 
+
+    /**
+     * 初始化xxl库
+     *
+     * @return
+     */
+    @Bean(XXL_DATA_SOURCE)
+    public DataSource xxl() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setUrl(xxlUrl);
+        dataSource.setUsername(xxlUsername);
+        dataSource.setPassword(xxlPassword);
+        dataSource.setDriverClassName(xxlDriverClassName);
+
+        //具体配置
+        dataSource.setInitialSize(initialSize);
+        dataSource.setMinIdle(minIdle);
+        dataSource.setMaxActive(maxActive);
+        dataSource.setMaxWait(maxWait);
+        dataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+        dataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+        dataSource.setValidationQuery(validationQuery);
+        dataSource.setTestWhileIdle(testWhileIdle);
+        dataSource.setTestOnBorrow(testOnBorrow);
+        dataSource.setTestOnReturn(testOnReturn);
+        dataSource.setPoolPreparedStatements(poolPreparedStatements);
+        dataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+
+        /**
+         * 这个是用来配置 druid 监控sql语句的 非常有用 如果你有两个数据源 这个配置哪个数据源就监控哪个数据源的sql 同时配置那就都监控
+         */
+        try {
+            dataSource.setFilters(filters);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        dataSource.setConnectionProperties(connectionProperties);
+        return dataSource;
+    }
+
     /**
      * 动态数据源配置
      *
      * @return
      */
     @Bean
-    @Primary
-    public DataSource multipleDataSource(@Qualifier(DruidConfigMaster.MASTER_DATA_SOURCE) DataSource master, @Qualifier(DruidConfigCluster.CLUSTER_DATA_SOURCE) DataSource cluster) {
+    public DataSource multipleDataSource(@Qualifier(MASTER_DATA_SOURCE) DataSource master,
+                                         @Qualifier(CLUSTER_DATA_SOURCE) DataSource cluster,
+                                         @Qualifier(XXL_DATA_SOURCE) DataSource xxl) {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DruidConfigMaster.MASTER_DATA_SOURCE, master);
-        targetDataSources.put(DruidConfigCluster.CLUSTER_DATA_SOURCE, cluster);
+        targetDataSources.put(MASTER_DATA_SOURCE, master);
+        targetDataSources.put(CLUSTER_DATA_SOURCE, cluster);
+        targetDataSources.put(XXL_DATA_SOURCE, xxl);
         dynamicDataSource.setTargetDataSources(targetDataSources);
         //设置默认数据源
         dynamicDataSource.setDefaultTargetDataSource(master);
@@ -217,7 +271,7 @@ public class MybatisPlusConfig {
     @Bean("sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(multipleDataSource(master(), cluster()));
+        sqlSessionFactory.setDataSource(multipleDataSource(master(), cluster(), xxl()));
         /**
          * setMapperLocations必须加，解决报错：invalid bound statement (not found)问题
          * 指定mapper所在位置
@@ -231,6 +285,25 @@ public class MybatisPlusConfig {
         //添加分页功能
         sqlSessionFactory.setPlugins(paginationInterceptor());
         return sqlSessionFactory.getObject();
+    }
+
+    //事物管理，默认的DataSourceTransactionManager是属于DataSourceTransactionManager的，如果要开启另一个数据库事务，需要手工指定一下这个manager，不然用的都是第一个db的事务管理器，导致事务不生效
+    @Bean(name = "masterTransactionManager")
+    @Primary
+    public DataSourceTransactionManager masterTransactionManager() {
+        return new DataSourceTransactionManager(master());
+    }
+
+    @Bean(name = "clusterTransactionManager")
+    @Primary
+    public DataSourceTransactionManager clusterTransactionManager() {
+        return new DataSourceTransactionManager(cluster());
+    }
+
+    @Bean(name = "xxlTransactionManager")
+    @Primary
+    public DataSourceTransactionManager xxlTransactionManager() {
+        return new DataSourceTransactionManager(xxl());
     }
 
 }

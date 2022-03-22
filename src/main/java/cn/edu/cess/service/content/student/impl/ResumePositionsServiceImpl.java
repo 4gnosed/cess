@@ -1,6 +1,7 @@
 package cn.edu.cess.service.content.student.impl;
 
-import cn.edu.cess.config.datasource.druid.DruidConfigCluster;
+
+import cn.edu.cess.config.datasource.MybatisPlusConfig;
 import cn.edu.cess.config.datasource.dynamic.DataSourceType;
 import cn.edu.cess.constant.Constant;
 import cn.edu.cess.entity.Vo.ContractVo;
@@ -192,7 +193,7 @@ public class ResumePositionsServiceImpl extends ServiceImpl<ResumePositionsMappe
     }
 
     @Override
-    @DataSourceType(DruidConfigCluster.CLUSTER_DATA_SOURCE)
+    @DataSourceType(MybatisPlusConfig.CLUSTER_DATA_SOURCE)
     public ResultPage getContractVosByPage(Integer page, Integer size) {
         QueryWrapper<ResumePositions> q = new QueryWrapper<>();
         q.eq(Constant.STATE_ID, Constant.Contract_STATE_ID).or().eq(Constant.STATE_ID, Constant.EMPLOYED_STATE_ID);

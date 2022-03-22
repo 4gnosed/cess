@@ -9,10 +9,21 @@ import cn.edu.cess.entity.content.enterprise.UserEnterprise;
 import cn.edu.cess.mapper.content.enterprise.PositionsMapper;
 import cn.edu.cess.result.ResultPage;
 import cn.edu.cess.service.content.enterprise.*;
+import cn.edu.cess.util.ConfigUtil;
+import cn.edu.cess.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -52,13 +63,48 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         iEnterprisePositionsService.save(enterprisePositions);
     }
 
+    @Autowired
+    ElasticsearchRestTemplate esRestTemplate;
+
+
+    private List<Positions> queryEsPositions(String keywords, Integer experienceId, Integer degreeId, Integer salaryId) {
+        NativeSearchQueryBuilder builder = new NativeSearchQueryBuilder();
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+        if (StringUtil.isNotEmpty(keywords)) {
+            builder.withHighlightFields(new HighlightBuilder.Field(keywords));
+            boolQuery.must(QueryBuilders.multiMatchQuery(keywords, "keyword", "name", "description"));
+        }
+        if (experienceId != null) {
+            boolQuery.must(QueryBuilders.termQuery("experienceId", experienceId));
+        }
+        if (degreeId != null) {
+            boolQuery.must(QueryBuilders.termQuery("degreeId", degreeId));
+        }
+        if (salaryId != null) {
+            boolQuery.must(QueryBuilders.termQuery("salaryId", salaryId));
+        }
+
+        NativeSearchQuery query = builder
+                .withQuery(boolQuery)
+                .withSort(SortBuilders.fieldSort("updateTime").order(SortOrder.DESC))
+                .build();
+        try {
+            List<Positions> positionsList = esRestTemplate.queryForList(query, Positions.class);
+            return positionsList;
+        } catch (Exception e) {
+            log.error("查询职位报错：", e);
+        }
+
+        return null;
+    }
+
     @Override
     public ResultPage getByPage(Integer page, Integer size, String keywords,
                                 Integer experienceId, Integer degreeId, Integer salaryId, Integer financeId, Integer scaleId) {
         //公司相关职位数量
         int entPosNumber = size / 5;
         //返回的职位集合
-        Set<Positions> positionsSet = new HashSet<Positions>();
+        Set<Positions> positionsSet = new HashSet<>();
 
         // 过滤——公司相关
         QueryWrapper<Enterprise> eQueryWrapper = new QueryWrapper<>();
@@ -91,27 +137,40 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
             }
         }
 
-        // 过滤——职位相关
-        QueryWrapper<Positions> pQueryWrapper = new QueryWrapper<>();
-        if (experienceId != null) {
-            pQueryWrapper.eq(Constant.EXPERIENCE_ID, experienceId);
-            positionsFilter(positionsSet, Constant.EXPERIENCE_ID, experienceId);
-        }
-        if (degreeId != null) {
-            pQueryWrapper.eq(Constant.DEGREE_ID, degreeId);
-            positionsFilter(positionsSet, Constant.DEGREE_ID, degreeId);
-        }
-        if (salaryId != null) {
-            pQueryWrapper.eq(Constant.SALARY_ID, salaryId);
-            positionsFilter(positionsSet, Constant.SALARY_ID, salaryId);
+        String search = ConfigUtil.getProperty("elasticsearch.positions.search", "false");
+        long total = 0;
+        if ("true".equals(search)) {
+            //通过es查询职位
+            List<Positions> positions = queryEsPositions(keywords, experienceId, degreeId, salaryId);
+            positionsSet.addAll(positions);
+            total = positions.size();
+        } else {
+            // 过滤——职位相关
+            QueryWrapper<Positions> pQueryWrapper = new QueryWrapper<>();
+            if (experienceId != null) {
+                pQueryWrapper.eq(Constant.EXPERIENCE_ID, experienceId);
+                positionsFilter(positionsSet, Constant.EXPERIENCE_ID, experienceId);
+            }
+            if (degreeId != null) {
+                pQueryWrapper.eq(Constant.DEGREE_ID, degreeId);
+                positionsFilter(positionsSet, Constant.DEGREE_ID, degreeId);
+            }
+            if (salaryId != null) {
+                pQueryWrapper.eq(Constant.SALARY_ID, salaryId);
+                positionsFilter(positionsSet, Constant.SALARY_ID, salaryId);
+            }
+
+            if (keywords != null && keywords != "") {
+                pQueryWrapper.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords);
+            }
+
+            Page<Positions> posPage = page(new Page<>(page, size - positionsSet.size()), pQueryWrapper);
+            positionsSet.addAll(posPage.getRecords());
+            total = posPage.getTotal();
         }
 
-        if (keywords != null && keywords != "") {
-            pQueryWrapper.like(Constant.NAME, keywords).or().like(Constant.KEYWORD, keywords);
-        }
 
-        Page<Positions> posPage = page(new Page<>(page, size - positionsSet.size()), pQueryWrapper);
-        positionsSet.addAll(posPage.getRecords());
+
 
 //        for (Positions pos : positionsSet) {
 //            Integer eid = getEnterpriseId(epQueryWrapper, pos.getId());
@@ -123,7 +182,7 @@ public class PositionsServiceImpl extends ServiceImpl<PositionsMapper, Positions
         fillData(positionsSet, epQueryWrapper);
         ResultPage resultPage = new ResultPage();
         resultPage.setData(positionsSet);
-        resultPage.setTotal(posPage.getTotal());
+        resultPage.setTotal(total);
         return resultPage;
     }
 

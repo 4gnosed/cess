@@ -24,9 +24,8 @@ public class CustomWebMvcConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)     //允许跨域使用 cookie
-                .allowedOrigins("http://120.77.32.19:8765")
-                .allowedOrigins("chrome-extension://ieoejemkppmjcdfbnfphhpbfmallhfnc")
-//                .allowedOrigins("http://192.168.0.109:8765")
+                .allowedOrigins("*")
+//                .allowedOrigins("chrome-extension://ieoejemkppmjcdfbnfphhpbfmallhfnc")
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                 .allowedHeaders("*");
     }
