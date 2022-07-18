@@ -117,4 +117,4 @@ elasticsearch:
   hostandport: cess-localhost:9200
   #职位搜索是否开启es,true or false
   positions:
-    search: true
+    search: false
