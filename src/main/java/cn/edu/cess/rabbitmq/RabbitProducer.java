@@ -49,6 +49,7 @@ public class RabbitProducer {
         log.info("sendDirectMessage发送消息：{}", JSON.toJSONString(o));
         amqpTemplate.convertAndSend(MqConstant.DIRECT_EXCHANGE_2, MqConstant.ROUTING_KEY_2, o, msg->{
             msg.getMessageProperties().setExpiration(milliSeconds);
+            msg.getMessageProperties().setPriority(50);
             return msg;
         });
     }
@@ -58,6 +59,7 @@ public class RabbitProducer {
         log.info("sendDelayMessage发送消息：{}", JSON.toJSONString(o));
         amqpTemplate.convertAndSend(MqConstant.DELAYED_DIRECT_EXCHANGE,MqConstant.DELAYED_ROUTING_KEY,o,msg->{
             msg.getMessageProperties().setExpiration(milliSeconds);
+            msg.getMessageProperties().setPriority(100);
             return msg;
         });
     }

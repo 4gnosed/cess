@@ -3,6 +3,7 @@ package cn.edu.cess.config;
 import cn.edu.cess.constant.MqConstant;
 import cn.edu.cess.constant.MqQueueEnum;
 //import cn.edu.cess.rabbitmq.RabbitAckReceiver;
+import cn.edu.cess.rabbitmq.RabbitAckReceiver;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -55,21 +56,24 @@ public class RabbitMqConfig {
         return rabbitTemplate;
     }
 
-    //消费者消息手动确认
-//    @Bean
-//    public SimpleMessageListenerContainer simpleMessageListenerContainer(@Autowired CachingConnectionFactory cachingConnectionFactory,
-//                                                                         @Autowired RabbitAckReceiver rabbitAckReceiver) {
-//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(cachingConnectionFactory);
-//        container.setConcurrentConsumers(1);
-//        container.setMaxConcurrentConsumers(1);
-//        container.setAcknowledgeMode(AcknowledgeMode.MANUAL); // RabbitMQ默认是自动确认，这里改为手动确认消息
-//        //监听多个队列(不监听QUEUE1)
-//        String[] queues = Arrays.asList(values()).stream().filter(o -> !o.getQueue().equals(QUEUE1.getQueue()))
-//                .map(MqQueueEnum::getQueue).toArray(String[]::new);
-//        container.addQueueNames(queues);
-//        container.setMessageListener(rabbitAckReceiver);
-//        return container;
-//    }
+
+    @Bean
+    public SimpleMessageListenerContainer simpleMessageListenerContainer(@Autowired CachingConnectionFactory cachingConnectionFactory,
+                                                                         @Autowired RabbitAckReceiver rabbitAckReceiver) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(cachingConnectionFactory);
+        container.setConcurrentConsumers(1);
+        container.setMaxConcurrentConsumers(1);
+        // RabbitMQ默认是自动确认，这里改为手动确认消息
+        container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+        //监听多个队列(不监听QUEUE1)
+        String[] queues = Arrays.asList(values()).stream().filter(o -> !o.getQueue().equals(QUEUE1.getQueue()))
+                .map(MqQueueEnum::getQueue).toArray(String[]::new);
+        container.addQueueNames(queues);
+        container.setMessageListener(rabbitAckReceiver);
+        //流量控制,prefetchCount表示单位时间最多能处理多少消息
+        container.setPrefetchCount(10);
+        return container;
+    }
 
     @Bean
     public Queue queue1() {
@@ -130,9 +134,13 @@ public class RabbitMqConfig {
     }
 
 
+    /**
+     * MqConstant.DIRECT_EXCHANGE_2作为MqConstant.DIRECT_EXCHANGE_1的备份交换机
+     * @return
+     */
     @Bean
     DirectExchange directExchange1() {
-        return new DirectExchange(MqConstant.DIRECT_EXCHANGE_1, true, false);
+        return ExchangeBuilder.directExchange(MqConstant.DIRECT_EXCHANGE_1).durable(true).alternate(MqConstant.DIRECT_EXCHANGE_2).build();
     }
 
     @Bean
