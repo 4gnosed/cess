@@ -6,7 +6,9 @@ public enum MqQueueEnum {
     QUEUE3(MqConstant.QUEUE3),
     QUEUE4(MqConstant.QUEUE4),
     QUEUE5(MqConstant.QUEUE5),
-    QUEUE6(MqConstant.QUEUE6)
+    QUEUE6(MqConstant.QUEUE6),
+    DEAD_LETTER_QUEUE(MqConstant.DEAD_LETTER_QUEUE),
+    DELAYED_QUEUE(MqConstant.DELAYED_QUEUE)
 
 
     ;

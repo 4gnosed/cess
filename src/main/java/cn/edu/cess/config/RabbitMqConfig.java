@@ -2,18 +2,20 @@ package cn.edu.cess.config;
 
 import cn.edu.cess.constant.MqConstant;
 import cn.edu.cess.constant.MqQueueEnum;
-import cn.edu.cess.rabbitmq.RabbitAckReceiver;
+//import cn.edu.cess.rabbitmq.RabbitAckReceiver;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static cn.edu.cess.constant.MqQueueEnum.*;
 
@@ -54,20 +56,20 @@ public class RabbitMqConfig {
     }
 
     //消费者消息手动确认
-    @Bean
-    public SimpleMessageListenerContainer simpleMessageListenerContainer(@Autowired CachingConnectionFactory cachingConnectionFactory,
-                                                                         @Autowired RabbitAckReceiver rabbitAckReceiver) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(cachingConnectionFactory);
-        container.setConcurrentConsumers(1);
-        container.setMaxConcurrentConsumers(1);
-        container.setAcknowledgeMode(AcknowledgeMode.MANUAL); // RabbitMQ默认是自动确认，这里改为手动确认消息
-        //监听多个队列(不监听QUEUE1)
-        String[] queues = Arrays.asList(values()).stream().filter(o -> !o.getQueue().equals(QUEUE1.getQueue()))
-                .map(MqQueueEnum::getQueue).toArray(String[]::new);
-        container.addQueueNames(queues);
-        container.setMessageListener(rabbitAckReceiver);
-        return container;
-    }
+//    @Bean
+//    public SimpleMessageListenerContainer simpleMessageListenerContainer(@Autowired CachingConnectionFactory cachingConnectionFactory,
+//                                                                         @Autowired RabbitAckReceiver rabbitAckReceiver) {
+//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(cachingConnectionFactory);
+//        container.setConcurrentConsumers(1);
+//        container.setMaxConcurrentConsumers(1);
+//        container.setAcknowledgeMode(AcknowledgeMode.MANUAL); // RabbitMQ默认是自动确认，这里改为手动确认消息
+//        //监听多个队列(不监听QUEUE1)
+//        String[] queues = Arrays.asList(values()).stream().filter(o -> !o.getQueue().equals(QUEUE1.getQueue()))
+//                .map(MqQueueEnum::getQueue).toArray(String[]::new);
+//        container.addQueueNames(queues);
+//        container.setMessageListener(rabbitAckReceiver);
+//        return container;
+//    }
 
     @Bean
     public Queue queue1() {
@@ -94,10 +96,39 @@ public class RabbitMqConfig {
         return new Queue(QUEUE5.getQueue());
     }
 
+    /**
+     * 发送到QUEUE6的消息有三种情况会变成死信，由死信队列DEAD_LETTER_QUEUE消费：
+     * （1）消息被拒绝（basic.reject 或者 basic.nack），并且requeue=false;
+     * （2）消息的过期时间到期了；
+     * （3）队列长度限制超过了。
+     * @return
+     */
     @Bean
     public Queue queue6() {
-        return new Queue(QUEUE6.getQueue());
+        return QueueBuilder.durable(QUEUE6.getQueue())
+                .withArgument("x-dead-letter-exchange",MqConstant.DEAD_LETTER_DIRECT_EXCHANGE)
+                .withArgument("x-dead-letter-routing-key",MqConstant.DEAD_LETTER_ROUTING_KEY)
+                .build();
     }
+
+    /**
+     * 死信队列
+     * @return
+     */
+    @Bean
+    public Queue deadLetterQueue(){
+        return new Queue(DEAD_LETTER_QUEUE.getQueue());
+    }
+
+    /**
+     * x-delayed-message 插件延迟队列
+     * @return
+     */
+    @Bean
+    public Queue delayedQueue(){
+        return new Queue(DELAYED_QUEUE.getQueue());
+    }
+
 
     @Bean
     DirectExchange directExchange1() {
@@ -117,6 +148,18 @@ public class RabbitMqConfig {
     @Bean
     FanoutExchange fanoutExchange() {
         return new FanoutExchange(MqConstant.FANOUT_EXCHANGE_1, true, false);
+    }
+
+    @Bean
+    DirectExchange deadLetterExchange(){
+        return new DirectExchange(MqConstant.DEAD_LETTER_DIRECT_EXCHANGE,true,false);
+    }
+
+    @Bean
+    CustomExchange delayedExchange(){
+        Map<String,Object> args = new HashMap<>();
+        args.put("x-delayed-type","direct");
+        return new CustomExchange(MqConstant.DELAYED_DIRECT_EXCHANGE,"x-delayed-message",true,false,args);
     }
 
     @Bean
@@ -165,8 +208,19 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    Binding binding10() {
-        return BindingBuilder.bind(queue6()).to(directExchange2()).with(MqConstant.ROUTING_KEY);
+    Binding binding10(@Qualifier("queue6")Queue queue6,@Qualifier("directExchange2") DirectExchange directExchange2) {
+        return BindingBuilder.bind(queue6).to(directExchange2).with(MqConstant.ROUTING_KEY_2);
     }
+
+    @Bean
+    Binding bindingDeadLetterQueue(@Qualifier("deadLetterQueue") Queue deadLetterQueue,@Qualifier("deadLetterExchange") DirectExchange deadLetterExchange ){
+        return BindingBuilder.bind(deadLetterQueue).to(deadLetterExchange).with(MqConstant.DEAD_LETTER_ROUTING_KEY);
+    }
+
+    @Bean
+    Binding bindingDelayedQueue(@Qualifier("delayedQueue") Queue delayedQueue,@Qualifier("delayedExchange") CustomExchange delayedExchange){
+        return BindingBuilder.bind(delayedQueue).to(delayedExchange).with(MqConstant.DELAYED_ROUTING_KEY).noargs();
+    }
+
 
 }

@@ -51,9 +51,16 @@ public class RabbitMqController {
         return ResultFactory.buildSuccessResult();
     }
 
-    @RequestMapping("/sendDirectMessage2")
-    public Result sendDirectMessage2(@RequestParam String message) {
-        rabbitProducer.sendDirectMessage2(message);
+    @RequestMapping("/sendExpirationMessage")
+    public Result sendExpirationMessage(@RequestParam String message,@RequestParam String milliSeconds) {
+        rabbitProducer.sendExpirationMessage(message,milliSeconds);
+        return ResultFactory.buildSuccessResult();
+    }
+
+
+    @RequestMapping("/sendDelayMessage")
+    public Result sendDelayMessage(@RequestParam String message,@RequestParam String milliSeconds) {
+        rabbitProducer.sendDelayMessage(message,milliSeconds);
         return ResultFactory.buildSuccessResult();
     }
 }
